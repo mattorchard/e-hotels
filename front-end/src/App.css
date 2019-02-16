@@ -1,0 +1,16 @@
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.spinner::after {
+    content: "";
+    width: 2em;
+    height: 2em;
+    animation: spin 1s infinite;
+    border: 0.25em solid slateblue;
+    border-left: none;
+}
