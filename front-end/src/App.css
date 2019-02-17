@@ -8,9 +8,13 @@
 }
 .spinner::after {
     content: "";
-    width: 2em;
-    height: 2em;
-    animation: spin 1s infinite;
-    border: 0.25em solid slateblue;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    animation: spin 0.75s infinite linear;
+    border: 0.1em solid slateblue;
     border-left: none;
+    border-top: none;
+    border-radius: 50%;
+    cursor: wait;
 }
