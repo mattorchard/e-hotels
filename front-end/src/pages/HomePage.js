@@ -12,10 +12,10 @@ export default class HomePage extends React.Component {
           <Link to="/admin" className="primary-nav-link btn">Admin</Link>
         </li>
         <li>
-          <Link to="/customer" className="primary-nav-link btn">Customer</Link>
+          <Link to="/employee" className="primary-nav-link btn">Employee</Link>
         </li>
         <li>
-          <Link to="/employee" className="primary-nav-link btn">Employee</Link>
+          <Link to="/customer" className="primary-nav-link btn">Customer</Link>
         </li>
       </ul>
     </main>;
