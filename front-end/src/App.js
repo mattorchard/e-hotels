@@ -11,7 +11,6 @@ class App extends React.Component {
     return <BrowserRouter>
       <>
         <header className="banner">
-
             <h1 className="banner__heading">
               <Link to="/" className="banner__heading-link">
                 E-Hotels
