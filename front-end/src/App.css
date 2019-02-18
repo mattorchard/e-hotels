@@ -15,7 +15,7 @@ html, body {
     height: 1em;
     display: inline-block;
     animation: spin 0.75s infinite linear;
-    border: 0.1em solid slateblue;
+    border: 0.1em solid green;
     border-left: none;
     border-top: none;
     border-radius: 50%;
@@ -46,7 +46,7 @@ html, body {
     background-color: transparent;
     border: .1em solid green;
     border-radius: .33em;
-    padding: .3em .7em .5em;
+    padding: .3em .7em .45em;
     margin: 0 .5em;
     cursor: pointer;
     font-variant: small-caps;
