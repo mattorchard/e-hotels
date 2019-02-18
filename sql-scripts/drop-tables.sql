@@ -1,1 +1,15 @@
---drop table foo;
+DROP TABLE booking;
+DROP TABLE rental;
+DROP TABLE customer;
+DROP TABLE employee_role;
+DROP TABLE employee;
+DROP TABLE room_damage;
+DROP TABLE room_amenity;
+DROP TABLE room;
+DROP TABLE hotel_email_address;
+DROP TABLE hotel_phone_number;
+DROP TABLE hotel;
+DROP TABLE hotel_chain_email_address;
+DROP TABLE hotel_chain_phone_number;
+DROP TABLE hotel_chain;
+DROP TABLE address;
