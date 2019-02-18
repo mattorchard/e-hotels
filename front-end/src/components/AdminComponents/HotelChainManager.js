@@ -22,6 +22,7 @@ export default class HotelChainManager extends React.Component {
       <h3>Hotel Chain Name</h3>
       <ShowContentButton
         buttonLabel="Show Hotels"
+        className="btn"
         onClick={this.loadHotels}>
         <strong>Hotels</strong>
         <AsyncList loading={this.state.loadingHotels}>

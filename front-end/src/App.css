@@ -41,21 +41,31 @@ html, body {
     padding: 1em;
 }
 .btn {
+    font-size: 1.1em;
     color: green;
+    background-color: transparent;
     border: .1em solid green;
     border-radius: .33em;
-    padding: .3em 1em .5em;
+    padding: .3em .7em .5em;
     margin: 0 .5em;
+    cursor: pointer;
     font-variant: small-caps;
     font-weight: 500;
     transition-duration: 0.4s;
-    -webkit-transition-property: color, background-color;
-    -moz-transition-property: color, background-color;
-    -o-transition-property: color, background-color;
-    transition-property: color, background-color;
+    -webkit-transition-property: transform, box-shadow, color, background-color;
+    -moz-transition-property: transform, box-shadow, color, background-color;
+    -o-transition-property: transform, box-shadow, color, background-color;
+    transition-property: transform, box-shadow, color, background-color;
 }
 .btn:hover, .btn:focus, .btn.fill {
     color: white;
     background-color:green;
     outline: none;
+}
+.btn.fill:focus, .btn.fill:hover {
+    box-shadow: 0 .2em .5em rgba(0,128,0,.4);
+    transform: translate(0, -.1em);
+}
+.add-btn::before {
+    content: "+ "
 }

@@ -21,6 +21,7 @@ export default class HotelManager extends React.Component {
     return <>
       <h4>Hotel Name</h4>
       <ShowContentButton
+        className="btn"
         buttonLabel="Show rooms"
         onClick={this.loadRooms}>
         <strong>Rooms</strong>

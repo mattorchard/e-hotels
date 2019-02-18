@@ -25,8 +25,8 @@ export default class HotelChainEmployeesManager extends React.Component {
       <h2>Employees</h2>
       <HotelChainSelector onChange={this.selectHotelChain}/>
       {this.state.selectedHotelChainId && <>
-        <button type="button">
-          + Add an Employee
+        <button type="button" className="btn add-btn">
+          Add an Employee
         </button>
         <AsyncList placeholderMessage="No employees for selected hotel" loading={this.state.loadingEmployees}>
           {this.state.employees.map(employee =>
