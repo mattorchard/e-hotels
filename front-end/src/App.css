@@ -69,3 +69,6 @@ html, body {
 .add-btn::before {
     content: "+ "
 }
+.hidden-option {
+    display: none;
+}

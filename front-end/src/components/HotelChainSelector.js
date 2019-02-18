@@ -12,10 +12,6 @@ export default class HotelChainSelector extends React.Component {
     await simulateDelay(1000);
     const hotelChains = [{id: 3, name: "Best Western"}];
     this.setState({hotelChains, loadingHotelChains: false});
-    if (this.props.onChange && hotelChains.length > 0) {
-      const selectedChain = hotelChains[0];
-      this.props.onChange(selectedChain.id);
-    }
   }
 
 
@@ -30,6 +26,7 @@ export default class HotelChainSelector extends React.Component {
         </span>
     } else {
       return <select onChange={this.props.onChange}>
+        <option value="" className="hidden-option"/>
         {this.state.hotelChains.map(chain =>
           <option key={chain.id} value={chain.id}>{chain.name}</option>)}
       </select>
