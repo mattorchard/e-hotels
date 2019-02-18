@@ -1,9 +1,9 @@
 CREATE TABLE address (
     id SERIAL,
     street_number INTEGER,
-    street_name VARCHAR(20),
-    city VARCHAR(20),
-    country VARCHAR(20),
+    street_name VARCHAR(100),
+    city VARCHAR(100),
+    country VARCHAR(100),
     PRIMARY KEY (id),
     CONSTRAINT check_street_number CHECK (street_number >= 0)
 );
@@ -26,7 +26,7 @@ CREATE TABLE hotel_chain_phone_number (
 
 CREATE TABLE hotel_chain_email_address (
     hotel_chain_id SERIAL,
-    email_address VARCHAR(20),
+    email_address VARCHAR(100),
     PRIMARY KEY (hotel_chain_id, email_address),
     FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
     CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.___%')
@@ -56,7 +56,7 @@ CREATE TABLE hotel_phone_number (
 
 CREATE TABLE hotel_email_address (
     hotel_id SERIAL,
-    email_address VARCHAR(20),
+    email_address VARCHAR(100),
     PRIMARY KEY (hotel_id, email_address),
     FOREIGN KEY (hotel_id) references hotel(id),
     CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.___%')
@@ -68,7 +68,7 @@ CREATE TABLE room (
     room_number INTEGER,
     price INTEGER,
     capacity INTEGER,
-    scenery VARCHAR(20),
+    scenery VARCHAR(100),
     extendable BOOLEAN,
     UNIQUE (room_number),
     PRIMARY KEY(hotel_chain_id, hotel_id, room_number),
@@ -82,7 +82,7 @@ CREATE TABLE room_amenity (
     hotel_chain_id SERIAL,
     hotel_id SERIAL,
     room_number INTEGER,
-    amenity VARCHAR(20),
+    amenity VARCHAR(100),
     PRIMARY KEY(hotel_chain_id, hotel_id, room_number, amenity),
     FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
     FOREIGN KEY (hotel_id) REFERENCES hotel(id),
@@ -93,7 +93,7 @@ CREATE TABLE room_damage (
     hotel_chain_id SERIAL,
     hotel_id SERIAL,
     room_number INTEGER,
-    damage VARCHAR(20),
+    damage VARCHAR(100),
     PRIMARY KEY(hotel_chain_id, hotel_id, room_number, damage),
     FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
     FOREIGN KEY (hotel_id) REFERENCES hotel(id),
@@ -103,8 +103,8 @@ CREATE TABLE room_damage (
 CREATE TABLE employee (
     id SERIAL,
     ssn_or_sin INTEGER,
-    given_name VARCHAR(20),
-    family_name VARCHAR(20),
+    given_name VARCHAR(100),
+    family_name VARCHAR(100),
     address_id SERIAL,
     hotel_chain_id SERIAL,
     PRIMARY KEY (id),
@@ -116,7 +116,7 @@ CREATE TABLE employee (
 
 CREATE TABLE employee_role (
     employee_id SERIAL,
-    role VARCHAR(20),
+    role VARCHAR(100),
     PRIMARY KEY (employee_id, role),
     FOREIGN KEY (employee_id) REFERENCES employee(id)
 );
@@ -124,8 +124,8 @@ CREATE TABLE employee_role (
 CREATE TABLE customer (
     id SERIAL,
     ssn_or_sin INTEGER,
-    given_name VARCHAR(20),
-    family_name VARCHAR(20),
+    given_name VARCHAR(100),
+    family_name VARCHAR(100),
     address_id SERIAL,
     registered_on DATE,
     PRIMARY KEY (id),
