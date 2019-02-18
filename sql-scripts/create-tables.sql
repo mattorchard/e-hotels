@@ -41,9 +41,8 @@ CREATE TABLE hotel (
     UNIQUE (id),
     PRIMARY KEY (id, hotel_chain_id),
     FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
-    CONSTRAINT check_category_validity CHECK (category BETWEEN 1 AND 5),
+    CONSTRAINT check_category_validity CHECK (category BETWEEN 1 AND 5)
     -- todo: constraint for manager role
-
 );
 
 CREATE TABLE hotel_phone_number (
