@@ -1,3 +1,6 @@
+html, body {
+    background-color: whitesmoke;
+}
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -17,4 +20,23 @@
     border-top: none;
     border-radius: 50%;
     cursor: wait;
+}
+.banner {
+    padding: 2em;
+    background-color: green;
+    color: white;
+}
+.banner__heading-link {
+    margin: 0;
+    text-decoration: none;
+    color: white;
+}
+.banner__heading {
+    margin: 0;
+}
+.main-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 1em;
 }

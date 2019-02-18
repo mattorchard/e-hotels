@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Route, BrowserRouter, Switch} from "react-router-dom";
+import {Route, BrowserRouter, Switch, Link} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AdminPage from "./pages/AdminPage";
 import CustomerPage from "./pages/CustomerPage";
@@ -10,8 +10,13 @@ class App extends React.Component {
   render() {
     return <BrowserRouter>
       <>
-        <header>
-          <h1>E-Hotels</h1>
+        <header className="banner">
+
+            <h1 className="banner__heading">
+              <Link to="/" className="banner__heading-link">
+                E-Hotels
+              </Link>
+            </h1>
         </header>
         <Switch>
           <Route path="/" component={HomePage} exact={true}/>

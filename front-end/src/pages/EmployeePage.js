@@ -4,7 +4,7 @@ import HotelChainEmployeesManager from "../components/EmployeeComponents/HotelCh
 
 export default class EmployeePage extends React.Component {
   render() {
-    return <main>
+    return <main className="main-content">
       <CheckInManager/>
       <HotelChainEmployeesManager/>
     </main>;

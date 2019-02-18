@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 export default class HomePage extends React.Component {
   render() {
-    return <main>
+    return <main className="main-content">
       <ul>
         <li>
           <Link to="/admin">Admin</Link>
