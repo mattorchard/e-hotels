@@ -69,7 +69,7 @@ CREATE TABLE room (
     capacity INTEGER,
     scenery VARCHAR(100),
     extendable BOOLEAN,
-    UNIQUE (room_number),
+    UNIQUE (hotel_chain_id, hotel_id, room_number),
     PRIMARY KEY(hotel_chain_id, hotel_id, room_number),
     FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
     FOREIGN KEY (hotel_id) REFERENCES hotel(id),
@@ -83,9 +83,7 @@ CREATE TABLE room_amenity (
     room_number INTEGER,
     amenity VARCHAR(100),
     PRIMARY KEY(hotel_chain_id, hotel_id, room_number, amenity),
-    FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
-    FOREIGN KEY (hotel_id) REFERENCES hotel(id),
-    FOREIGN KEY (room_number) REFERENCES room(room_number)
+    FOREIGN KEY (hotel_chain_id, hotel_id, room_number) REFERENCES room(hotel_chain_id, hotel_id, room_number)
 );
 
 CREATE TABLE room_damage (
@@ -94,9 +92,7 @@ CREATE TABLE room_damage (
     room_number INTEGER,
     damage VARCHAR(100),
     PRIMARY KEY(hotel_chain_id, hotel_id, room_number, damage),
-    FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
-    FOREIGN KEY (hotel_id) REFERENCES hotel(id),
-    FOREIGN KEY (room_number) REFERENCES room(room_number)
+    FOREIGN KEY (hotel_chain_id, hotel_id, room_number) REFERENCES room(hotel_chain_id, hotel_id, room_number)
 );
 
 CREATE TABLE employee (
@@ -144,9 +140,7 @@ CREATE TABLE rental (
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id),
     FOREIGN KEY (employee_id) REFERENCES employee(id),
-    FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
-    FOREIGN KEY (hotel_id) REFERENCES hotel(id),
-    FOREIGN KEY (room_number) REFERENCES room(room_number),
+    FOREIGN KEY (hotel_chain_id, hotel_id, room_number) REFERENCES room(hotel_chain_id, hotel_id, room_number),
     CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL and end_date IS NOT NULL and end_date > start_date)
 );
 
@@ -160,8 +154,6 @@ CREATE TABLE booking (
     end_date DATE,
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id),
-    FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
-    FOREIGN KEY (hotel_id) REFERENCES hotel(id),
-    FOREIGN KEY (room_number) REFERENCES room(room_number),
+    FOREIGN KEY (hotel_chain_id, hotel_id, room_number) REFERENCES room(hotel_chain_id, hotel_id, room_number),
     CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL and end_date IS NOT NULL and end_date > start_date)
 );
