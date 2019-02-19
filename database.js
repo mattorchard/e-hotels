@@ -1,6 +1,6 @@
 const {Pool} = require('pg');
 const fs = require('fs');
-
+const insertSampleData = require("./sql-scripts/insert-sample-data");
 
 const readFile = path =>
   new Promise((resolve, reject) =>
@@ -8,17 +8,16 @@ const readFile = path =>
       error ? reject(error) : resolve(data + "")
 ));
 
-const executeScript = async(pool, path, purpose="") => {
+const executeScript = async(pool, path) => {
   const script = await readFile(path);
-  console.log(`Executing script to [${purpose}]`);
-  console.log(`Using commands: [${script}]`);
+  console.log(`Executing script [${path}]`);
   try {
     await pool.query(script);
   } catch (error) {
-    console.error(`Unable to [${purpose}]. Failed to execute [${path}]`);
+    console.error(`Failed to execute [${path}]`);
     throw error;
   }
-  console.log(`Successfully [${purpose}]`);
+  console.log(`Successfully executed [${path}]`);
 };
 
 const bootstrap = async () => {
@@ -27,7 +26,7 @@ const bootstrap = async () => {
     const pool = new Pool();
     await executeScript(pool, "./sql-scripts/drop-tables.sql", "drop all tables");
     await executeScript(pool, "./sql-scripts/create-tables.sql", "create tables");
-    await executeScript(pool, "./sql-scripts/insert-sample-data.sql", "insert sample data");
+    await insertSampleData(pool);
     pool.end();
   } catch (error) {
     console.error(`Error in database bootstrap ${error}`);

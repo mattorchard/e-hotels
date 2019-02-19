@@ -1,0 +1,30 @@
+{
+  "streetNames": [
+    "Sesame st", "Lovers ln", "Main st", "King st", "Elm st", "Boileau rd", "Boyle rd", "Massey rd",
+    "Foo st", "Bar ave", "Baz cr"
+  ],
+  "cities": [
+    "Toronto", "Peterborough", "Cobourg", "Port-hope"
+  ],
+  "countries": [
+    "Canada"
+  ],
+  "roles": [
+    "Cleaner", "Sommelier", "Check in", "Events", "Cook"
+  ],
+  "familyNames": [
+    "Brown", "Black", "Smith", "Falkner", "Sweet"
+  ],
+  "givenNames": [
+    "Matthew", "Mark", "Luke", "John", "Thomas", "Mary", "Daniel", "Elizabeth", "Charles"
+  ],
+  "scenery": [
+    "Mountains", "Lake", "Ocean"
+  ],
+  "damage": [
+    "Peeled wallpaper", "Leaky roof", "Carpet stain", "Tv broken", "Couch on fire"
+  ],
+  "amenities": [
+    "Pool", "Kitchen", "WiFi", "Gym", "Spa", "Television"
+  ]
+}
