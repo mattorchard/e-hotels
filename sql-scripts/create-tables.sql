@@ -11,13 +11,13 @@ CREATE TABLE address (
 CREATE TABLE hotel_chain (
     id SERIAL,
     num_hotels INTEGER,
-    main_office_address_id SERIAL,
+    main_office_address_id INTEGER,
     PRIMARY KEY (id),
     FOREIGN KEY (main_office_address_id) REFERENCES address(id)
 );
 
 CREATE TABLE hotel_chain_phone_number (
-    hotel_chain_id SERIAL,
+    hotel_chain_id INTEGER,
     phone_number INTEGER,
     PRIMARY KEY (hotel_chain_id, phone_number),
     FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
@@ -25,7 +25,7 @@ CREATE TABLE hotel_chain_phone_number (
 );
 
 CREATE TABLE hotel_chain_email_address (
-    hotel_chain_id SERIAL,
+    hotel_chain_id INTEGER,
     email_address VARCHAR(100),
     PRIMARY KEY (hotel_chain_id, email_address),
     FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
@@ -34,10 +34,10 @@ CREATE TABLE hotel_chain_email_address (
 
 CREATE TABLE hotel (
     id SERIAL,
-    hotel_chain_id SERIAL,
+    hotel_chain_id INTEGER,
     category INTEGER,
-    address_id SERIAL,
-    manager_id SERIAL,
+    address_id INTEGER,
+    manager_id INTEGER,
     UNIQUE (id),
     PRIMARY KEY (id, hotel_chain_id),
     FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
@@ -46,7 +46,7 @@ CREATE TABLE hotel (
 );
 
 CREATE TABLE hotel_phone_number (
-    hotel_id SERIAL,
+    hotel_id INTEGER,
     phone_number INTEGER,
     PRIMARY KEY(hotel_id, phone_number),
     FOREIGN KEY (hotel_id) REFERENCES hotel(id),
@@ -54,7 +54,7 @@ CREATE TABLE hotel_phone_number (
 );
 
 CREATE TABLE hotel_email_address (
-    hotel_id SERIAL,
+    hotel_id INTEGER,
     email_address VARCHAR(100),
     PRIMARY KEY (hotel_id, email_address),
     FOREIGN KEY (hotel_id) references hotel(id),
@@ -62,8 +62,8 @@ CREATE TABLE hotel_email_address (
   );
 
 CREATE TABLE room (
-    hotel_chain_id SERIAL,
-    hotel_id SERIAL,
+    hotel_chain_id INTEGER,
+    hotel_id INTEGER,
     room_number INTEGER,
     price INTEGER,
     capacity INTEGER,
@@ -78,8 +78,8 @@ CREATE TABLE room (
 );
 
 CREATE TABLE room_amenity (
-    hotel_chain_id SERIAL,
-    hotel_id SERIAL,
+    hotel_chain_id INTEGER,
+    hotel_id INTEGER,
     room_number INTEGER,
     amenity VARCHAR(100),
     PRIMARY KEY(hotel_chain_id, hotel_id, room_number, amenity),
@@ -87,8 +87,8 @@ CREATE TABLE room_amenity (
 );
 
 CREATE TABLE room_damage (
-    hotel_chain_id SERIAL,
-    hotel_id SERIAL,
+    hotel_chain_id INTEGER,
+    hotel_id INTEGER,
     room_number INTEGER,
     damage VARCHAR(100),
     PRIMARY KEY(hotel_chain_id, hotel_id, room_number, damage),
@@ -100,8 +100,8 @@ CREATE TABLE employee (
     ssn_or_sin INTEGER,
     given_name VARCHAR(100),
     family_name VARCHAR(100),
-    address_id SERIAL,
-    hotel_chain_id SERIAL,
+    address_id INTEGER,
+    hotel_chain_id INTEGER,
     PRIMARY KEY (id),
     FOREIGN KEY (address_id) REFERENCES address(id),
     FOREIGN KEY (hotel_chain_id) REFERENCES hotel_chain(id),
@@ -110,7 +110,7 @@ CREATE TABLE employee (
 );
 
 CREATE TABLE employee_role (
-    employee_id SERIAL,
+    employee_id INTEGER,
     role VARCHAR(100),
     PRIMARY KEY (employee_id, role),
     FOREIGN KEY (employee_id) REFERENCES employee(id)
@@ -121,7 +121,7 @@ CREATE TABLE customer (
     ssn_or_sin INTEGER,
     given_name VARCHAR(100),
     family_name VARCHAR(100),
-    address_id SERIAL,
+    address_id INTEGER,
     registered_on DATE,
     PRIMARY KEY (id),
     FOREIGN KEY (address_id) REFERENCES address(id),
@@ -130,10 +130,10 @@ CREATE TABLE customer (
 
 CREATE TABLE rental (
     id SERIAL,
-    customer_id SERIAL,
-    employee_id SERIAL,
-    hotel_chain_id SERIAL,
-    hotel_id SERIAL,
+    customer_id INTEGER,
+    employee_id INTEGER,
+    hotel_chain_id INTEGER,
+    hotel_id INTEGER,
     room_number INTEGER,
     start_date DATE,
     end_date DATE,
@@ -146,9 +146,9 @@ CREATE TABLE rental (
 
 CREATE TABLE booking (
     id SERIAL,
-    customer_id SERIAL,
-    hotel_chain_id SERIAL,
-    hotel_id SERIAL,
+    customer_id INTEGER,
+    hotel_chain_id INTEGER,
+    hotel_id INTEGER,
     room_number INTEGER,
     start_date DATE,
     end_date DATE,
