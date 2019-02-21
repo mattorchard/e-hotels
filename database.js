@@ -27,6 +27,7 @@ const bootstrap = async () => {
     await executeScript(pool, "./sql-scripts/drop-tables.sql", "drop all tables");
     await executeScript(pool, "./sql-scripts/create-tables.sql", "create tables");
     await insertSampleData(pool);
+
     pool.end();
   } catch (error) {
     console.error(`Error in database bootstrap ${error}`);
