@@ -4,6 +4,7 @@ import {AsyncList} from "../AsyncList";
 import RoomManager from "./RoomManager";
 import ShowContentButton from "../ShowContentButton";
 import Address from "../Address";
+import Stars from "../Stars";
 
 
 export default class HotelManager extends React.Component {
@@ -19,10 +20,11 @@ export default class HotelManager extends React.Component {
   };
 
   render() {
-    return <>
+    return <form>
       <h5>
         <Address {...this.props.address}/>
       </h5>
+      <Stars number={this.props.category} name="radio stars"/>
 
       <ShowContentButton
         className="btn"
@@ -34,6 +36,6 @@ export default class HotelManager extends React.Component {
             <li key={room.number}><RoomManager {...room}/></li>)}
         </AsyncList>
       </ShowContentButton>
-    </>
+    </form>
   }
 }
