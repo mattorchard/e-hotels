@@ -1,0 +1,1 @@
+export const simulateDelay = delay => new Promise(resolve => setTimeout(resolve, delay));

@@ -1,0 +1,35 @@
+{
+  "hotelChains": [
+    "Daze Inn", "Motel 9", "Major", "Most Good Eastern", "Hiltoff"
+  ],
+  "streetNames": [
+    "Sesame st", "Lovers ln", "Main st", "King st", "Elm st", "Boileau rd", "Boyle rd", "Massey rd",
+    "Foo st", "Bar ave", "Baz cr"
+  ],
+  "cities": [
+    "Toronto", "Peterborough", "Cobourg", "Port-hope", "Ottawa", "Kingston", "Belleville", "Oshawa",
+    "Montreal", "Vancouver", "Whitehorse"
+  ],
+  "countries": [
+    "Canada"
+  ],
+  "roles": [
+    "Cleaner", "Sommelier", "Front desk", "Events", "Cook", "Chef", "Night auditor"
+  ],
+  "familyNames": [
+    "Brown", "Black", "Smith", "Falkner", "Sweet", "Smore", "Tinktcher", "Cooper", "Jones", "Brea", "Whittacomb",
+    "Whitehall"
+  ],
+  "givenNames": [
+    "Matthew", "Mark", "Luke", "John", "Thomas", "Mary", "Daniel", "Elizabeth", "Charles"
+  ],
+  "scenery": [
+    "Mountains", "Lake", "Ocean"
+  ],
+  "damage": [
+    "Peeled wallpaper", "Leaky roof", "Carpet stain", "Tv broken", "Couch on fire"
+  ],
+  "amenities": [
+    "Pool", "Kitchen", "WiFi", "Gym", "Spa", "Television"
+  ]
+}
