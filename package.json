@@ -5,7 +5,7 @@
   "scripts": {
     "build-front-end": "cd front-end && npm install && npm run build",
     "heroku-postbuild": "npm run build-front-end",
-    "debug-back-end": "nodemon",
+    "debug-back-end": "nodemon ./bin/www",
     "debug-front-end": "cd front-end && npm run start",
     "debug": "concurrently \"npm run debug-back-end\" \"npm run debug-front-end\"",
     "start": "npm run build-front-end && node ./bin/www"
@@ -14,7 +14,8 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
-    "http-errors": "~1.6.2"
+    "http-errors": "~1.6.2",
+    "pg": "^7.8.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.10",

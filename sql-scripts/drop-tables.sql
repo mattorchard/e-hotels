@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS booking;
+DROP TABLE IF EXISTS rental;
+DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS employee_role;
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS room_damage;
+DROP TABLE IF EXISTS room_amenity;
+DROP TABLE IF EXISTS room;
+DROP TABLE IF EXISTS hotel_email_address;
+DROP TABLE IF EXISTS hotel_phone_number;
+DROP TABLE IF EXISTS hotel;
+DROP TABLE IF EXISTS hotel_chain_email_address;
+DROP TABLE IF EXISTS hotel_chain_phone_number;
+DROP TABLE IF EXISTS hotel_chain;
+DROP TABLE IF EXISTS address;
