@@ -1,8 +1,16 @@
 # E-Hotels
+## Environment Variables
+No matter whether the project is being run in production or debugging mode the following environment variables must always be included.
+1. `PGHOST=<DB host name>`
+1. `PGPORT=<DB Port (typically 5432)>`
+1. `PGDATABASE=<DB name>`
+1. `PGUSER=<DB username>`
+1. `PGPASSWORD=<DB password>`
+
 ## Running the Project
 To run the code simply clone the repo, and call the following two commands from the project directory
 1. `npm install`
-2. `npm run start`
+1. `npm run start`
 
 The website should now be running on `localhost:3001`
 
