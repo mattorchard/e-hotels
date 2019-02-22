@@ -1,6 +1,5 @@
 import React from "react";
 import HotelManager from "./HotelManager";
-import {simulateDelay} from "../../services/simulator-service";
 import {AsyncList} from "../AsyncList";
 import ShowContentButton from "../ShowContentButton";
 import Address from "../Address";
@@ -13,8 +12,9 @@ export default class HotelChainManager extends React.Component {
 
   loadHotels = async () => {
     this.setState({loadingHotels: true});
-    await simulateDelay(1000);
-    const hotels = [{id: 2}];
+    const response = await fetch(`/api/hotel-chains/${this.props.name}/hotels`);
+    if (!response.ok) {throw new Error(`Unable to fetch hotels status: [${response.status}]`);}
+    const hotels = await response.json();
     this.setState({hotels, loadingHotels: false});
   };
 
@@ -26,7 +26,7 @@ export default class HotelChainManager extends React.Component {
         buttonLabel="Show Hotels"
         className="btn"
         onClick={this.loadHotels}>
-        <strong>Hotels</strong>
+        <h4>Hotels</h4>
         <AsyncList loading={this.state.loadingHotels}>
           {this.state.hotels.map(hotel => <li key={hotel.id}><HotelManager {...hotel}/></li>)}
         </AsyncList>

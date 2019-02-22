@@ -3,6 +3,7 @@ import {simulateDelay} from "../../services/simulator-service";
 import {AsyncList} from "../AsyncList";
 import RoomManager from "./RoomManager";
 import ShowContentButton from "../ShowContentButton";
+import Address from "../Address";
 
 
 export default class HotelManager extends React.Component {
@@ -19,12 +20,15 @@ export default class HotelManager extends React.Component {
 
   render() {
     return <>
-      <h4>Hotel Name</h4>
+      <h5>
+        <Address {...this.props.address}/>
+      </h5>
+
       <ShowContentButton
         className="btn"
         buttonLabel="Show rooms"
         onClick={this.loadRooms}>
-        <strong>Rooms</strong>
+        <h6>Rooms</h6>
         <AsyncList loading={this.state.loadingRooms}>
           {this.state.rooms.map(room =>
             <li key={room.number}><RoomManager {...room}/></li>)}
