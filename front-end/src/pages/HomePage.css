@@ -1,0 +1,10 @@
+.primary-nav-link__list {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    font-size: 200%;
+}
+.primary-nav-link {
+    text-decoration: none;
+}
