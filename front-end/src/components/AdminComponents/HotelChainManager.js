@@ -3,6 +3,7 @@ import HotelManager from "./HotelManager";
 import {simulateDelay} from "../../services/simulator-service";
 import {AsyncList} from "../AsyncList";
 import ShowContentButton from "../ShowContentButton";
+import Address from "../Address";
 
 export default class HotelChainManager extends React.Component {
   state = {
@@ -19,7 +20,8 @@ export default class HotelChainManager extends React.Component {
 
   render() {
     return <>
-      <h3>Hotel Chain Name</h3>
+      <h3>{this.props.name}</h3>
+      <Address {...this.props.address} />
       <ShowContentButton
         buttonLabel="Show Hotels"
         className="btn"

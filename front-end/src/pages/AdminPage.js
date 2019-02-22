@@ -1,6 +1,5 @@
 import React from "react";
 import HotelChainManager from "../components/AdminComponents/HotelChainManager";
-import {simulateDelay} from "../services/simulator-service";
 import {AsyncList} from "../components/AsyncList";
 
 
@@ -12,8 +11,9 @@ export default class AdminPage extends React.Component {
   };
 
   async componentDidMount() {
-    await simulateDelay(500);
-    const hotelChains = [{id: 1}];
+    const response = await fetch("/api/hotel-chains");
+    if (!response.ok) { throw new Error(`Unable to fetch hotel chains code: [${response.status}]`); }
+    const hotelChains = await response.json();
     this.setState({hotelChains, loadingHotelChains: false});
   }
 
