@@ -9,4 +9,7 @@ const snakeToCamel = object => Object.entries(object)
 const nestAddress = ({streetNumber, streetName, city, country, ...parent}) =>
   ({...parent, address: {streetNumber, streetName, city, country}});
 
-module.exports = {snakeToCamel, nestAddress};
+const nestManager = ({givenName, familyName, managerId, ...parent}) =>
+  ({...parent, manager: {id: managerId, givenName, familyName}});
+
+module.exports = {snakeToCamel, nestAddress, nestManager};
