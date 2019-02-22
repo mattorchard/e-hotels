@@ -1,10 +1,11 @@
 const {Pool} = require('pg');
+const path = require('path');
 const fs = require('fs');
 const insertSampleData = require("./sql-scripts/insert-sample-data");
 
-const readFile = path =>
+const readFile = filePath =>
   new Promise((resolve, reject) =>
-    fs.readFile(path, (error, data) =>
+    fs.readFile(path.join(__dirname, filePath), (error, data) =>
       error ? reject(error) : resolve(data + "")
 ));
 
