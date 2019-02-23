@@ -2,6 +2,7 @@
     padding: 1em;
     margin-bottom: 1.5em;
     box-shadow: 0 .5em .5em lightgray;
+    overflow-x: auto;
 }
 .HotelManager__header {
     display: flex;
@@ -16,4 +17,14 @@
 .HotelManager__header-field {
     margin-left: 1em;
 }
-
+.HotelManager__room-table {
+    min-width: 100%;
+    border-collapse: collapse;
+}
+.HotelManager__room-table__heading {
+    color: white;
+    background-color: green;
+}
+.HotelManager__room-table th, .HotelManager__room-table td {
+    padding: .5em 1em;
+}

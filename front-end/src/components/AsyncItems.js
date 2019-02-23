@@ -1,11 +1,13 @@
 import React from "react";
 
 export const AsyncItems =
-  ({loading, children, loadingMessage="Loading...", placeholderMessage = ""}) => {
+  ({loading, children, loadingMessage="Loading...", placeholderMessage="", TextWrapper="p"}) => {
     if (loading) {
-      return <p className="spinner">{loadingMessage}</p>;
+      return <TextWrapper className="spinner">
+        {loadingMessage}
+      </TextWrapper>;
     } else if (!children || children.length < 1) {
-      return placeholderMessage;
+      return <TextWrapper>{placeholderMessage}</TextWrapper>;
     } else {
       return children;
     }
