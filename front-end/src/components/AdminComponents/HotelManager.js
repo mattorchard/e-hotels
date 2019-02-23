@@ -1,5 +1,4 @@
 import React from "react";
-import {simulateDelay} from "../../services/simulator-service";
 import {AsyncList} from "../AsyncList";
 import RoomManager from "./RoomManager";
 import ShowContentButton from "../ShowContentButton";
@@ -15,22 +14,27 @@ export default class HotelManager extends React.Component {
   };
 
   loadRooms = async () => {
-    await simulateDelay(1000);
-    const rooms = [{number: 303}, {number: 404}];
+    console.log(this.props);
+    const {id, hotelChainName} = this.props;
+    const response = await fetch(`/api/hotel-chains/${hotelChainName}/${id}/rooms`);
+    if (!response.ok) {throw new Error(`Unable to fetch rooms code: [${response.status}]`);}
+    const rooms = await response.json();
     this.setState({rooms, loadingRooms: false});
   };
 
   render() {
     return <form className="HotelManager">
       <div className="HotelManager__header">
-        <h5 className="HotelManager__address">
+        <h5 className="HotelManager__header-title">
           <Address {...this.props.address}/>
         </h5>
-        <div>
+        <div className="HotelManager__header-field">
           <strong>Manager: </strong>
           {this.props.manager.givenName} {this.props.manager.familyName}
         </div>
-        <Stars number={this.props.category} name="radio stars"/>
+        <div className="HotelManager__header-end">
+          <Stars number={this.props.category} name="radio stars"/>
+        </div>
       </div>
 
       <ShowContentButton
@@ -40,7 +44,7 @@ export default class HotelManager extends React.Component {
         <h6>Rooms</h6>
         <AsyncList className="rails" loading={this.state.loadingRooms}>
           {this.state.rooms.map(room =>
-            <li key={room.number}><RoomManager {...room}/></li>)}
+            <li key={room.roomNumber}><RoomManager {...room}/></li>)}
         </AsyncList>
       </ShowContentButton>
     </form>

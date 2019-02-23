@@ -1,6 +1,7 @@
 html, body {
     background-color: whitesmoke;
 }
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -9,6 +10,7 @@ html, body {
         transform: rotate(360deg);
     }
 }
+
 .spinner::after {
     content: "";
     width: 1em;
@@ -21,25 +23,30 @@ html, body {
     border-radius: 50%;
     cursor: wait;
 }
+
 .banner {
     padding: 2em;
     background-color: green;
     color: white;
 }
+
 .banner__heading-link {
     margin: 0;
     text-decoration: none;
     color: white;
 }
+
 .banner__heading {
     margin: 0;
 }
+
 .main-content {
     max-width: 1000px;
     margin: 0 auto;
     background-color: white;
     padding: 1em;
 }
+
 .btn {
     font-size: 1.1em;
     color: green;
@@ -57,33 +64,48 @@ html, body {
     -o-transition-property: transform, box-shadow, color, background-color;
     transition-property: transform, box-shadow, color, background-color;
 }
+
 .btn:hover, .btn:focus, .btn.fill {
     color: white;
-    background-color:green;
+    background-color: green;
     outline: none;
 }
+
 .btn.fill:focus, .btn.fill:hover {
-    box-shadow: 0 .2em .5em rgba(0,128,0,.4);
+    box-shadow: 0 .2em .5em rgba(0, 128, 0, .4);
     transform: translate(0, -.1em);
 }
+
 .add-btn::before {
     content: "+ "
 }
+
 .hidden-option {
     display: none;
 }
+
 .no-bullet {
     list-style: none;
     padding-left: 0;
 }
+
 .rails {
     list-style: none;
     transition: border-color .4s ease;
     border-left: .1em dashed lightgray;
 }
+
 .rails:hover, .rails:focus-within {
     border-left: .1em dashed #22aa22;
 }
-.horizontal-dl {
 
+.horizontal-dl {
+    display: flex;
+    justify-content: space-between;
+}
+.horizontal-dl > dt {
+    font-weight: bold;
+}
+.horizontal-dl > dd {
+    margin-left: 0;
 }
