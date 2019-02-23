@@ -3,6 +3,7 @@ const router = express.Router();
 const createError = require('http-errors');
 const {getHotelChains} = require('./hotel-chain-router');
 const {getHotels} = require('./hotel-router');
+const {getRooms} = require('./room-router');
 
 
 router.get('/test', (req, res) =>
@@ -12,6 +13,8 @@ router.get('/test', (req, res) =>
 router.get("/hotel-chains", getHotelChains);
 
 router.get("/hotel-chains/:hotelChainName/hotels", getHotels);
+
+router.get("/hotel-chains/:hotelChainName/:hotelId/rooms", getRooms);
 
 router.use((req, res, next) =>
   next(new createError.NotFound(`API Endpoint not found [${req.url}]`))

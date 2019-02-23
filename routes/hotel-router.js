@@ -10,7 +10,7 @@ const getHotels = async (req, res, next) => {
       return next(new createError.UnprocessableEntity());
     }
     const response = await pool.query(
-      `SELECT hotel.id, category, manager_id,
+      `SELECT hotel.id, hotel.hotel_chain_name, category, manager_id,
       street_number, street_name, city, country,
       given_name, family_name 
       FROM hotel, address, employee
