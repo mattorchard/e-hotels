@@ -14,14 +14,19 @@ export default class HotelManager extends React.Component {
   };
 
   loadRooms = async () => {
-    console.log(this.props);
-    const {id, hotelChainName} = this.props;
-    const response = await fetch(`/api/hotel-chains/${hotelChainName}/${id}/rooms`);
-    if (!response.ok) {
-      throw new Error(`Unable to fetch rooms code: [${response.status}]`);
+    try {
+      const {id, hotelChainName} = this.props;
+      const response = await fetch(`/api/hotel-chains/${hotelChainName}/${id}/rooms`);
+      if (!response.ok) {
+        throw new Error(`Unable to fetch rooms code: [${response.status}]`);
+      }
+      const rooms = await response.json();
+      this.setState({rooms, loadingRooms: false});
+    } catch (error) {
+      this.setState({loadingRooms: false});
+      // Todo: Show Error message
+      throw error;
     }
-    const rooms = await response.json();
-    this.setState({rooms, loadingRooms: false});
   };
 
   render() {
