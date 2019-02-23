@@ -1,7 +1,7 @@
 import React from "react";
-import {AsyncList} from "../components/AsyncList";
 import {simulateDelay} from "../services/simulator-service";
 import CustomerManager from "../components/CustomerComponents/CustomerManager";
+import {AsyncItems} from "../components/AsyncItems";
 
 export default class CustomerPage extends React.Component {
   state = {
@@ -22,13 +22,14 @@ export default class CustomerPage extends React.Component {
       <h3>Rooms by Location</h3>
       <h3>Hotel Capacity</h3>
       <h2>Customers</h2>
-      <AsyncList loading={this.state.loadingCustomers}
-                 placeholderMessage="No customers"
-                 loadingMessage="Loading customers...">
-        {this.state.customers.map(customer =>
-          <li key={customer.sinOrSsn}><CustomerManager {...customer}/></li>)}
-      </AsyncList>
-
+      <ul>
+        <AsyncItems loading={this.state.loadingCustomers}
+                   placeholderMessage="No customers"
+                   loadingMessage="Loading customers...">
+          {this.state.customers.map(customer =>
+            <li key={customer.sinOrSsn}><CustomerManager {...customer}/></li>)}
+        </AsyncItems>
+      </ul>
     </main>;
   }
 }

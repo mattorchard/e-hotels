@@ -1,6 +1,6 @@
 import React from "react";
 import HotelChainManager from "../components/AdminComponents/HotelChainManager";
-import {AsyncList} from "../components/AsyncList";
+import {AsyncItems} from "../components/AsyncItems";
 
 
 export default class AdminPage extends React.Component {
@@ -23,13 +23,15 @@ export default class AdminPage extends React.Component {
       <button type="button" className="btn fill add-btn">
         Add Hotel Chain
       </button>
-      <AsyncList loading={this.state.loadingHotelChains}
-                 className="no-bullet"
-                 placeholderMessage="No hotel chains."
-                 loadingMessage="Loading hotel chains...">
-        {this.state.hotelChains.map(chain =>
-          <li key={chain.id}><HotelChainManager {...chain}/></li>)}
-      </AsyncList>
+      <ul className="no-bullet">
+        <AsyncItems loading={this.state.loadingHotelChains}
+                   placeholderMessage="No hotel chains."
+                   loadingMessage="Loading hotel chains...">
+
+          {this.state.hotelChains.map(chain =>
+            <li key={chain.id}><HotelChainManager {...chain}/></li>)}
+        </AsyncItems>
+      </ul>
 
     </main>;
   }

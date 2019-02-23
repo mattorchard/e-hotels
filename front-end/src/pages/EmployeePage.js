@@ -1,8 +1,8 @@
 import React from "react";
 import HotelChainSelector from "../components/HotelChainSelector";
-import {AsyncList} from "../components/AsyncList";
 import EmployeeManager from "../components/EmployeeComponents/EmployeeManager";
 import {simulateDelay} from "../services/simulator-service";
+import {AsyncItems} from "../components/AsyncItems";
 
 export default class EmployeePage extends React.Component {
   state = {
@@ -24,19 +24,23 @@ export default class EmployeePage extends React.Component {
       <h2>
         Select a Hotel Chain
       </h2>
-        <HotelChainSelector onChange={this.selectHotelChain}/>
+      <HotelChainSelector onChange={this.selectHotelChain}/>
+
       {this.state.selectedHotelChainId && <>
         <h2>Employees</h2>
         <button type="button" className="btn fill add-btn">
           Add an Employee
         </button>
-        <AsyncList
-          placeholderMessage="No employees for selected hotel"
-          className="no-bullet"
-          loading={this.state.loadingEmployees}>
-          {this.state.employees.map(employee =>
-            <li key={employee.sinOrSsn}><EmployeeManager {...employee}/></li>)}
-        </AsyncList>
+
+        <ul className="no-bullet">
+          <AsyncItems loading={this.state.loadingEmployees}
+                      placeholderMessage="No employees for selected hotel">
+
+            {this.state.employees.map(employee =>
+              <li key={employee.sinOrSsn}><EmployeeManager {...employee}/></li>)}
+
+          </AsyncItems>
+        </ul>
       </>}
     </main>;
   }

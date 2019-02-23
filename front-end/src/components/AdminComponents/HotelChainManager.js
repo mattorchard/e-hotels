@@ -1,9 +1,9 @@
 import React from "react";
 import HotelManager from "./HotelManager";
-import {AsyncList} from "../AsyncList";
 import ShowContentButton from "../ShowContentButton";
 import Address from "../Address";
 import "./HotelChainManager.css";
+import {AsyncItems} from "../AsyncItems";
 
 export default class HotelChainManager extends React.Component {
   state = {
@@ -32,10 +32,12 @@ export default class HotelChainManager extends React.Component {
         className="btn"
         onClick={this.loadHotels}>
         <h4>Hotels</h4>
-        <AsyncList loading={this.state.loadingHotels}
-                   className="rails">
-          {this.state.hotels.map(hotel => <li key={hotel.id}><HotelManager {...hotel}/></li>)}
-        </AsyncList>
+        <ul className="rails">
+          <AsyncItems loading={this.state.loadingHotels}>
+            {this.state.hotels.map(hotel =>
+              <li key={hotel.id}><HotelManager {...hotel}/></li>)}
+          </AsyncItems>
+        </ul>
       </ShowContentButton>
       <hr/>
     </>;
