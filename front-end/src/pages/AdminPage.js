@@ -24,6 +24,7 @@ export default class AdminPage extends React.Component {
         Add Hotel Chain
       </button>
       <AsyncList loading={this.state.loadingHotelChains}
+                 className="no-bullet"
                  placeholderMessage="No hotel chains."
                  loadingMessage="Loading hotel chains...">
         {this.state.hotelChains.map(chain =>

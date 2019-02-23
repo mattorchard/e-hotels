@@ -1,0 +1,12 @@
+.HotelManager {
+    padding: 1em;
+    margin-bottom: 1.5em;
+    box-shadow: 0 .5em .5em lightgray;
+}
+.HotelManager__header {
+    display: flex;
+    align-items: center;
+}
+.HotelManager__address {
+    font-size: 1em;
+}

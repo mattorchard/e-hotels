@@ -47,7 +47,7 @@ html, body {
     border: .1em solid green;
     border-radius: .33em;
     padding: .3em .7em .45em;
-    margin: 0 .5em;
+    margin: .5em .5em 0;
     cursor: pointer;
     font-variant: small-caps;
     font-weight: 500;
@@ -71,4 +71,19 @@ html, body {
 }
 .hidden-option {
     display: none;
+}
+.no-bullet {
+    list-style: none;
+    padding-left: 0;
+}
+.rails {
+    list-style: none;
+    transition: border-color .4s ease;
+    border-left: .1em dashed lightgray;
+}
+.rails:hover, .rails:focus-within {
+    border-left: .1em dashed #22aa22;
+}
+.horizontal-dl {
+
 }

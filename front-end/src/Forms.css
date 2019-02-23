@@ -1,6 +1,11 @@
 .radio-star-group {
     display: flex;
     align-items: center;
+    margin-bottom: .5em;
+}
+.radio-star-group:focus-within {
+    margin-bottom: .4em;
+    border-bottom: .1em solid green;
 }
 .radio-star {
     -webkit-appearance: none;
@@ -19,4 +24,7 @@
 }
 .radio-star:checked ~ .radio-star {
     background-color: grey;
+}
+.radio-star:focus {
+    background-color: gold;
 }

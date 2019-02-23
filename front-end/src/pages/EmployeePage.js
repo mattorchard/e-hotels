@@ -30,7 +30,10 @@ export default class EmployeePage extends React.Component {
         <button type="button" className="btn fill add-btn">
           Add an Employee
         </button>
-        <AsyncList placeholderMessage="No employees for selected hotel" loading={this.state.loadingEmployees}>
+        <AsyncList
+          placeholderMessage="No employees for selected hotel"
+          className="no-bullet"
+          loading={this.state.loadingEmployees}>
           {this.state.employees.map(employee =>
             <li key={employee.sinOrSsn}><EmployeeManager {...employee}/></li>)}
         </AsyncList>
