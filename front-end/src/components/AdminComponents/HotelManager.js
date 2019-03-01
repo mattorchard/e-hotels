@@ -60,7 +60,7 @@ export default class HotelManager extends React.Component {
             </tr>
           </thead>
           <tbody>
-            <AsyncItems loading={this.state.loadingRooms} TextWrapper="tr">
+            <AsyncItems loading={this.state.loadingRooms} wrapper="table">
               {this.state.rooms.map(room =>
                 <RoomManager key={room.roomNumber} {...room}/>)}
             </AsyncItems>
