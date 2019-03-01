@@ -1,5 +1,6 @@
-html, body {
+html, body, #root {
     background-color: whitesmoke;
+    height: 100%;
 }
 
 @keyframes spin {

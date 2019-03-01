@@ -8,14 +8,14 @@ export default class HomePage extends React.Component {
   render() {
     return <main className="main-content">
       <ul className="primary-nav-link__list">
-        <li>
-          <Link to="/admin" className="primary-nav-link btn">Admin</Link>
+        <li className="primary-nav-link">
+          <Link to="/admin" className="btn">Admin</Link>
         </li>
-        <li>
-          <Link to="/employee" className="primary-nav-link btn">Employee</Link>
+        <li className="primary-nav-link">
+          <Link to="/employee" className="btn">Employee</Link>
         </li>
-        <li>
-          <Link to="/customer" className="primary-nav-link btn">Customer</Link>
+        <li className="primary-nav-link">
+          <Link to="/customer" className="btn">Customer</Link>
         </li>
       </ul>
     </main>;

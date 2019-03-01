@@ -7,6 +7,7 @@
 .HotelManager__header {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 .HotelManager__header-end {
     margin-left: auto;
