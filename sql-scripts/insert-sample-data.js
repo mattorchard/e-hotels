@@ -13,7 +13,7 @@ const randomSinOrSsn = () => {
   // 2% chance to clear neither
   if (chance > 0.51) {
     sin = null;
-  } else if (chance > 0.2) {
+  } else if (chance > 0.02) {
     ssn = null;
   }
   return {sin, ssn};
