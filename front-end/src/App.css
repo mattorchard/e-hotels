@@ -67,7 +67,7 @@ html, body, #root {
     border: .1em solid green;
     border-radius: .33em;
     padding: .3em .7em .45em;
-    margin: .5em .5em 0;
+    margin: .5em .5em .5em;
     cursor: pointer;
     font-variant: small-caps;
     font-weight: 500;

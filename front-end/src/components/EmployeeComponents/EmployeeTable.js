@@ -1,14 +1,24 @@
 import React from "react";
-import EmployeeManager from "./EmployeeManager";
+import EmployeeRow from "./EmployeeRow";
 import "./EmployeeTable.css";
 
 
 export default class EmployeeTable extends React.Component {
   render() {
-    return <li className="EmployeeTable__wrapper">
-      <h3 id={this.props.hotelChainName}>{this.props.hotelChainName}</h3>
-      <table className="EmployeeTable">
-        <thead className="EmployeeTable__head">
+    return <li className="hotel-chain-card">
+      <div className="hotel-chain-card__head">
+        <h3 id={this.props.hotelChainName} className="hotel-chain-card__title">
+          {this.props.hotelChainName}
+        </h3>
+
+        <button className="btn fill add-btn"
+                type="buton">
+          Add Employee
+        </button>
+      </div>
+
+      <table className="employee-table">
+        <thead className="employee-table__head">
         <tr>
           <th>ID</th>
           <th>SIN</th>
@@ -20,7 +30,7 @@ export default class EmployeeTable extends React.Component {
         </thead>
         <tbody>
         {this.props.employees.map(employee =>
-          <EmployeeManager key={employee.id} {...employee}/>)}
+          <EmployeeRow key={employee.id} {...employee}/>)}
         </tbody>
       </table>
     </li>;

@@ -1,7 +1,7 @@
 import React from "react";
 import Address from "../Address";
 
-export default class EmployeeManager extends React.Component {
+export default class EmployeeRow extends React.Component {
   render() {
     const {id, ssn, sin, givenName, familyName, address, roles} = this.props;
 
