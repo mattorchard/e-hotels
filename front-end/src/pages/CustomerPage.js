@@ -1,7 +1,8 @@
 import React from "react";
-import {simulateDelay} from "../services/simulator-service";
-import CustomerManager from "../components/CustomerComponents/CustomerManager";
 import {AsyncItems} from "../components/AsyncItems";
+import CustomerRow from "../components/CustomerComponents/CustomerRow";
+import "./CustomerPage.css";
+
 
 export default class CustomerPage extends React.Component {
   state = {
@@ -10,26 +11,44 @@ export default class CustomerPage extends React.Component {
   };
 
   async componentDidMount() {
-    await simulateDelay(1000);
-    const customers = [{sinOrSsn: 808, givenName: "Harvey", familyName: "Treacher"}];
-    this.setState({customers, loadingCustomers: false})
+    this.setState({loadingCustomers: true});
+    const response = await fetch("/api/customers");
+    if (!response.ok) {
+      throw new Error(`Unable to get customers ${response.status}`);
+    }
+    const customers = await response.json();
+    this.setState({customers, loadingCustomers: false});
   }
+
 
   render() {
     return <main className="main-content">
-      <h2>Customer Operations</h2>
-      <h3>Search Availability</h3>
-      <h3>Rooms by Location</h3>
-      <h3>Hotel Capacity</h3>
       <h2>Customers</h2>
-      <ul>
-        <AsyncItems loading={this.state.loadingCustomers}
-                   placeholderMessage="No customers"
-                   loadingMessage="Loading customers...">
-          {this.state.customers.map(customer =>
-            <li key={customer.sinOrSsn}><CustomerManager {...customer}/></li>)}
-        </AsyncItems>
-      </ul>
+      <div className="horizontal-scroll">
+        <table className="customer-table table-spaced">
+          <thead className="customer-table__head">
+          <tr>
+            <th>ID</th>
+            <th>SIN</th>
+            <th>SSN</th>
+            <th>Name</th>
+            <th>Registered On</th>
+            <th>Address</th>
+          </tr>
+          </thead>
+          <tbody>
+          <AsyncItems loading={this.state.loadingCustomers}
+                      wrapper="table"
+                      placeholderMessage="No customers"
+                      loadingMessage="Loading customers...">
+
+            {this.state.customers.map(customer =>
+              <CustomerRow key={customer.id} {...customer}/>)}
+
+          </AsyncItems>
+          </tbody>
+        </table>
+      </div>
     </main>;
   }
 }
