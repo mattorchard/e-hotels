@@ -5,7 +5,10 @@ const lodash = require("lodash");
 
 const getEmployees = async (req, res, next) => {
   try {
-    const employeesPromise = pool.query(`SELECT * FROM employee, address WHERE employee.address_id = address.id`);
+    const employeesPromise = pool.query(`
+    SELECT employee.*, address.street_number, address.street_name, address.city, address.country
+    FROM employee, address
+    WHERE employee.address_id = address.id`);
     const rolesPromise = pool.query(`SELECT * FROM employee_role`);
     // Await the query results and convert their casing
     const [employeeRows, roleRows] = responseToRows(await Promise.all([employeesPromise, rolesPromise]));
