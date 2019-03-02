@@ -1,26 +1,25 @@
 import React from "react";
+import Address from "../Address";
 
 export default class EmployeeManager extends React.Component {
   render() {
-    const {givenName, familyName} = this.props;
-    return <>
-      <form>
+    const {id, ssn, sin, givenName, familyName, address, roles} = this.props;
+
+    return <tr className="striped">
+      <td><strong>{id}</strong></td>
+      <td>{ssn}</td>
+      <td>{sin}</td>
+      <td>
         {givenName} {familyName}
-      </form>
-      <div>
-        <button type="button"
-                className="btn">
-          Check In
-        </button>
-        <button type="button"
-                className="btn">
-          Edit
-        </button>
-        <button type="button"
-                className="btn">
-          Delete
-        </button>
-      </div>
-    </>
+      </td>
+      <td>
+        <ul className="no-bullet">
+          {roles.map(role => <li key={role}>
+            {role}
+          </li>)}
+        </ul>
+      </td>
+      <td><Address {...address}/></td>
+    </tr>
   }
 }

@@ -1,0 +1,19 @@
+.EmployeeTable__wrapper {
+    box-shadow: 0 .5em 1em lightgray;
+    padding: 1em;
+    margin-bottom: 3em;
+}
+.EmployeeTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+.EmployeeTable__head {
+    background-color: green;
+    color: white;
+}
+.EmployeeTable th {
+    padding: .4em 1em;
+}
+.EmployeeTable td {
+    padding: .2em 1em;
+}
