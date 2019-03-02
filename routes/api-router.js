@@ -5,7 +5,7 @@ const {getHotelChains} = require('./hotel-chain-router');
 const {getHotels} = require('./hotel-router');
 const {getRooms} = require('./room-router');
 const {getEmployees} = require('./employee-router');
-
+const {getCustomers} = require('./customer-router');
 
 router.get('/test', (req, res) =>
   res.send({"Howdy": "World"})
@@ -18,6 +18,8 @@ router.get("/hotel-chains/:hotelChainName/hotels", getHotels);
 router.get("/hotel-chains/:hotelChainName/:hotelId/rooms", getRooms);
 
 router.get("/employees", getEmployees);
+
+router.get("/customers", getCustomers);
 
 router.use((req, res, next) =>
   next(new createError.NotFound(`API Endpoint not found [${req.url}]`))
