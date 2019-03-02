@@ -1,10 +1,9 @@
 import React from "react";
-import "./RoomManager.css"
 
 
 export default class RoomManager extends React.Component {
   render() {
-    return <tr className="RoomManager">
+    return <tr className="striped">
       <td>
         <strong>#{this.props.roomNumber}</strong>
       </td>

@@ -1,9 +1,0 @@
-.RoomManager {
-    background-color: white;
-}
-.RoomManager:nth-child(even) {
-    background-color: ghostwhite;
-}
-.RoomManager:hover {
-    background-color: whitesmoke;
-}

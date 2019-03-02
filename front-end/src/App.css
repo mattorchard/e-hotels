@@ -47,6 +47,7 @@ html, body, #root {
     background-color: white;
     padding: 1em;
 }
+
 @media only screen and (min-width: 1300px) {
     .main-content {
         max-width: 1200px;
@@ -105,6 +106,7 @@ html, body, #root {
     list-style: none;
     transition: border-color .4s ease;
     border-left: .1em dashed lightgray;
+    padding-left: 1.5em;
 }
 
 .rails:hover, .rails:focus-within {
@@ -115,9 +117,23 @@ html, body, #root {
     display: flex;
     justify-content: space-between;
 }
+
 .horizontal-dl > dt {
     font-weight: bold;
 }
+
 .horizontal-dl > dd {
     margin-left: 0;
+}
+
+.striped {
+    background-color: white;
+}
+
+.striped:nth-child(even) {
+    background-color: ghostwhite;
+}
+
+.striped:hover {
+    background-color: whitesmoke;
 }
