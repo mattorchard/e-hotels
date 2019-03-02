@@ -1,5 +1,6 @@
 import React from "react";
 
-export default ({streetName, streetNumber, city, country, ...otherProps}) => <>
+const Address = ({streetName, streetNumber, city, country, ...otherProps}) => <>
     {streetNumber} {streetName}{otherProps.twoLine ? <br/> : ", "}{city} {country}
   </>;
+export default Address;

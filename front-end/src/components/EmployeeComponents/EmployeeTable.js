@@ -17,22 +17,24 @@ export default class EmployeeTable extends React.Component {
         </button>
       </div>
 
-      <table className="employee-table">
-        <thead className="employee-table__head">
-        <tr>
-          <th>ID</th>
-          <th>SIN</th>
-          <th>SSN</th>
-          <th>Name</th>
-          <th>Roles</th>
-          <th>Address</th>
-        </tr>
-        </thead>
-        <tbody>
-        {this.props.employees.map(employee =>
-          <EmployeeRow key={employee.id} {...employee}/>)}
-        </tbody>
-      </table>
+      <div className="horizontal-scroll">
+        <table className="employee-table table-spaced">
+          <thead className="employee-table__head">
+          <tr>
+            <th>ID</th>
+            <th>SIN</th>
+            <th>SSN</th>
+            <th>Name</th>
+            <th>Roles</th>
+            <th>Address</th>
+          </tr>
+          </thead>
+          <tbody>
+          {this.props.employees.map(employee =>
+            <EmployeeRow key={employee.id} {...employee}/>)}
+          </tbody>
+        </table>
+      </div>
     </li>;
   }
 }

@@ -48,8 +48,9 @@ export default class HotelManager extends React.Component {
         className="btn"
         buttonLabel="Show rooms"
         onClick={this.loadRooms}>
-        <table className="HotelManager__room-table">
-          <thead>
+        <div className="horizontal-scroll">
+          <table className="HotelManager__room-table table-spaced">
+            <thead>
             <tr className="HotelManager__room-table__heading">
               <th>Room Number</th>
               <th>Price</th>
@@ -58,14 +59,15 @@ export default class HotelManager extends React.Component {
               <th>Amenities</th>
               <th>Damages</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <AsyncItems loading={this.state.loadingRooms} wrapper="table">
               {this.state.rooms.map(room =>
                 <RoomManager key={room.roomNumber} {...room}/>)}
             </AsyncItems>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </ShowContentButton>
     </form>
   }

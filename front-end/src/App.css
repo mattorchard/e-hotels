@@ -126,6 +126,10 @@ html, body, #root {
     margin-left: 0;
 }
 
+.horizontal-scroll {
+    overflow-x: auto;
+}
+
 .striped {
     background-color: white;
 }
@@ -136,4 +140,22 @@ html, body, #root {
 
 .striped:hover {
     background-color: whitesmoke;
+}
+
+.table-spaced th {
+    padding: .2em .5em;
+}
+
+.table-spaced td {
+    padding: .1em .5em;
+}
+
+@media only screen and (min-width: 800px) {
+    .table-spaced th {
+        padding: .4em 1em;
+    }
+
+    .table-spaced td {
+        padding: .2em 1em;
+    }
 }

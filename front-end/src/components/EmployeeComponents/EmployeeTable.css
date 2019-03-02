@@ -12,16 +12,10 @@
     font-size: 1.5em;
 }
 .employee-table {
-    width: 100%;
+    min-width: 100%;
     border-collapse: collapse;
 }
 .employee-table__head {
     background-color: green;
     color: white;
-}
-.employee-table th {
-    padding: .4em 1em;
-}
-.employee-table td {
-    padding: .2em 1em;
 }
