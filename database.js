@@ -21,14 +21,28 @@ const executeScript = async(pool, path) => {
   console.log(`Successfully executed [${path}]`);
 };
 
+const hasSampleData = async pool => {
+  try {
+    const {rows} = await pool.query("SELECT * FROM hotel_chain");
+    return rows.length > 1;
+  } catch (error) {
+    return false;
+  }
+};
+
+
 const bootstrap = async () => {
   console.log("Starting database bootstrap");
   try {
     const pool = new Pool();
-    await executeScript(pool, "./sql-scripts/drop-tables.sql", "drop all tables");
-    await executeScript(pool, "./sql-scripts/create-tables.sql", "create tables");
-    await insertSampleData(pool);
-
+    const clearAndReplaceDatabase = Boolean(process.env.REPLACE_DATA);
+    if (clearAndReplaceDatabase || !(await hasSampleData(pool))) {
+      await executeScript(pool, "./sql-scripts/drop-tables.sql", "drop all tables");
+      await executeScript(pool, "./sql-scripts/create-tables.sql", "create tables");
+      await insertSampleData(pool);
+    } else {
+      console.log("Using existing database");
+    }
     pool.end();
   } catch (error) {
     console.error(`Error in database bootstrap ${error}`);
