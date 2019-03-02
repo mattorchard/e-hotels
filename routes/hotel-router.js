@@ -1,4 +1,4 @@
-const {snakeToCamel, nestAddress, nestManager} = require('../services/postgres-service');
+const {responseToRows, nestAddress, nestManager} = require('../services/postgres-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const createError = require('http-errors');
@@ -18,7 +18,7 @@ const getHotels = async (req, res, next) => {
       AND hotel.address_id = address.id
       AND manager_id = employee.id`,
       [req.params.hotelChainName]);
-    const rows = response.rows.map(snakeToCamel);
+    const rows = responseToRows(response);
     const hotels = rows.map(nestAddress).map(nestManager);
     res.send(hotels);
   } catch (error) {

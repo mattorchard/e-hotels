@@ -1,4 +1,4 @@
-const {snakeToCamel} = require('../services/postgres-service');
+const {responseToRows} = require('../services/postgres-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const createError = require('http-errors');
@@ -32,8 +32,8 @@ const getRooms = async (req, res, next) => {
       ORDER BY room_number`,
       [hotelChainName, hotelId]);
 
-    const allResponses = await Promise.all([roomPromise, roomDamagePromise, roomAmenityPromise]);
-    const [rooms, roomDamages, roomAmenities] = allResponses.map(response => response.rows.map(snakeToCamel));
+    const responses = await Promise.all([roomPromise, roomDamagePromise, roomAmenityPromise]);
+    const [rooms, roomDamages, roomAmenities] = responseToRows(responses);
 
     const groupedDamages = lodash.groupBy(roomDamages, 'roomNumber');
     const groupedAmenities = lodash.groupBy(roomAmenities, 'roomNumber');
