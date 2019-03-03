@@ -1,29 +1,18 @@
 import React from "react";
 import Address from "../Address";
 import {formatDateShort} from "../../services/format-service";
-import ClickableRow from "../ClickableRow";
 import {Link} from "react-router-dom";
+import SelectableRow from "../SelectableRow";
 
 
 export default class CustomerRow extends React.Component {
-  state = {
-    selected: false
-  };
-
-  selectRow = () => {
-    this.setState({selected: true});
-    document.addEventListener("click", () => this.setState({selected: false}), {once: true});
-  };
 
   render() {
     const {id, ssn, sin, givenName, familyName, registeredOn, address} = this.props;
-    const {selected} = this.state;
 
-    return <ClickableRow
-      className={"striped customer-row " + (selected ? "customer-row--selected" : "")}
-      onClick={this.selectRow}>
 
-      {selected ?
+    return <SelectableRow className="striped customer-row"
+      render={({selected, cancel}) => selected ?
         <td colSpan="6" className="customer-row__actions">
           <div className="customer-row__actions-row">
             <button type="button" className="btn btn--inline">Edit</button>
@@ -31,7 +20,7 @@ export default class CustomerRow extends React.Component {
             <Link to={`/customer/${id}`} className="btn btn--inline">
               Login&nbsp;as
             </Link>
-            <button type="button" className="btn btn--inline">Cancel</button>
+            <button type="button" className="btn btn--inline" onClick={cancel}>Cancel</button>
           </div>
         </td> :
         <>
@@ -43,7 +32,7 @@ export default class CustomerRow extends React.Component {
           </td>
           <td>{formatDateShort(new Date(registeredOn))}</td>
           <td><Address {...address}/></td>
-        </>}
-    </ClickableRow>
+        </>}/>
+
   }
 }
