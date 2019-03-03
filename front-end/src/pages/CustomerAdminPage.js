@@ -1,7 +1,7 @@
 import React from "react";
 import {AsyncItems} from "../components/AsyncItems";
 import CustomerRow from "../components/CustomerComponents/CustomerRow";
-import "./CustomerPage.css";
+import "./CustomerAdminPage.css";
 
 
 export default class CustomerAdminPage extends React.Component {

@@ -1,6 +1,7 @@
 import React from "react";
 import {AsyncItems} from "../components/AsyncItems";
 import EmployeeTable from "../components/EmployeeComponents/EmployeeTable";
+import "./EmployeeAdminPage.css";
 
 
 export default class EmployeeAdminPage extends React.Component {

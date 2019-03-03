@@ -1,6 +1,5 @@
 import React from "react";
 import EmployeeRow from "./EmployeeRow";
-import "./EmployeeTable.css";
 
 
 export default class EmployeeTable extends React.Component {
