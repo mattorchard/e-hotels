@@ -23,3 +23,8 @@
     background-color: green;
     color: white;
 }
+
+.employee-row__actions-row {
+    display: flex;
+    justify-content: center;
+}

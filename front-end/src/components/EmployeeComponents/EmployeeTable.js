@@ -21,9 +21,9 @@ export default class EmployeeTable extends React.Component {
           <thead className="employee-table__head">
           <tr>
             <th>ID</th>
+            <th>Name</th>
             <th>SIN</th>
             <th>SSN</th>
-            <th>Name</th>
             <th>Roles</th>
             <th>Address</th>
           </tr>
