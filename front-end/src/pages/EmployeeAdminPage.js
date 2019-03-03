@@ -3,7 +3,7 @@ import {AsyncItems} from "../components/AsyncItems";
 import EmployeeTable from "../components/EmployeeComponents/EmployeeTable";
 
 
-export default class EmployeePage extends React.Component {
+export default class EmployeeAdminPage extends React.Component {
   state = {
     loadingEmployees: false,
     employees: []

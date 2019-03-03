@@ -9,13 +9,13 @@ export default class HomePage extends React.Component {
     return <main className="main-content">
       <ul className="primary-nav-link__list">
         <li className="primary-nav-link">
-          <Link to="/admin" className="btn">Admin</Link>
+          <Link to="/admin/hotel-chains" className="btn">Hotel Chains</Link>
         </li>
         <li className="primary-nav-link">
-          <Link to="/employee" className="btn">Employee</Link>
+          <Link to="/admin/employees" className="btn">Employees</Link>
         </li>
         <li className="primary-nav-link">
-          <Link to="/customer" className="btn">Customer</Link>
+          <Link to="/admin/customers" className="btn">Customers</Link>
         </li>
       </ul>
     </main>;

@@ -4,7 +4,7 @@ import CustomerRow from "../components/CustomerComponents/CustomerRow";
 import "./CustomerPage.css";
 
 
-export default class CustomerPage extends React.Component {
+export default class CustomerAdminPage extends React.Component {
   state = {
     loadingCustomers: true,
     customers: []

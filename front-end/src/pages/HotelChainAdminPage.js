@@ -3,7 +3,7 @@ import HotelChainManager from "../components/AdminComponents/HotelChainManager";
 import {AsyncItems} from "../components/AsyncItems";
 
 
-export default class AdminPage extends React.Component {
+export default class HotelChainAdminPage extends React.Component {
 
   state = {
     loadingHotelChains: true,
