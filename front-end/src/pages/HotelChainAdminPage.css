@@ -1,0 +1,42 @@
+.hotel-chain-item__head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: .5em 1em 1em 1em;
+    background-color: green;
+    color: white;
+}
+
+.hotel-card {
+    padding: 1em;
+    margin-bottom: 1.5em;
+    box-shadow: 0 .5em .5em lightgray;
+}
+
+.hotel-card__head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.hotel-card__head__end {
+    margin-left: auto;
+}
+
+.hotel-card__title {
+    font-size: 1em;
+}
+
+.hotel-card__head__field {
+    margin-left: 1em;
+}
+
+.hotel-card__room-table {
+    min-width: 100%;
+    border-collapse: collapse;
+}
+
+.hotel-card__room-table__head {
+    color: white;
+    background-color: green;
+}

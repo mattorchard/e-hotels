@@ -1,0 +1,13 @@
+.customer-table {
+    min-width: 100%;
+    border-collapse: collapse;
+}
+.customer-table__head {
+    color: white;
+    background-color: green;
+    text-align: left;
+}
+.customer-row__actions-row {
+    display: flex;
+    justify-content: center;
+}

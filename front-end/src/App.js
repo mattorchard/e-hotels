@@ -1,10 +1,12 @@
 import React from 'react';
 import './App.css';
+import './Forms.css';
 import {Route, BrowserRouter, Switch, Link} from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import AdminPage from "./pages/AdminPage";
-import CustomerPage from "./pages/CustomerPage";
-import EmployeePage from "./pages/EmployeePage";
+import HotelChainAdminPage from "./pages/HotelChainAdminPage";
+import CustomerAdminPage from "./pages/CustomerAdminPage";
+import EmployeeAdminPage from "./pages/EmployeeAdminPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 class App extends React.Component {
   render() {
@@ -19,9 +21,10 @@ class App extends React.Component {
         </header>
         <Switch>
           <Route path="/" component={HomePage} exact={true}/>
-          <Route path="/admin" component={AdminPage}/>
-          <Route path="/customer" component={CustomerPage}/>
-          <Route path="/employee" component={EmployeePage}/>
+          <Route path="/admin/hotel-chains" component={HotelChainAdminPage}/>
+          <Route path="/admin/customers" component={CustomerAdminPage}/>
+          <Route path="/admin/employees" component={EmployeeAdminPage}/>
+          <Route component={NotFoundPage}/>
         </Switch>
       </>
     </BrowserRouter>;

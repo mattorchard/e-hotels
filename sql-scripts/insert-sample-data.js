@@ -13,7 +13,7 @@ const randomSinOrSsn = () => {
   // 2% chance to clear neither
   if (chance > 0.51) {
     sin = null;
-  } else if (chance > 0.2) {
+  } else if (chance > 0.02) {
     ssn = null;
   }
   return {sin, ssn};
@@ -100,7 +100,7 @@ const insertSampleData = async (pool, numHotelChains=5, numCustomers=5) => {
     return idFromResponse(response);
   };
 
-  const insertEntireHotelChain = async (chainName, numExtraEmployees=5, numHotels=8, numRooms=5) => {
+  const insertEntireHotelChain = async (chainName, numExtraEmployees=10, numHotels=8, numRooms=5) => {
     // Hotel chain for the whole mess
     const hotelChainName = await insertHotelChain(chainName, numHotels);
 
@@ -112,7 +112,7 @@ const insertSampleData = async (pool, numHotelChains=5, numCustomers=5) => {
     // Manager for each hotel
     const managerIds = await Promise.all(
       new Array(numHotels).fill(null).map(() =>
-        insertEmployee(hotelChainName, ["Manager"])));
+        insertEmployee(hotelChainName, ["Hotel Manager"])));
 
     // Collection of hotels
     const hotelIds = await Promise.all(managerIds.map(managerId =>
