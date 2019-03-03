@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import HotelChainAdminPage from "./pages/HotelChainAdminPage";
 import CustomerAdminPage from "./pages/CustomerAdminPage";
 import EmployeeAdminPage from "./pages/EmployeeAdminPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 class App extends React.Component {
   render() {
@@ -23,6 +24,7 @@ class App extends React.Component {
           <Route path="/admin/hotel-chains" component={HotelChainAdminPage}/>
           <Route path="/admin/customers" component={CustomerAdminPage}/>
           <Route path="/admin/employees" component={EmployeeAdminPage}/>
+          <Route component={NotFoundPage}/>
         </Switch>
       </>
     </BrowserRouter>;
