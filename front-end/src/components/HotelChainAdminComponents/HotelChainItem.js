@@ -1,11 +1,10 @@
 import React from "react";
-import HotelManager from "./HotelManager";
+import HotelCard from "./HotelCard";
 import ShowContentButton from "../ShowContentButton";
 import Address from "../Address";
-import "./HotelChainManager.css";
 import {AsyncItems} from "../AsyncItems";
 
-export default class HotelChainManager extends React.Component {
+export default class HotelChainItem extends React.Component {
   state = {
     loadingHotels: false,
     hotels: []
@@ -21,7 +20,7 @@ export default class HotelChainManager extends React.Component {
 
   render() {
     return <>
-      <div className="HotelChainManager__header">
+      <div className="hotel-chain-item__head">
         <h3>{this.props.name}</h3>
         <strong>
           <Address {...this.props.address} />
@@ -35,7 +34,7 @@ export default class HotelChainManager extends React.Component {
         <ul className="rails">
           <AsyncItems loading={this.state.loadingHotels}>
             {this.state.hotels.map(hotel =>
-              <li key={hotel.id}><HotelManager {...hotel}/></li>)}
+              <li key={hotel.id}><HotelCard {...hotel}/></li>)}
           </AsyncItems>
         </ul>
       </ShowContentButton>

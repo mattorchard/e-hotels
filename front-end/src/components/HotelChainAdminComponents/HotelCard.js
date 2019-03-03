@@ -1,13 +1,12 @@
 import React from "react";
-import RoomManager from "./RoomManager";
+import RoomRow from "./RoomRow";
 import ShowContentButton from "../ShowContentButton";
 import Address from "../Address";
 import Stars from "../Stars";
-import "./HotelManager.css";
 import {AsyncItems} from "../AsyncItems";
 
 
-export default class HotelManager extends React.Component {
+export default class HotelCard extends React.Component {
   state = {
     loadingRooms: true,
     rooms: []
@@ -30,16 +29,16 @@ export default class HotelManager extends React.Component {
   };
 
   render() {
-    return <form className="HotelManager">
-      <div className="HotelManager__header">
-        <h5 className="HotelManager__header-title">
+    return <form className="hotel-card">
+      <div className="hotel-card__head">
+        <h5 className="hotel-card__title">
           <Address {...this.props.address}/>
         </h5>
-        <div className="HotelManager__header-field">
+        <div className="hotel-card__head__field">
           <strong>Manager: </strong>
           {this.props.manager.givenName} {this.props.manager.familyName}
         </div>
-        <div className="HotelManager__header-end">
+        <div className="hotel-card__head__end">
           <Stars number={this.props.category} name="radio stars"/>
         </div>
       </div>
@@ -49,9 +48,9 @@ export default class HotelManager extends React.Component {
         buttonLabel="Show rooms"
         onClick={this.loadRooms}>
         <div className="horizontal-scroll">
-          <table className="HotelManager__room-table table-spaced">
+          <table className="hotel-card__room-table table-spaced">
             <thead>
-            <tr className="HotelManager__room-table__heading">
+            <tr className="hotel-card__room-table__head">
               <th>Room Number</th>
               <th>Price</th>
               <th>Capacity</th>
@@ -63,7 +62,7 @@ export default class HotelManager extends React.Component {
             <tbody>
             <AsyncItems loading={this.state.loadingRooms} wrapper="table">
               {this.state.rooms.map(room =>
-                <RoomManager key={room.roomNumber} {...room}/>)}
+                <RoomRow key={room.roomNumber} {...room}/>)}
             </AsyncItems>
             </tbody>
           </table>

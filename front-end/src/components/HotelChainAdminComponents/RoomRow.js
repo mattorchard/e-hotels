@@ -1,7 +1,7 @@
 import React from "react";
 
 
-export default class RoomManager extends React.Component {
+export default class RoomRow extends React.Component {
   render() {
     return <tr className="striped">
       <td>

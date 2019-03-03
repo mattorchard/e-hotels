@@ -1,7 +1,7 @@
 import React from "react";
-import HotelChainManager from "../components/AdminComponents/HotelChainManager";
+import HotelChainItem from "../components/HotelChainAdminComponents/HotelChainItem";
 import {AsyncItems} from "../components/AsyncItems";
-
+import "./HotelChainAdminPage.css";
 
 export default class HotelChainAdminPage extends React.Component {
 
@@ -29,7 +29,7 @@ export default class HotelChainAdminPage extends React.Component {
                    loadingMessage="Loading hotel chains...">
 
           {this.state.hotelChains.map(chain =>
-            <li key={chain.id}><HotelChainManager {...chain}/></li>)}
+            <li key={chain.id}><HotelChainItem {...chain}/></li>)}
         </AsyncItems>
       </ul>
 
