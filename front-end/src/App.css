@@ -61,12 +61,14 @@ html, body, #root {
 }
 
 .btn {
+    display: inline-block;
     font-size: 1.1em;
+    text-decoration: none;
     color: green;
     background-color: transparent;
     border: .1em solid green;
     border-radius: .33em;
-    padding: .3em .7em .45em;
+    padding: .15em .7em .45em;
     margin: .5em .5em .5em;
     cursor: pointer;
     font-variant: small-caps;
@@ -76,6 +78,11 @@ html, body, #root {
     -moz-transition-property: transform, box-shadow, color, background-color;
     -o-transition-property: transform, box-shadow, color, background-color;
     transition-property: transform, box-shadow, color, background-color;
+}
+
+.btn--inline {
+    padding: 0 .35em .25em;
+    margin: .25em;
 }
 
 .btn:hover, .btn:focus, .btn.fill {
@@ -158,4 +165,13 @@ html, body, #root {
     .table-spaced td {
         padding: .2em 1em;
     }
+}
+
+th.hidden-column {
+    padding: 0;
+    margin: 0;
+}
+
+.clickable-row {
+    cursor: pointer;
 }
