@@ -2,21 +2,22 @@ import React from "react";
 import ReactForm from "../ReactForm";
 import PersonFields from "../PersonFields";
 import {toast} from "react-toastify";
+import ListInput from "../ListInput";
 
 export default class EmployeeForm extends ReactForm {
   constructor(props) {
     super(props);
-    const {id, ssn, sin, givenName, familyName, hotelChainName, address} = props.employee;
+    const {id, ssn, sin, givenName, familyName, hotelChainName, roles, address} = props.employee;
     this.state = {
-      id, givenName, familyName, hotelChainName, ...address,
+      id, givenName, familyName, hotelChainName, roles, ...address,
       sin: sin || "", ssn: ssn || ""
     };
   }
 
   onSubmit = event => {
     event.preventDefault();
-    const {id, ssn, sin, givenName, familyName, hotelChainName, ...address} = this.state;
-    const employee = {id, ssn, sin, givenName, familyName, hotelChainName, address};
+    const {id, ssn, sin, givenName, familyName, hotelChainName, roles, ...address} = this.state;
+    const employee = {id, ssn, sin, givenName, familyName, hotelChainName, roles, address};
     try {
       this.props.onSubmit(employee);
     } catch (error) {
@@ -34,7 +35,14 @@ export default class EmployeeForm extends ReactForm {
                  value={this.state.hotelChainName}/>
         </label>
 
-        <PersonFields state={this.state} handleInputChange={this.handleInputChange}/>
+        <PersonFields state={this.state} onChange={this.handleInputChange}/>
+
+        <ListInput label="Roles"
+                   name="roles"
+                   value={this.state.roles}
+                   onChange={this.handleInputChange}>
+          <input type="text"/>
+        </ListInput>
 
         {this.props.disabled ||
         <button type="submit" className="btn fill">

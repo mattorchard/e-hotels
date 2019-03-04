@@ -75,3 +75,14 @@ input[type="number"] {
     outline: none;
     border-color: red;
 }
+
+.input-row {
+    display: flex;
+    align-items: center;
+}
+
+.list-input__list {
+    font-weight: normal;
+    font-size: .75em;
+    margin-top: 0;
+}

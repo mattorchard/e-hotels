@@ -26,4 +26,5 @@
 
 .employee-modal__actions {
     text-align: right;
+    display: flex;
 }

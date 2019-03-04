@@ -37,7 +37,7 @@ export default class EmployeeModal extends React.Component {
             </button>
             <Link to={`/employee/${id}`}
                   className="btn btn--inline">
-              Login as
+              Login&nbsp;as
             </Link>
           </div>
           <button onClick={modalProps.onRequestClose}

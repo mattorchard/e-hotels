@@ -80,18 +80,37 @@ html, body, #root {
     transition-property: transform, box-shadow, color, background-color;
 }
 
+.btn:disabled {
+    color: grey;
+    border-color: grey;
+    cursor: default;
+}
+
 .btn--inline {
     padding: 0 .35em .25em;
     margin: .25em;
 }
 
-.btn:hover, .btn:focus, .btn.fill {
+.btn--char {
+    font-size: .75em;
+    padding: 0 .35em 0.2em;
+    width: 1.75em;
+    height: 1.75em;
+    margin: 0 .25em;
+    font-weight: 900;
+}
+
+.btn:hover:not(:disabled), .btn:focus, .btn.fill {
     color: white;
     background-color: green;
     outline: none;
 }
 
-.btn.fill:focus, .btn.fill:hover {
+.btn.fill:disabled {
+    background-color: grey;
+}
+
+.btn.fill:focus, .btn.fill:hover:not(:disabled) {
     box-shadow: 0 .2em .5em rgba(0, 128, 0, .4);
     transform: translate(0, -.1em);
 }
