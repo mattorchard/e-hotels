@@ -1,11 +1,13 @@
 import React from "react";
 import EmployeeRow from "./EmployeeRow";
 import EmployeeModal from "./EmployeeModal";
+import CreateEmployeeModal from "./CreateEmployeeModal";
 
 
 export default class EmployeeTable extends React.Component {
 
   state = {
+    creatingEmployee: false,
     selectedEmployee: null
   };
 
@@ -22,7 +24,8 @@ export default class EmployeeTable extends React.Component {
         </h3>
 
         <button className="btn fill add-btn"
-                type="button">
+                type="button"
+                onClick={() => this.setState({creatingEmployee: true})}>
           Add Employee
         </button>
       </div>
@@ -48,6 +51,11 @@ export default class EmployeeTable extends React.Component {
       <EmployeeModal
         employee={this.state.selectedEmployee}
         onRequestClose={() => this.setState({selectedEmployee: null})}
+        onSave={this.props.onSave}/>
+      <CreateEmployeeModal
+        hotelChainName={this.props.hotelChainName}
+        isOpen={this.state.creatingEmployee}
+        onRequestClose={() => this.setState({creatingEmployee: false})}
         onSave={this.props.onSave}/>
     </li>;
   }
