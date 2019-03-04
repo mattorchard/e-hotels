@@ -1,9 +1,23 @@
 const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
+const {insertAddress} = require('../services/address-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const lodash = require("lodash");
 const createError = require('http-errors');
 
+const createEmployee = async(req, res, next) => {
+  try {
+    const {givenName, familyName, ssn, sin, roles, address} = req.body;
+
+    await inTransaction(pool, async client => {
+      await insertAddress(client, address);
+      // Todo: Add employee and roles
+    });
+    return res.send({message: "Created"});
+  } catch (error) {
+    return next(error);
+  }
+};
 
 const getEmployees = async (req, res, next) => {
   try {
@@ -57,7 +71,8 @@ const getEmployee = async (req, res, next) => {
   }
 
 };
-// Add an employee
+
+
 // Edit an employee
 
 const deleteEmployee = async(req, res, next) => {
@@ -82,4 +97,4 @@ const deleteEmployee = async(req, res, next) => {
   }
 };
 
-module.exports = {getEmployees, getEmployee, deleteEmployee};
+module.exports = {createEmployee, getEmployees, getEmployee, deleteEmployee};
