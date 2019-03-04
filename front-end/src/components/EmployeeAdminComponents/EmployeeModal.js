@@ -3,20 +3,36 @@ import ReactModal from "react-modal";
 import {Link} from "react-router-dom";
 import EmployeeForm from "./EmployeeForm";
 import {toast} from "react-toastify";
+import ConfirmationModal from "../ConfirmationModal";
 
 export default class EmployeeModal extends React.Component {
 
   state = {
-    editingEmployee: false
+    editingEmployee: false,
+    confirmingDeleteEmployee: false
   };
 
   saveEmployee = async employee => {
-    const response = await fetch("/api/employee", {method: "PUT", body: employee});
+    const response = await fetch(`/api/employee/${this.props.employee.id}`, {method: "PUT", body: employee});
     if (!response.ok) {
       throw new Error(`Unable to save employee: ${employee.givenName} ${employee.familyName}`)
     }
     toast.success(`Saved employee: ${employee.givenName} ${employee.familyName}`);
     this.props.onSave();
+  };
+
+  deleteEmployee = async () => {
+    try {
+      const response = await fetch(`/api/employee/${this.props.employee.id}`, {method: "DELETE"});
+      if (!response.ok) {
+        throw new Error(`Failed to delete employee ${response.status}`);
+      }
+      toast.success("Deleted employee");
+      this.props.onSave();
+    } catch (error) {
+      console.error(error);
+      toast.error("Unable to delete employee");
+    }
   };
 
 
@@ -39,7 +55,7 @@ export default class EmployeeModal extends React.Component {
                     className="btn btn--inline">
               Edit
             </button>
-            <button
+            <button onClick={() => this.setState({confirmingDeleteEmployee: true})}
               type="button"
               className="btn btn--inline">
               Delete
@@ -56,8 +72,18 @@ export default class EmployeeModal extends React.Component {
           </button>
         </div>
 
-        <EmployeeForm disabled={!this.state.editingEmployee} employee={employee} onSubmit={this.saveEmployee}/>
+        <EmployeeForm
+          disabled={!this.state.editingEmployee}
+          employee={employee}
+          onSubmit={this.saveEmployee}/>
 
+
+        <ConfirmationModal
+          isOpen={this.state.confirmingDeleteEmployee}
+          onCancel={() => this.setState({confirmingDeleteEmployee: false})}
+          onConfirm={this.deleteEmployee}>
+          Are you sure you want to delete: <strong>{givenName} {familyName}</strong>
+        </ConfirmationModal>
       </>}
     </ReactModal>
   }
