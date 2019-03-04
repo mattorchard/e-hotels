@@ -1,6 +1,6 @@
 import React from "react";
 import {AsyncItems} from "../components/AsyncItems";
-import CustomerRow from "../components/CustomerComponents/CustomerRow";
+import CustomerRow from "../components/CustomerAdminComponents/CustomerRow";
 import "./CustomerAdminPage.css";
 
 

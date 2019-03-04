@@ -1,6 +1,6 @@
 import React from "react";
 import {AsyncItems} from "../components/AsyncItems";
-import EmployeeTable from "../components/EmployeeComponents/EmployeeTable";
+import EmployeeTable from "../components/EmployeeAdminComponents/EmployeeTable";
 import "./EmployeeAdminPage.css";
 
 
