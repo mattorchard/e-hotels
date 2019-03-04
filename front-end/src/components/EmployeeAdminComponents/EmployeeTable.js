@@ -22,7 +22,7 @@ export default class EmployeeTable extends React.Component {
         </h3>
 
         <button className="btn fill add-btn"
-                type="buton">
+                type="button">
           Add Employee
         </button>
       </div>
@@ -33,8 +33,8 @@ export default class EmployeeTable extends React.Component {
           <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>SIN</th>
             <th>SSN</th>
+            <th>SIN</th>
             <th>Roles</th>
             <th>Address</th>
           </tr>
