@@ -24,11 +24,13 @@ export default class EmployeeModal extends React.Component {
       appElement={document.getElementById('root')}
       className="modal-fit-content">
 
-      <button onClick={onRequestClose}
-              className="btn btn--inline"
-              type="button">
-        Cancel
-      </button>
+      <div className="employee-modal__actions">
+        <button onClick={onRequestClose}
+                className="btn btn--inline"
+                type="button">
+          Cancel
+        </button>
+      </div>
 
       <EmployeeForm employee={{hotelChainName}} onSubmit={this.saveEmployee}/>
 
