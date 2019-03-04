@@ -1,6 +1,7 @@
 import React from "react";
 import ReactForm from "../ReactForm";
 import PersonFields from "../PersonFields";
+import {toast} from "react-toastify";
 
 export default class EmployeeForm extends ReactForm {
   constructor(props) {
@@ -12,8 +13,19 @@ export default class EmployeeForm extends ReactForm {
     };
   }
 
+  onSubmit = event => {
+    event.preventDefault();
+    const {id, ssn, sin, givenName, familyName, hotelChainName, ...address} = this.state;
+    const employee = {id, ssn, sin, givenName, familyName, hotelChainName, address};
+    try {
+      this.props.onSubmit(employee);
+    } catch (error) {
+      toast.error("Unable to save employee");
+    }
+  };
+
   render() {
-    return <form>
+    return <form onSubmit={this.onSubmit}>
       <fieldset disabled={this.props.disabled} className="vertical-form simple-form">
         <label>
           Hotel Chain
@@ -24,7 +36,6 @@ export default class EmployeeForm extends ReactForm {
 
         <PersonFields state={this.state} handleInputChange={this.handleInputChange}/>
 
-        {/*{JSON.stringify(this.state)}*/}
         {this.props.disabled ||
         <button type="submit" className="btn fill">
           Save

@@ -8,6 +8,8 @@ import CustomerAdminPage from "./pages/CustomerAdminPage";
 import EmployeeAdminPage from "./pages/EmployeeAdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EmployeeActionsPage from "./pages/EmployeeActionsPage";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
 
 class App extends React.Component {
   render() {
@@ -29,6 +31,7 @@ class App extends React.Component {
 
           <Route component={NotFoundPage}/>
         </Switch>
+        <ToastContainer />
       </>
     </BrowserRouter>;
   }
