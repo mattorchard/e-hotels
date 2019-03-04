@@ -2,6 +2,8 @@ const {responseToRows, nestAddress} = require('../services/postgres-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const lodash = require("lodash");
+const createError = require('http-errors');
+
 
 const getEmployees = async (req, res, next) => {
   try {
@@ -29,8 +31,34 @@ const getEmployees = async (req, res, next) => {
     next(error);
   }
 };
+
+const getEmployee = async (req, res, next) => {
+  const {employeeId} = req.params;
+  if (!employeeId) {
+    return next(new createError.UnprocessableEntity("Must supply ID to fetch employee"));
+  }
+  try {
+    const response = await pool.query(
+      `SELECT address.*, employee_role.role as roles, employee.*
+      FROM employee, address, employee_role
+      WHERE employee.id = $1
+      and employee.address_id = address.id
+      and employee_id = $1`, [employeeId]);
+    const rows = responseToRows(response);
+    if (rows.length < 1) {
+      return next(createError.NotFound("No employee with that ID"));
+    }
+    const employee = nestAddress(rows[0]);
+    employee.roles = rows.map(row => row.roles);
+    res.send(employee)
+  } catch (error) {
+    console.error(`Unable to fetch employee [${employeeId}]`, error);
+    next(error);
+  }
+
+};
 // Add an employee
 // Edit an employee
 // Delete an employee
 
-module.exports = {getEmployees};
+module.exports = {getEmployees, getEmployee};
