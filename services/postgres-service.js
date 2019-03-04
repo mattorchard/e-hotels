@@ -33,4 +33,18 @@ const nestAddress = ({streetNumber, streetName, city, country, addressId, ...par
 const nestManager = ({givenName, familyName, managerId, ...parent}) =>
   ({...parent, manager: {id: managerId, givenName, familyName}});
 
-module.exports = {responseToRows, nestAddress, nestManager};
+const inTransaction = async (pool, callback) => {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await callback(client);
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = {responseToRows, nestAddress, nestManager, inTransaction};
