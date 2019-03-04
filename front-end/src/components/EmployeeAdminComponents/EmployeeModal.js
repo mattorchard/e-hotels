@@ -2,12 +2,21 @@ import React from "react";
 import ReactModal from "react-modal";
 import {Link} from "react-router-dom";
 import EmployeeForm from "./EmployeeForm";
-
+import {toast} from "react-toastify";
 
 export default class EmployeeModal extends React.Component {
 
   state = {
     editingEmployee: false
+  };
+
+  saveEmployee = async employee => {
+    const response = await fetch("/api/employee", {method: "POST", body: employee});
+    if (!response.ok) {
+      throw new Error(`Unable to save employee ${employee.givenName} ${employee.familyName}`)
+    }
+    toast.success(`Saved ${employee.givenName} ${employee.familyName}`);
+    this.props.onSave();
   };
 
 
@@ -47,7 +56,7 @@ export default class EmployeeModal extends React.Component {
           </button>
         </div>
 
-        <EmployeeForm disabled={!this.state.editingEmployee} employee={employee}/>
+        <EmployeeForm disabled={!this.state.editingEmployee} employee={employee} onSubmit={this.saveEmployee}/>
 
       </>}
     </ReactModal>

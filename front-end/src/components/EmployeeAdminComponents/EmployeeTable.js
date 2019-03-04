@@ -47,7 +47,8 @@ export default class EmployeeTable extends React.Component {
       </div>
       <EmployeeModal
         employee={this.state.selectedEmployee}
-        onRequestClose={() => this.setState({selectedEmployee: null})}/>
+        onRequestClose={() => this.setState({selectedEmployee: null})}
+        onSave={this.props.onSave}/>
     </li>;
   }
 }

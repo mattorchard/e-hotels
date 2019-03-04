@@ -14,14 +14,14 @@ export default class EmployeeForm extends ReactForm {
     };
   }
 
-  onSubmit = event => {
+  onSubmit = async event => {
     event.preventDefault();
     const {id, ssn, sin, givenName, familyName, hotelChainName, roles, ...address} = this.state;
     const employee = {id, ssn, sin, givenName, familyName, hotelChainName, roles, address};
     try {
-      this.props.onSubmit(employee);
+      await this.props.onSubmit(employee);
     } catch (error) {
-      toast.error("Unable to save employee");
+      toast.error(error.message);
     }
   };
 

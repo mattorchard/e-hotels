@@ -11,7 +11,7 @@ export default class EmployeeAdminPage extends React.Component {
   };
 
 
-  async componentDidMount() {
+  loadEmployees = async () => {
     this.setState({loadingEmployees: true});
     const response = await fetch("/api/employees");
     if (!response.ok) {
@@ -20,6 +20,10 @@ export default class EmployeeAdminPage extends React.Component {
     const employees = await response.json();
     this.setState({employees, loadingEmployees: false});
   };
+
+  async componentDidMount() {
+    await this.loadEmployees();
+  }
 
   render() {
     return <main className="main-content">
@@ -30,7 +34,11 @@ export default class EmployeeAdminPage extends React.Component {
                     loadingMessage="Loading employees...">
 
               {Object.entries(this.state.employees).map(([hotelChainName, employees]) =>
-                <EmployeeTable key={hotelChainName} hotelChainName={hotelChainName} employees={employees}/>)}
+                <EmployeeTable
+                  key={hotelChainName}
+                  hotelChainName={hotelChainName}
+                  employees={employees}
+                  onSave={this.loadEmployees}/>)}
 
         </AsyncItems>
       </ul>
