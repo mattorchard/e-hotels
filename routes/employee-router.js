@@ -1,4 +1,4 @@
-const {responseToRows, nestAddress} = require('../services/postgres-service');
+const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const lodash = require("lodash");
@@ -59,6 +59,27 @@ const getEmployee = async (req, res, next) => {
 };
 // Add an employee
 // Edit an employee
-// Delete an employee
 
-module.exports = {getEmployees, getEmployee};
+const deleteEmployee = async(req, res, next) => {
+  const {employeeId} = req.params;
+  if (!employeeId) {
+    return next(new createError.UnprocessableEntity("Must supply ID to delete employee"));
+  }
+
+  try {
+    const rows = responseToRows(await pool.query("SELECT address_id FROM employee WHERE id = $1", [employeeId]));
+    const [{addressId}] = rows;
+
+    await inTransaction(pool, async client => {
+      await client.query(`DELETE FROM employee WHERE id = $1`, [employeeId]);
+      await client.query(`DELETE FROM address WHERE id = $1`, [addressId]);
+    });
+
+    return res.send({message: `Deleted employee ${employeeId}`});
+  } catch (error) {
+    console.error(`Unable to delete employee [${employeeId}]`, error);
+    return next(error);
+  }
+};
+
+module.exports = {getEmployees, getEmployee, deleteEmployee};
