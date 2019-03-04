@@ -45,7 +45,7 @@ export default class EmployeeForm extends ReactForm {
         </ListInput>
 
         {this.props.disabled ||
-        <button type="submit" className="btn fill">
+        <button type="submit" className="btn btn--inline fill">
           Save
         </button>}
       </fieldset>

@@ -13,9 +13,9 @@ export default class EmployeeModal extends React.Component {
   saveEmployee = async employee => {
     const response = await fetch("/api/employee", {method: "POST", body: employee});
     if (!response.ok) {
-      throw new Error(`Unable to save employee ${employee.givenName} ${employee.familyName}`)
+      throw new Error(`Unable to save employee: ${employee.givenName} ${employee.familyName}`)
     }
-    toast.success(`Saved ${employee.givenName} ${employee.familyName}`);
+    toast.success(`Saved employee: ${employee.givenName} ${employee.familyName}`);
     this.props.onSave();
   };
 

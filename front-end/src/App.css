@@ -197,6 +197,7 @@ th.hidden-column {
 
 .ReactModal__Body--open {
     overflow-y: hidden;
+    padding-right: 17px;
 }
 
 .modal-fit-content {
@@ -219,4 +220,8 @@ th.hidden-column {
 
 .hidden {
     visibility: hidden;
+}
+
+.ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, .5)!important;
 }
