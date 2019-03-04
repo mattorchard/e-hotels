@@ -1,11 +1,17 @@
 import React from "react";
 import EmployeeRow from "./EmployeeRow";
+import EmployeeModal from "./EmployeeModal";
 
 
 export default class EmployeeTable extends React.Component {
 
+  state = {
+    selectedEmployee: null
+  };
+
+
   openEmployeeModal = employee => {
-    debugger;
+    this.setState({selectedEmployee: employee});
   };
 
   render() {
@@ -39,6 +45,9 @@ export default class EmployeeTable extends React.Component {
           </tbody>
         </table>
       </div>
+      <EmployeeModal
+        employee={this.state.selectedEmployee}
+        onRequestClose={() => this.setState({selectedEmployee: null})}/>
     </li>;
   }
 }

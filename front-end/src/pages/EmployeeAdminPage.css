@@ -24,7 +24,6 @@
     color: white;
 }
 
-.employee-row__actions-row {
-    display: flex;
-    justify-content: center;
+.employee-modal__actions {
+    text-align: right;
 }
