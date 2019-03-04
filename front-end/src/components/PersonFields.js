@@ -1,14 +1,14 @@
 import React from "react";
 import AddressFields from "./AddressFields";
 
-const PersonFields = ({state, handleInputChange}) => <>
+const PersonFields = ({state, onChange}) => <>
   <label>
     Given Name
     <input name="givenName"
            type="text"
            required
            value={state.givenName}
-           onChange={handleInputChange}/>
+           onChange={onChange}/>
   </label>
   <label>
     Family Name
@@ -16,7 +16,7 @@ const PersonFields = ({state, handleInputChange}) => <>
            type="text"
            required
            value={state.familyName}
-           onChange={handleInputChange}/>
+           onChange={onChange}/>
   </label>
   <label>
     SIN
@@ -26,7 +26,7 @@ const PersonFields = ({state, handleInputChange}) => <>
            value={state.sin}
            min={100000000}
            max={999999999}
-           onChange={handleInputChange}/>
+           onChange={onChange}/>
   </label>
   <label>
     SSN
@@ -36,9 +36,9 @@ const PersonFields = ({state, handleInputChange}) => <>
            value={state.ssn}
            min={100000000}
            max={999999999}
-           onChange={handleInputChange}/>
+           onChange={onChange}/>
   </label>
-  <AddressFields state={state} handleInputChange={handleInputChange}/>
+  <AddressFields state={state} onChange={onChange}/>
 </>;
 
 export default PersonFields;
