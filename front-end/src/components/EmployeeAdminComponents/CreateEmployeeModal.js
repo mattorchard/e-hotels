@@ -7,7 +7,11 @@ export default class EmployeeModal extends React.Component {
   state = {};
 
   saveEmployee = async employee => {
-    const response = await fetch("/api/employee", {method: "POST", body: employee});
+    const response = await fetch("/api/employee", {
+      method: "POST",
+      body: JSON.stringify(employee),
+      headers: {"Content-Type": "application/json"}
+    });
     if (!response.ok) {
       throw new Error(`Unable to save employee: ${employee.givenName} ${employee.familyName}`)
     }
@@ -18,6 +22,26 @@ export default class EmployeeModal extends React.Component {
 
   render() {
     const {isOpen, hotelChainName, onRequestClose} = this.props;
+    // Todo: Remove this!!!
+    const testEmployee = {
+      hotelChainName,
+      givenName: "Matthew",
+      familyName: "Orchard",
+      sin: 123456789,
+      ssn: null,
+      address: {
+        streetNumber: 123,
+        streetName: "Sesame",
+        city: "Ottawa",
+        country: "Canada"
+      },
+      roles: [
+        "Programmer",
+        "Expert in general"
+      ]
+    };
+
+
     return <ReactModal
       contentLabel={`Creating Employee for ${hotelChainName}`}
       isOpen={isOpen}
@@ -32,7 +56,7 @@ export default class EmployeeModal extends React.Component {
         </button>
       </div>
 
-      <EmployeeForm employee={{hotelChainName}} onSubmit={this.saveEmployee}/>
+      <EmployeeForm employee={testEmployee} onSubmit={this.saveEmployee}/>
 
     </ReactModal>
   }
