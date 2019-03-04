@@ -3,6 +3,11 @@ import EmployeeRow from "./EmployeeRow";
 
 
 export default class EmployeeTable extends React.Component {
+
+  openEmployeeModal = employee => {
+    debugger;
+  };
+
   render() {
     return <li className="hotel-chain-card">
       <div className="hotel-chain-card__head">
@@ -30,7 +35,7 @@ export default class EmployeeTable extends React.Component {
           </thead>
           <tbody>
           {this.props.employees.map(employee =>
-            <EmployeeRow key={employee.id} {...employee}/>)}
+            <EmployeeRow key={employee.id} {...employee} onSelectRow={this.openEmployeeModal}/>)}
           </tbody>
         </table>
       </div>

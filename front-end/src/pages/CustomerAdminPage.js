@@ -20,6 +20,10 @@ export default class CustomerAdminPage extends React.Component {
     this.setState({customers, loadingCustomers: false});
   }
 
+  openCustomerModal = customer => {
+    debugger;
+  };
+
 
   render() {
     return <main className="main-content">
@@ -43,7 +47,7 @@ export default class CustomerAdminPage extends React.Component {
                       loadingMessage="Loading customers...">
 
             {this.state.customers.map(customer =>
-              <CustomerRow key={customer.id} {...customer}/>)}
+              <CustomerRow key={customer.id} {...customer} onSelectRow={this.openCustomerModal}/>)}
 
           </AsyncItems>
           </tbody>
