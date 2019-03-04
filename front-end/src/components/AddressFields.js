@@ -5,6 +5,7 @@ const AddressFields = ({state, onChange}) => <>
     Street Number
     <input name="streetNumber"
            type="number"
+           required
            value={state.streetNumber}
            min={0}
            onChange={onChange}/>
@@ -13,6 +14,7 @@ const AddressFields = ({state, onChange}) => <>
     Street Name
     <input name="streetName"
            type="text"
+           required
            value={state.streetName}
            onChange={onChange}/>
   </label>
@@ -20,6 +22,7 @@ const AddressFields = ({state, onChange}) => <>
     City
     <input name="city"
            type="text"
+           required
            value={state.city}
            onChange={onChange}/>
   </label>
@@ -27,6 +30,7 @@ const AddressFields = ({state, onChange}) => <>
     Country
     <input name="country"
            type="text"
+           required
            value={state.country}
            onChange={onChange}/>
   </label>

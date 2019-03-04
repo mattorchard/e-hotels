@@ -39,7 +39,7 @@ export default class EmployeeForm extends ReactForm {
 
         <ListInput label="Roles"
                    name="roles"
-                   value={this.state.roles}
+                   value={this.state.roles || []}
                    onChange={this.handleInputChange}>
           <input type="text"/>
         </ListInput>

@@ -52,7 +52,7 @@ export default class ListInput extends ReactForm {
   };
 
   render() {
-    const {value = [], label, listClassName = ""} = this.props;
+    const {value, label, listClassName = ""} = this.props;
     return <>
       <label>
         {label}
