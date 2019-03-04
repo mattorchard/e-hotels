@@ -193,3 +193,11 @@ th.hidden-column {
     max-height: 100vh;
     overflow: auto;
 }
+
+.wrapper {
+    display: contents;
+}
+
+.hidden {
+    visibility: hidden;
+}

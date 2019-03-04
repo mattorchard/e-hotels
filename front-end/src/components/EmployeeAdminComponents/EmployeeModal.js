@@ -21,30 +21,35 @@ export default class EmployeeModal extends React.Component {
       appElement={document.getElementById('root')}
       className="modal-fit-content"
       {...modalProps}>
-      <div className="employee-modal__actions">
-        {this.state.editingEmployee || <>
-          <button onClick={() => this.setState({editingEmployee: true})}
+
+      {employee && <>
+        <div className="employee-modal__actions">
+          <div className={`wrapper ${this.state.editingEmployee && "hidden"}`}>
+            <button onClick={() => this.setState({editingEmployee: true})}
+                    type="button"
+                    className="btn btn--inline">
+              Edit
+            </button>
+            <button
+              type="button"
+              className="btn btn--inline">
+              Delete
+            </button>
+            <Link to={`/employee/${id}`}
+                  className="btn btn--inline">
+              Login as
+            </Link>
+          </div>
+          <button onClick={modalProps.onRequestClose}
                   type="button"
                   className="btn btn--inline">
-            Edit
+            Cancel
           </button>
-          <button
-            type="button"
-            className="btn btn--inline">
-            Delete
-          </button>
-          <Link to={`/employee/${id}`}
-                className="btn btn--inline">
-            Login as
-          </Link>
-        </>}
-        <button onClick={modalProps.onRequestClose}
-                type="button"
-                className="btn btn--inline">
-          Cancel
-        </button>
-      </div>
-      <EmployeeForm disabled={!this.state.editingEmployee} employee={employee}/>
+        </div>
+
+        <EmployeeForm disabled={!this.state.editingEmployee} employee={employee}/>
+
+      </>}
     </ReactModal>
   }
 }
