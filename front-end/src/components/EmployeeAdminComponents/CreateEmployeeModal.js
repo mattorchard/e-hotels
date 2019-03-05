@@ -15,32 +15,14 @@ export default class EmployeeModal extends React.Component {
     if (!response.ok) {
       throw new Error(`Unable to save employee: ${employee.givenName} ${employee.familyName}`)
     }
-    toast.success(`Saved employee: ${employee.givenName} ${employee.familyName}`);
-    this.props.onSave();
+    const {id} = await response.json();
+    toast.success(`Created Employee: ${employee.givenName} ${employee.familyName}`);
+    this.props.onSave(`employeeId-${id}`);
   };
 
 
   render() {
     const {isOpen, hotelChainName, onRequestClose} = this.props;
-    // Todo: Remove this!!!
-    const testEmployee = {
-      hotelChainName,
-      givenName: "Matthew",
-      familyName: "Orchard",
-      sin: 123456789,
-      ssn: null,
-      address: {
-        streetNumber: 123,
-        streetName: "Sesame",
-        city: "Ottawa",
-        country: "Canada"
-      },
-      roles: [
-        "Programmer",
-        "Expert in general"
-      ]
-    };
-
 
     return <ReactModal
       contentLabel={`Creating Employee for ${hotelChainName}`}
@@ -56,7 +38,7 @@ export default class EmployeeModal extends React.Component {
         </button>
       </div>
 
-      <EmployeeForm employee={testEmployee} onSubmit={this.saveEmployee}/>
+      <EmployeeForm employee={{hotelChainName}} onSubmit={this.saveEmployee}/>
 
     </ReactModal>
   }

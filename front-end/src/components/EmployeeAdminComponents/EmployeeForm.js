@@ -13,7 +13,7 @@ export default class EmployeeForm extends ReactForm {
       sin: sin || "", ssn: ssn || ""
     };
     this.employeeId = id;
-    this.addressId = address.id;
+    this.addressId = address && address.id;
   }
 
   onSubmit = async event => {
@@ -49,7 +49,7 @@ export default class EmployeeForm extends ReactForm {
         </ListInput>
 
         {this.props.disabled ||
-        <button type="submit" className="btn btn--inline fill">
+        <button type="submit" className="btn btn--inline">
           Save
         </button>}
       </fieldset>

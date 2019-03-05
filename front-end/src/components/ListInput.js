@@ -64,7 +64,7 @@ export default class ListInput extends ReactForm {
             +
           </button>
         </span>
-        <ul className={"list-input__list" + listClassName}>
+        <ul className={"list-input__list rails" + listClassName}>
           {value.map(v => <RemovableListItem key={v} value={v} onRemove={this.removeValue}/>)}
         </ul>
       </label>

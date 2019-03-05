@@ -6,7 +6,9 @@ const EmployeeRow = props => {
 
   const {id, ssn, sin, givenName, familyName, address, roles, onSelectRow} = props;
 
-  return <ClickableRow className="striped" onClick={() => onSelectRow(props)}>
+  return <ClickableRow id={`employeeId-${id}`}
+    className="striped"
+    onClick={() => onSelectRow(props)}>
     <td><strong>{id}</strong></td>
     <td>
       {givenName} {familyName}

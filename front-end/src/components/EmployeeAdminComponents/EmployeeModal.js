@@ -13,10 +13,8 @@ export default class EmployeeModal extends React.Component {
   };
 
   saveEmployee = async employee => {
-    if (!employee.address.id) {
-      debugger;
-    }
-    const response = await fetch(`/api/employee/${this.props.employee.id}`, {
+    const {id} = this.props.employee;
+    const response = await fetch(`/api/employee/${id}`, {
       method: "PUT",
       body: JSON.stringify(employee),
       headers: {"Content-Type": "application/json"}
@@ -24,8 +22,8 @@ export default class EmployeeModal extends React.Component {
     if (!response.ok) {
       throw new Error(`Unable to save employee: ${employee.givenName} ${employee.familyName}`)
     }
-    toast.success(`Saved employee: ${employee.givenName} ${employee.familyName}`);
-    this.props.onSave();
+    toast.success(`Updated employee: ${employee.givenName} ${employee.familyName}`);
+    this.props.onSave(`employeeId-${id}`);
   };
 
   deleteEmployee = async () => {
