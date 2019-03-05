@@ -47,4 +47,14 @@ const inTransaction = async (pool, callback) => {
   }
 };
 
-module.exports = {responseToRows, nestAddress, nestManager, inTransaction};
+const diffLists = (oldList, newList) => {
+  const oldSet = oldList.reduce((set, role) => set.add(role), new Set());
+  const newSet = newList.reduce((set, role) => set.add(role), new Set());
+  const toDelete = [];
+  const toAdd = [];
+  oldSet.forEach(oldItem => newSet.has(oldItem) || toDelete.push(oldItem));
+  newSet.forEach(newItem => oldSet.has(newItem) || toAdd.push(newItem));
+  return {toAdd, toDelete};
+};
+
+module.exports = {responseToRows, nestAddress, nestManager, inTransaction, diffLists};

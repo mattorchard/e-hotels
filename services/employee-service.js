@@ -1,4 +1,4 @@
-const {inTransaction, responseToRows} = require("./postgres-service");
+const {inTransaction, responseToRows, diffLists} = require("./postgres-service");
 const addressService = require("./address-service");
 
 const parseEmployee = ({givenName, familyName, ssn, sin, hotelChainName, roles, address}) => {
@@ -12,12 +12,25 @@ const parseEmployee = ({givenName, familyName, ssn, sin, hotelChainName, roles, 
 };
 
 const insertRoles = async (client, employeeId, roles) => {
-  if (roles.length < 1) {
-    return;
-  }
-
+  if (roles.length < 1) {return;}
   const arguments = roles.map((role, index) => `($1, $${index + 2})`);
   await client.query(`INSERT INTO employee_role VALUES ${arguments.join(", ")}`, [employeeId, ...roles]);
+};
+
+const getRoles = async(client, employeeId) => {
+  const rolesResponse = await client.query(
+    "SELECT * FROM employee_role where employee_id = $1",
+    [employeeId]);
+  const rows = responseToRows(rolesResponse);
+  return rows.map(row => row.role);
+};
+
+const deleteRoles = async (client, employeeId, roles) => {
+  if (roles.length < 1) {return;}
+  const arguments = roles.map((r, i) => `$${i + 2}`);
+  return await client.query(
+    `DELETE FROM employee_role WHERE employee_id = $1 AND role IN (${arguments.join(", ")})`,
+    [employeeId, ...roles]);
 };
 
 const insertEmployee = async (client, {givenName, familyName, ssn, sin, hotelChainName, roles, address}) =>
@@ -30,12 +43,21 @@ const insertEmployee = async (client, {givenName, familyName, ssn, sin, hotelCha
     await insertRoles(client, employeeId, roles);
   });
 
-const updateEmployee = async(client, employeeId, {givenName, familyName, ssn, sin, hotelChainName, roles, address}) => {
-  const rolesResponse = await client.query("SELECT * FROM employee_role where employee_id = $1", [employeeId]);
-  const rows = responseToRows(rolesResponse);
-  const oldRoles = rows.map(row => row.role);
+
+
+const updateEmployee = async(client, employeeId, {ssn, sin, givenName, familyName, hotelChainName, roles, address}) => {
+  const oldRoles = await getRoles(client, employeeId);
+  const {toAdd: rolesToAdd, toDelete: rolesToDelete} = diffLists(oldRoles, roles);
+
   await inTransaction(client, async client => {
     await addressService.updateAddress(client, address);
+    await deleteRoles(client, employeeId, rolesToDelete);
+    await insertRoles(client, employeeId, rolesToAdd);
+    await client.query(
+      `UPDATE employee
+       SET ssn = $1, sin = $2, given_name = $3, family_name = $4, hotel_chain_name = $5
+       WHERE id = $6`,
+      [ssn, sin, givenName, familyName, hotelChainName, employeeId])
   });
 };
 module.exports = {parseEmployee, insertEmployee, updateEmployee};
