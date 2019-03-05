@@ -225,3 +225,8 @@ th.hidden-column {
 .ReactModal__Overlay {
     background-color: rgba(0, 0, 0, .5)!important;
 }
+
+.expanding-list__btn {
+    font-size: 1em;
+    margin-left: 0;
+}

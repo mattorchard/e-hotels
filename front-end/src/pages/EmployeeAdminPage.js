@@ -11,7 +11,7 @@ export default class EmployeeAdminPage extends React.Component {
   };
 
 
-  loadEmployees = async hash => {
+  loadEmployees = async elementId => {
     this.setState({loadingEmployees: true});
     const response = await fetch("/api/employees");
     if (!response.ok) {
@@ -19,7 +19,10 @@ export default class EmployeeAdminPage extends React.Component {
     }
     const employees = await response.json();
     this.setState({employees, loadingEmployees: false});
-    window.location.hash = hash;
+    // Scroll to item of interest
+    if (elementId) {
+      window.location.hash = elementId;
+    }
   };
 
   async componentDidMount() {

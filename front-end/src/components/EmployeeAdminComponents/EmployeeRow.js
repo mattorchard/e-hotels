@@ -1,6 +1,7 @@
 import React from "react";
 import Address from "../Address";
 import ClickableRow from "../ClickableRow";
+import ExpandingList from "../ExpandingList";
 
 const EmployeeRow = props => {
 
@@ -17,9 +18,11 @@ const EmployeeRow = props => {
     <td>{sin}</td>
     <td>
       <ul className="no-bullet">
-        {roles.map(role => <li key={role}>
-          {role}
-        </li>)}
+        <ExpandingList>
+          {roles.map(role => <li key={role}>
+            {role}
+          </li>)}
+        </ExpandingList>
       </ul>
     </td>
     <td><Address {...address}/></td>
