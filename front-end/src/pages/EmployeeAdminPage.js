@@ -19,8 +19,10 @@ export default class EmployeeAdminPage extends React.Component {
     }
     const employees = await response.json();
     this.setState({employees, loadingEmployees: false});
+
     // Scroll to item of interest
     if (elementId) {
+      window.location.hash = null;
       window.location.hash = elementId;
     }
   };
