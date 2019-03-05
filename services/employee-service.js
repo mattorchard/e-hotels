@@ -1,5 +1,5 @@
-const {inTransaction} = require("./postgres-service");
-const {insertAddress} = require("./address-service");
+const {inTransaction, responseToRows} = require("./postgres-service");
+const addressService = require("./address-service");
 
 const parseEmployee = ({givenName, familyName, ssn, sin, hotelChainName, roles, address}) => {
   if (!givenName || !familyName || !hotelChainName || !roles || !address || (!sin && !ssn)) {
@@ -22,7 +22,7 @@ const insertRoles = async (client, employeeId, roles) => {
 
 const insertEmployee = async (client, {givenName, familyName, ssn, sin, hotelChainName, roles, address}) =>
   await inTransaction(client, async client => {
-    const addressId = await insertAddress(client, address);
+    const addressId = await addressService.insertAddress(client, address);
     const employeeResponse = await client.query(
       "INSERT INTO employee VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id",
       [ssn, sin, givenName, familyName, addressId, hotelChainName]);
@@ -30,4 +30,12 @@ const insertEmployee = async (client, {givenName, familyName, ssn, sin, hotelCha
     await insertRoles(client, employeeId, roles);
   });
 
-module.exports = {insertRoles, parseEmployee, insertEmployee};
+const updateEmployee = async(client, employeeId, {givenName, familyName, ssn, sin, hotelChainName, roles, address}) => {
+  const rolesResponse = await client.query("SELECT * FROM employee_role where employee_id = $1", [employeeId]);
+  const rows = responseToRows(rolesResponse);
+  const oldRoles = rows.map(row => row.role);
+  await inTransaction(client, async client => {
+    await addressService.updateAddress(client, address);
+  });
+};
+module.exports = {parseEmployee, insertEmployee, updateEmployee};

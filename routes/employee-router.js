@@ -1,5 +1,5 @@
 const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
-const {insertEmployee, parseEmployee} = require('../services/employee-service');
+const employeeService = require('../services/employee-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const lodash = require("lodash");
@@ -8,7 +8,7 @@ const createError = require('http-errors');
 
 const createEmployee = async(req, res, next) => {
   try {
-    await insertEmployee(pool, parseEmployee(req.body));
+    await employeeService.insertEmployee(pool, employeeService.parseEmployee(req.body));
     return res.send({message: "Created"});
   } catch (error) {
     return next(error);
@@ -69,7 +69,18 @@ const getEmployee = async (req, res, next) => {
 };
 
 
-// Edit an employee
+const updateEmployee = async(req, res, next) => {
+  const {employeeId} = req.params;
+  if (!employeeId) {
+    return next(new createError.UnprocessableEntity("Must supply ID to update employee"));
+  }
+  try {
+    await employeeService.updateEmployee(pool, employeeId, employeeService.parseEmployee(req.body));
+    return res.send({message: "Updated employee"});
+  } catch (error) {
+    return next(error);
+  }
+};
 
 const deleteEmployee = async(req, res, next) => {
   const {employeeId} = req.params;
@@ -93,4 +104,4 @@ const deleteEmployee = async(req, res, next) => {
   }
 };
 
-module.exports = {createEmployee, getEmployees, getEmployee, deleteEmployee};
+module.exports = {createEmployee, getEmployees, getEmployee, deleteEmployee, updateEmployee};
