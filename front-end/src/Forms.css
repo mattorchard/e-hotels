@@ -1,12 +1,24 @@
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .radio-star-group {
     display: flex;
     align-items: center;
     margin-bottom: .5em;
 }
+
 .radio-star-group:focus-within {
     margin-bottom: .4em;
     border-bottom: .1em solid green;
 }
+
 .radio-star {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -19,12 +31,69 @@
     -webkit-clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
     clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
 }
+
 .radio-star:checked {
     background-color: green;
 }
+
 .radio-star:checked ~ .radio-star {
     background-color: grey;
 }
+
 .radio-star:focus {
     background-color: gold;
+}
+
+.vertical-form > label,
+.vertical-form > input,
+.vertical-form > label > input {
+    display: block;
+}
+
+.simple-form {
+    border: none;
+    font-size: 1.25em;
+}
+
+.simple-form label {
+    font-weight: bold;
+}
+
+.simple-form input {
+    padding: .1em;
+    font-size: .8em;
+    border: none;
+    border-bottom: .115em solid grey;
+    width: 100%;
+}
+
+.simple-form input:focus {
+    outline: none;
+    border-color: green;
+}
+
+.simple-form input:invalid {
+    outline: none;
+    border-color: red;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+}
+
+.list-input__list {
+    font-weight: normal;
+    font-size: .8em;
+    margin-top: 0;
+}
+
+.removable-list-item {
+    display: flex;
+    align-items: center;
+    margin: .25em 0;
+}
+
+.removable-list-item > .btn {
+    margin-left: 1em;
 }

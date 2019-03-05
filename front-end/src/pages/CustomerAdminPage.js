@@ -1,6 +1,6 @@
 import React from "react";
 import {AsyncItems} from "../components/AsyncItems";
-import CustomerRow from "../components/CustomerComponents/CustomerRow";
+import CustomerRow from "../components/CustomerAdminComponents/CustomerRow";
 import "./CustomerAdminPage.css";
 
 
@@ -19,6 +19,10 @@ export default class CustomerAdminPage extends React.Component {
     const customers = await response.json();
     this.setState({customers, loadingCustomers: false});
   }
+
+  openCustomerModal = customer => {
+    debugger;
+  };
 
 
   render() {
@@ -43,7 +47,7 @@ export default class CustomerAdminPage extends React.Component {
                       loadingMessage="Loading customers...">
 
             {this.state.customers.map(customer =>
-              <CustomerRow key={customer.id} {...customer}/>)}
+              <CustomerRow key={customer.id} {...customer} onSelectRow={this.openCustomerModal}/>)}
 
           </AsyncItems>
           </tbody>

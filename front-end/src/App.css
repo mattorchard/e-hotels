@@ -26,9 +26,20 @@ html, body, #root {
 }
 
 .banner {
-    padding: 2em;
+    padding: 1em 2em;
     background-color: green;
     color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.banner .btn {
+    border-color: white;
+    color: white;
+}
+
+.banner .spinner::after {
+    border-color: white;
 }
 
 .banner__heading-link {
@@ -37,8 +48,33 @@ html, body, #root {
     color: white;
 }
 
+.banner__actions {
+    display: flex;
+    margin: 0;
+}
+
 .banner__heading {
     margin: 0;
+}
+
+.banner__breadcrumbs {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.banner__breadcrumb {
+    max-width: 33vw;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.breadcrumbs li+li:before {
+    content: "/\00a0";
+    margin: .25em;
 }
 
 .main-content {
@@ -46,6 +82,10 @@ html, body, #root {
     margin: 0 auto;
     background-color: white;
     padding: 1em;
+}
+
+.main-content--clear {
+    background-color: transparent;
 }
 
 @media only screen and (min-width: 1300px) {
@@ -80,18 +120,37 @@ html, body, #root {
     transition-property: transform, box-shadow, color, background-color;
 }
 
+.btn:disabled {
+    color: grey;
+    border-color: grey;
+    cursor: default;
+}
+
 .btn--inline {
     padding: 0 .35em .25em;
     margin: .25em;
 }
 
-.btn:hover, .btn:focus, .btn.fill {
+.btn--char {
+    font-size: .75em;
+    padding: 0 .35em 0.2em;
+    width: 1.75em;
+    height: 1.75em;
+    margin: 0 .25em;
+    font-weight: 900;
+}
+
+.btn:hover:not(:disabled), .btn:focus, .btn.fill {
     color: white;
     background-color: green;
     outline: none;
 }
 
-.btn.fill:focus, .btn.fill:hover {
+.btn.fill:disabled {
+    background-color: grey;
+}
+
+.btn.fill:focus, .btn.fill:hover:not(:disabled) {
     box-shadow: 0 .2em .5em rgba(0, 128, 0, .4);
     transform: translate(0, -.1em);
 }
@@ -174,4 +233,40 @@ th.hidden-column {
 
 .clickable-row {
     cursor: pointer;
+}
+
+.ReactModal__Body--open {
+    overflow-y: hidden;
+    padding-right: 17px;
+}
+
+.modal-fit-content {
+    bottom: auto;
+    left: 50%;
+    padding: 2em;
+    position: fixed;
+    right: auto;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: auto;
+}
+
+.wrapper {
+    display: contents;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, .5)!important;
+}
+
+.expanding-list__btn {
+    font-size: 1em;
+    margin-left: 0;
 }

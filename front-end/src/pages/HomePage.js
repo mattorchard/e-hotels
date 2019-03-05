@@ -1,10 +1,17 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import "./HomePage.css";
+import HeaderContext from "../contexts/HeaderContext";
 
 
 
 export default class HomePage extends React.Component {
+  static contextType = HeaderContext;
+  componentDidMount() {
+    this.context.setPath([]);
+    this.context.setActions([]);
+  }
+
   render() {
     return <main className="main-content">
       <ul className="primary-nav-link__list">

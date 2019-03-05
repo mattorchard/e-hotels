@@ -117,7 +117,7 @@ CREATE TABLE employee_role (
     employee_id INTEGER,
     role VARCHAR(100),
     PRIMARY KEY (employee_id, role),
-    FOREIGN KEY (employee_id) REFERENCES employee(id)
+    FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE
 );
 
 CREATE TABLE customer (

@@ -1,7 +1,19 @@
-const {responseToRows, nestAddress} = require('../services/postgres-service');
+const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
+const employeeService = require('../services/employee-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const lodash = require("lodash");
+const createError = require('http-errors');
+
+
+const createEmployee = async(req, res, next) => {
+  try {
+    const employeeId = await employeeService.insertEmployee(pool, employeeService.parseEmployee(req.body));
+    return res.send({id: employeeId});
+  } catch (error) {
+    return next(error);
+  }
+};
 
 const getEmployees = async (req, res, next) => {
   try {
@@ -29,8 +41,67 @@ const getEmployees = async (req, res, next) => {
     next(error);
   }
 };
-// Add an employee
-// Edit an employee
-// Delete an employee
 
-module.exports = {getEmployees};
+const getEmployee = async (req, res, next) => {
+  const {employeeId} = req.params;
+  if (!employeeId) {
+    return next(new createError.UnprocessableEntity("Must supply ID to fetch employee"));
+  }
+  try {
+    const response = await pool.query(
+      `SELECT address.*, employee_role.role as roles, employee.*
+      FROM employee, address, employee_role
+      WHERE employee.id = $1
+      and employee.address_id = address.id
+      and employee_id = $1`, [employeeId]);
+    const rows = responseToRows(response);
+    if (rows.length < 1) {
+      return next(createError.NotFound("No employee with that ID"));
+    }
+    const employee = nestAddress(rows[0]);
+    employee.roles = rows.map(row => row.roles);
+    res.send(employee)
+  } catch (error) {
+    console.error(`Unable to fetch employee [${employeeId}]`, error);
+    next(error);
+  }
+
+};
+
+
+const updateEmployee = async(req, res, next) => {
+  const {employeeId} = req.params;
+  if (!employeeId) {
+    return next(new createError.UnprocessableEntity("Must supply ID to update employee"));
+  }
+  try {
+    await employeeService.updateEmployee(pool, employeeId, employeeService.parseEmployee(req.body));
+    return res.send({message: "Updated employee"});
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const deleteEmployee = async(req, res, next) => {
+  const {employeeId} = req.params;
+  if (!employeeId) {
+    return next(new createError.UnprocessableEntity("Must supply ID to delete employee"));
+  }
+
+  try {
+    const rows = responseToRows(await pool.query("SELECT address_id FROM employee WHERE id = $1", [employeeId]));
+    const [{addressId}] = rows;
+
+    await inTransaction(pool, async client => {
+      await client.query(`DELETE FROM employee WHERE id = $1`, [employeeId]);
+      await client.query(`DELETE FROM address WHERE id = $1`, [addressId]);
+    });
+
+    return res.send({message: `Deleted employee ${employeeId}`});
+  } catch (error) {
+    console.error(`Unable to delete employee [${employeeId}]`, error);
+    return next(error);
+  }
+};
+
+module.exports = {createEmployee, getEmployees, getEmployee, deleteEmployee, updateEmployee};

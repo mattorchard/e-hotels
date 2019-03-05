@@ -33,4 +33,29 @@ const nestAddress = ({streetNumber, streetName, city, country, addressId, ...par
 const nestManager = ({givenName, familyName, managerId, ...parent}) =>
   ({...parent, manager: {id: managerId, givenName, familyName}});
 
-module.exports = {responseToRows, nestAddress, nestManager};
+const inTransaction = async (pool, callback) => {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const result = await callback(client);
+    await client.query("COMMIT");
+    return result;
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+const diffLists = (oldList, newList) => {
+  const oldSet = oldList.reduce((set, role) => set.add(role), new Set());
+  const newSet = newList.reduce((set, role) => set.add(role), new Set());
+  const toDelete = [];
+  const toAdd = [];
+  oldSet.forEach(oldItem => newSet.has(oldItem) || toDelete.push(oldItem));
+  newSet.forEach(newItem => oldSet.has(newItem) || toAdd.push(newItem));
+  return {toAdd, toDelete};
+};
+
+module.exports = {responseToRows, nestAddress, nestManager, inTransaction, diffLists};

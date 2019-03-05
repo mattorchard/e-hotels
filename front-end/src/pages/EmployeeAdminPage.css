@@ -2,6 +2,7 @@
     box-shadow: 0 .5em 1em lightgray;
     padding: 1em;
     margin-bottom: 3em;
+    background-color: white;
 }
 
 .hotel-chain-card__head {
@@ -22,4 +23,9 @@
 .employee-table__head {
     background-color: green;
     color: white;
+}
+
+.employee-modal__actions {
+    justify-content: flex-end;
+    display: flex;
 }
