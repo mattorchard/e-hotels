@@ -6,6 +6,7 @@ const PersonFields = ({state, onChange}) => <>
     Given Name
     <input name="givenName"
            type="text"
+           maxLength="100"
            required
            value={state.givenName}
            onChange={onChange}/>
@@ -14,6 +15,7 @@ const PersonFields = ({state, onChange}) => <>
     Family Name
     <input name="familyName"
            type="text"
+           maxLength="100"
            required
            value={state.familyName}
            onChange={onChange}/>

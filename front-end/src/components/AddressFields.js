@@ -14,6 +14,7 @@ const AddressFields = ({state, onChange}) => <>
     Street Name
     <input name="streetName"
            type="text"
+           maxLength="100"
            required
            value={state.streetName}
            onChange={onChange}/>
@@ -22,6 +23,7 @@ const AddressFields = ({state, onChange}) => <>
     City
     <input name="city"
            type="text"
+           maxLength="100"
            required
            value={state.city}
            onChange={onChange}/>
@@ -30,6 +32,7 @@ const AddressFields = ({state, onChange}) => <>
     Country
     <input name="country"
            type="text"
+           maxLength="100"
            required
            value={state.country}
            onChange={onChange}/>

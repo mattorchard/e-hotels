@@ -35,6 +35,7 @@ export default class EmployeeForm extends ReactForm {
         <label>
           Hotel Chain
           <input type="text"
+                 maxLength="100"
                  disabled
                  value={this.state.hotelChainName}/>
         </label>
@@ -45,7 +46,7 @@ export default class EmployeeForm extends ReactForm {
                    name="roles"
                    value={this.state.roles || []}
                    onChange={this.handleInputChange}>
-          <input type="text"/>
+          <input type="text" maxLength="100"/>
         </ListInput>
 
         {this.props.disabled ||
