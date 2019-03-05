@@ -35,7 +35,7 @@ export default class EmployeeAdminPage extends React.Component {
       {url: "/", text: "Admin"},
       {url: "/admin/employees", text: "Employee"}
     ]);
-    this.context.setActions([]);
+    this.context.setActions(null);
     await this.loadEmployees();
   }
 

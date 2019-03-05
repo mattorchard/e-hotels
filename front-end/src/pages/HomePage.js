@@ -9,7 +9,7 @@ export default class HomePage extends React.Component {
   static contextType = HeaderContext;
   componentDidMount() {
     this.context.setPath([]);
-    this.context.setActions([]);
+    this.context.setActions(null);
   }
 
   render() {
