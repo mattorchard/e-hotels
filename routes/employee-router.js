@@ -1,18 +1,14 @@
 const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
-const {insertAddress} = require('../services/address-service');
+const {insertEmployee, parseEmployee} = require('../services/employee-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const lodash = require("lodash");
 const createError = require('http-errors');
 
+
 const createEmployee = async(req, res, next) => {
   try {
-    const {givenName, familyName, ssn, sin, roles, address} = req.body;
-
-    await inTransaction(pool, async client => {
-      await insertAddress(client, address);
-      // Todo: Add employee and roles
-    });
+    await insertEmployee(pool, parseEmployee(req.body));
     return res.send({message: "Created"});
   } catch (error) {
     return next(error);
