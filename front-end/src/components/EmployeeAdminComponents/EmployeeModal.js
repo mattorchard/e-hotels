@@ -13,7 +13,14 @@ export default class EmployeeModal extends React.Component {
   };
 
   saveEmployee = async employee => {
-    const response = await fetch(`/api/employee/${this.props.employee.id}`, {method: "PUT", body: employee});
+    if (!employee.address.id) {
+      debugger;
+    }
+    const response = await fetch(`/api/employee/${this.props.employee.id}`, {
+      method: "PUT",
+      body: JSON.stringify(employee),
+      headers: {"Content-Type": "application/json"}
+    });
     if (!response.ok) {
       throw new Error(`Unable to save employee: ${employee.givenName} ${employee.familyName}`)
     }

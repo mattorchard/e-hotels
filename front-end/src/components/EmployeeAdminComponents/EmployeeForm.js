@@ -9,15 +9,19 @@ export default class EmployeeForm extends ReactForm {
     super(props);
     const {id, ssn, sin, givenName, familyName, hotelChainName, roles, address} = props.employee;
     this.state = {
-      id, givenName, familyName, hotelChainName, roles, ...address,
+      givenName, familyName, hotelChainName, roles, ...address,
       sin: sin || "", ssn: ssn || ""
     };
+    this.employeeId = id;
+    this.addressId = address.id;
   }
 
   onSubmit = async event => {
     event.preventDefault();
-    const {id, ssn, sin, givenName, familyName, hotelChainName, roles, ...address} = this.state;
-    const employee = {id, ssn, sin, givenName, familyName, hotelChainName, roles, address};
+    const {ssn, sin, givenName, familyName, hotelChainName, roles, ...address} = this.state;
+    const employee = {ssn, sin, givenName, familyName, hotelChainName, roles, address: {
+      ...address, id: this.addressId
+    }};
     try {
       await this.props.onSubmit(employee);
     } catch (error) {
