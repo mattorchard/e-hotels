@@ -31,13 +31,16 @@ export default class EmployeeAdminPage extends React.Component {
   };
 
   async componentDidMount() {
-    this.context.setPath(">Employee");
+    this.context.setPath([
+      {url: "/", text: "Admin"},
+      {url: "/admin/employees", text: "Employee"}
+    ]);
+    this.context.setActions([]);
     await this.loadEmployees();
   }
 
   render() {
-    return <main className="main-content">
-      <h2>Employees</h2>
+    return <main className="main-content main-content--clear">
       <ul className="no-bullet">
         <AsyncItems loading={this.state.loadingEmployees}
                     placeholderMessage="No employees"

@@ -29,6 +29,8 @@ html, body, #root {
     padding: 2em;
     background-color: green;
     color: white;
+    display: flex;
+    justify-content: space-between;
 }
 
 .banner__heading-link {
@@ -37,8 +39,25 @@ html, body, #root {
     color: white;
 }
 
+.banner__actions {
+    display: flex;
+    margin: 0;
+}
+
 .banner__heading {
     margin: 0;
+}
+
+.banner__breadcrumbs {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: flex;
+}
+
+.breadcrumbs li+li:before {
+    content: "/\00a0";
+    margin: .25em;
 }
 
 .main-content {
@@ -46,6 +65,10 @@ html, body, #root {
     margin: 0 auto;
     background-color: white;
     padding: 1em;
+}
+
+.main-content--clear {
+    background-color: transparent;
 }
 
 @media only screen and (min-width: 1300px) {

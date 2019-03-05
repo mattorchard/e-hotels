@@ -19,9 +19,9 @@ export default class EmployeeTable extends React.Component {
   render() {
     return <li className="hotel-chain-card">
       <div className="hotel-chain-card__head">
-        <h3 id={this.props.hotelChainName} className="hotel-chain-card__title">
+        <h2 id={this.props.hotelChainName} className="hotel-chain-card__title">
           {this.props.hotelChainName}
-        </h3>
+        </h2>
 
         <button className="btn fill add-btn"
                 type="button"
