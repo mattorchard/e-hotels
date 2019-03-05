@@ -33,6 +33,9 @@ const nestAddress = ({streetNumber, streetName, city, country, addressId, ...par
 const nestManager = ({givenName, familyName, managerId, ...parent}) =>
   ({...parent, manager: {id: managerId, givenName, familyName}});
 
+const nestCustomer = ({givenName, familyName, customerId, ...parent}) =>
+  ({...parent, customer: {id: customerId, givenName, familyName}});
+
 const inTransaction = async (pool, callback) => {
   const client = await pool.connect();
   try {
@@ -58,4 +61,4 @@ const diffLists = (oldList, newList) => {
   return {toAdd, toDelete};
 };
 
-module.exports = {responseToRows, nestAddress, nestManager, inTransaction, diffLists};
+module.exports = {responseToRows, nestAddress, nestManager, nestCustomer, inTransaction, diffLists};

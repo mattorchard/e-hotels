@@ -6,6 +6,7 @@ const {getHotels} = require('./hotel-router');
 const {getRooms} = require('./room-router');
 const {getEmployees, getEmployee, deleteEmployee, createEmployee, updateEmployee} = require('./employee-router');
 const {getCustomers} = require('./customer-router');
+const {getBookings} = require('./booking-router');
 
 router.get('/test', (req, res) =>
   res.send({"Howdy": "World"})
@@ -16,6 +17,7 @@ router.get("/hotel-chains", getHotelChains);
 router.get("/hotel-chains/:hotelChainName/hotels", getHotels);
 
 router.get("/hotel-chains/:hotelChainName/:hotelId/rooms", getRooms);
+router.get("/hotel-chains/:hotelChainName/:hotelId/bookings", getBookings);
 
 router.post("/employee", createEmployee);
 router.get("/employees", getEmployees);
