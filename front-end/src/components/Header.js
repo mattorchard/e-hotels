@@ -11,13 +11,14 @@ export class Header extends React.Component {
     return <header className="banner">
       <h1 className="banner__heading">
         <ol className="banner__breadcrumbs breadcrumbs">
-          <li>
+          <li className="banner__breadcrumb">
             <Link to="/" className="banner__heading-link">
               E-Hotels
             </Link>
           </li>
-          {path.map(({url, text}) => <li key={text}>
-            <Link to={url} className="banner__heading-link">{text}</Link>
+          {path.map(({url, text, className}) =>
+            <li key={text} className="banner__breadcrumb">
+            <Link to={url} className={"banner__heading-link " + className}>{text}</Link>
           </li>)}
 
         </ol>
