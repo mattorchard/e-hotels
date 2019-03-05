@@ -1,10 +1,13 @@
 import React from "react";
 import {AsyncItems} from "../components/AsyncItems";
 import EmployeeTable from "../components/EmployeeAdminComponents/EmployeeTable";
+import HeaderContext from "../contexts/HeaderContext";
 import "./EmployeeAdminPage.css";
 
 
 export default class EmployeeAdminPage extends React.Component {
+  static contextType = HeaderContext;
+
   state = {
     loadingEmployees: false,
     employees: []
@@ -28,6 +31,7 @@ export default class EmployeeAdminPage extends React.Component {
   };
 
   async componentDidMount() {
+    this.context.setPath(">Employee");
     await this.loadEmployees();
   }
 

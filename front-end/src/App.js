@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import './Forms.css';
-import {Route, BrowserRouter, Switch, Link} from "react-router-dom";
+import {Route, BrowserRouter, Switch} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import HotelChainAdminPage from "./pages/HotelChainAdminPage";
 import CustomerAdminPage from "./pages/CustomerAdminPage";
@@ -10,18 +10,14 @@ import NotFoundPage from "./pages/NotFoundPage";
 import EmployeeActionsPage from "./pages/EmployeeActionsPage";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
+import {Header} from "./components/Header";
+import HeaderProvider from "./contexts/HeaderProvider";
 
 class App extends React.Component {
   render() {
     return <BrowserRouter>
-      <>
-        <header className="banner">
-            <h1 className="banner__heading">
-              <Link to="/" className="banner__heading-link">
-                E-Hotels
-              </Link>
-            </h1>
-        </header>
+      <HeaderProvider>
+        <Header/>
         <Switch>
           <Route path="/" component={HomePage} exact={true}/>
           <Route path="/admin/hotel-chains" component={HotelChainAdminPage}/>
@@ -32,7 +28,7 @@ class App extends React.Component {
           <Route component={NotFoundPage}/>
         </Switch>
         <ToastContainer />
-      </>
+      </HeaderProvider>
     </BrowserRouter>;
   }
 }
