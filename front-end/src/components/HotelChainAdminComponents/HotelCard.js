@@ -29,7 +29,7 @@ export default class HotelCard extends React.Component {
   };
 
   render() {
-    return <form className="hotel-card">
+    return <form className="large-card">
       <div className="hotel-card__head">
         <h5 className="hotel-card__title">
           <Address {...this.props.address}/>
@@ -39,7 +39,7 @@ export default class HotelCard extends React.Component {
           {this.props.manager.givenName} {this.props.manager.familyName}
         </div>
         <div className="hotel-card__head__end">
-          <Stars number={this.props.category} name="radio stars"/>
+          <Stars number={this.props.category} name="radio-stars"/>
         </div>
       </div>
 
