@@ -33,14 +33,15 @@ const deleteRoles = async (client, employeeId, roles) => {
     [employeeId, ...roles]);
 };
 
-const insertEmployee = async (client, {givenName, familyName, ssn, sin, hotelChainName, roles, address}) =>
-  await inTransaction(client, async client => {
+const insertEmployee = (client, {givenName, familyName, ssn, sin, hotelChainName, roles, address}) =>
+  inTransaction(client, async client => {
     const addressId = await addressService.insertAddress(client, address);
     const employeeResponse = await client.query(
       "INSERT INTO employee VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id",
       [ssn, sin, givenName, familyName, addressId, hotelChainName]);
     const employeeId = employeeResponse.rows[0].id;
     await insertRoles(client, employeeId, roles);
+    return employeeId;
   });
 
 
@@ -57,7 +58,7 @@ const updateEmployee = async(client, employeeId, {ssn, sin, givenName, familyNam
       `UPDATE employee
        SET ssn = $1, sin = $2, given_name = $3, family_name = $4, hotel_chain_name = $5
        WHERE id = $6`,
-      [ssn, sin, givenName, familyName, hotelChainName, employeeId])
+      [ssn, sin, givenName, familyName, hotelChainName, employeeId]);
   });
 };
 module.exports = {parseEmployee, insertEmployee, updateEmployee};

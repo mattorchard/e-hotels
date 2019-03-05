@@ -8,8 +8,8 @@ const createError = require('http-errors');
 
 const createEmployee = async(req, res, next) => {
   try {
-    await employeeService.insertEmployee(pool, employeeService.parseEmployee(req.body));
-    return res.send({message: "Created"});
+    const employeeId = await employeeService.insertEmployee(pool, employeeService.parseEmployee(req.body));
+    return res.send({id: employeeId});
   } catch (error) {
     return next(error);
   }

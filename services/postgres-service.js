@@ -37,8 +37,9 @@ const inTransaction = async (pool, callback) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    await callback(client);
+    const result = await callback(client);
     await client.query("COMMIT");
+    return result;
   } catch (error) {
     await client.query("ROLLBACK");
     throw error;
