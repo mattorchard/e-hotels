@@ -7,6 +7,7 @@ const {getRooms} = require('./room-router');
 const {getEmployees, getEmployee, deleteEmployee, createEmployee, updateEmployee} = require('./employee-router');
 const {getCustomers} = require('./customer-router');
 const {getBookings} = require('./booking-router');
+const {getRoomsAvailableForRent} = require ('./rental-router');
 
 router.get('/test', (req, res) =>
   res.send({"Howdy": "World"})
@@ -18,6 +19,7 @@ router.get("/hotel-chains/:hotelChainName/hotels", getHotels);
 
 router.get("/hotel-chains/:hotelChainName/:hotelId/rooms", getRooms);
 router.get("/hotel-chains/:hotelChainName/:hotelId/bookings", getBookings);
+router.get("/hotel-chains/:hotelChainName/:hotelId/rentals", getRoomsAvailableForRent);
 
 router.post("/employee", createEmployee);
 router.get("/employees", getEmployees);
