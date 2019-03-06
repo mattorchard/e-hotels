@@ -45,8 +45,7 @@ export default class EmployeeActionsPage extends React.Component {
   render() {
     // Todo: Add hotelChainName to url to avoid awaiting login before loading check in
     if (this.state.employee) {
-      const {employeeId} = this.props;
-      const {hotelChainName} = this.state.employee;
+      const {hotelChainName, id: employeeId} = this.state.employee;
       return <main className="main-content main-content--clear">
         <CheckIn employeeId={employeeId} hotelChainName={hotelChainName}/>
       </main>

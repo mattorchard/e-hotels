@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: flex-start;
 }
-.customer-select__head {
+.customer-select__head, .room-select__head {
     color: white;
     background-color: green;
 }

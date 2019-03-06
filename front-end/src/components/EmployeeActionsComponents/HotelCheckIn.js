@@ -1,7 +1,7 @@
 import React from "react";
 import Address from "../Address";
 import Stars from "../Stars";
-import CreateRenting from "./CreateRenting";
+import CreateRental from "./CreateRental";
 
 
 export default class HotelCheckIn extends React.Component {
@@ -11,7 +11,7 @@ export default class HotelCheckIn extends React.Component {
   };
 
   render() {
-    const {hotel, hotelChainName} = this.props;
+    const {hotel, hotelChainName, employeeId} = this.props;
     const {category, address, manager} = hotel;
     return <section className="large-card">
       <div className="check-in-card__head">
@@ -31,9 +31,10 @@ export default class HotelCheckIn extends React.Component {
         </button>
       </div>
       {this.state.creatingRenting ?
-        <CreateRenting
+        <CreateRental
           hotelId={hotel.id}
           hotelChainName={hotelChainName}
+          employeeId={employeeId}
           onRequestClose={() => this.setState({creatingRenting: false})}/> :
         <button
           type="button"

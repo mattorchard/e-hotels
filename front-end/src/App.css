@@ -280,6 +280,7 @@ th.hidden-column {
 }
 
 .clickable-row.selected-row{
-    color: white;
-    background-color: green;
+    /*color: white;*/
+    /*background-color: green;*/
+    border: .2em dashed green;
 }

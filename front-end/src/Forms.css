@@ -69,6 +69,7 @@ input[type="number"] {
     border: none;
     border-bottom: .115em solid grey;
     width: 100%;
+    margin-bottom: .25em;
 }
 
 .simple-form input:focus {
@@ -91,6 +92,7 @@ input[type="number"] {
     font-size: .75em;
     border-collapse: collapse;
     min-width: 100%;
+    margin-bottom: 1em;
 }
 
 .list-input__list {
