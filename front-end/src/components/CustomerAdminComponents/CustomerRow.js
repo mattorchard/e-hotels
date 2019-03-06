@@ -9,11 +9,11 @@ const CustomerRow = props => {
 
   return <ClickableRow className="striped customer-row" onClick={() => onSelectRow(props)}>
     <td><strong>{id}</strong></td>
-    <td>{ssn}</td>
-    <td>{sin}</td>
     <td>
       {givenName} {familyName}
     </td>
+    <td>{ssn}</td>
+    <td>{sin}</td>
     <td>{formatDateShort(new Date(registeredOn))}</td>
     <td><Address {...address}/></td>
   </ClickableRow>

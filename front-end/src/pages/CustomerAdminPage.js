@@ -33,9 +33,9 @@ export default class CustomerAdminPage extends React.Component {
           <thead className="customer-table__head">
           <tr>
             <th>ID</th>
-            <th>SIN</th>
-            <th>SSN</th>
             <th>Name</th>
+            <th>SSN</th>
+            <th>SIN</th>
             <th>Registered On</th>
             <th>Address</th>
           </tr>
