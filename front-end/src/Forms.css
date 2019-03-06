@@ -54,6 +54,10 @@ input[type="number"] {
     display: block;
 }
 
+.scroll-form {
+    overflow: auto;
+}
+
 .simple-form {
     border: none;
     font-size: 1.25em;

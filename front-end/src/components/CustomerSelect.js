@@ -42,28 +42,30 @@ export default class CustomerSelect extends React.Component {
              onChange={() => {}}
              aria-label="Select a customer"
              className="hidden-input"/>
-      <table className="input-table">
-        <thead className="customer-select__head">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>SSN</th>
-          <th>SIN</th>
-          <th>Registered On</th>
-          <th>Address</th>
-        </tr>
-        </thead>
-        <tbody>
-        <AsyncItems loading={loadingCustomers} wrapper="table">
-          {customers.map(customer =>
-            <CustomerRow
-              key={customer.id}
-              className={customer.id === value && "selected-row"}
-              {...customer}
-              onSelectRow={onChange}/>)}
-        </AsyncItems>
-        </tbody>
-      </table>
+      <div className="horizontal-scroll">
+        <table className="input-table">
+          <thead className="customer-select__head">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>SSN</th>
+            <th>SIN</th>
+            <th>Registered On</th>
+            <th>Address</th>
+          </tr>
+          </thead>
+          <tbody>
+          <AsyncItems loading={loadingCustomers} wrapper="table">
+            {customers.map(customer =>
+              <CustomerRow
+                key={customer.id}
+                className={customer.id === value && "selected-row"}
+                {...customer}
+                onSelectRow={onChange}/>)}
+          </AsyncItems>
+          </tbody>
+        </table>
+      </div>
     </>
   }
 }

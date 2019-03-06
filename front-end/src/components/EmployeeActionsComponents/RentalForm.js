@@ -59,7 +59,7 @@ export default class RentalForm extends ReactForm {
     const {customerId, endDate, roomNumber, rooms, loadingRooms} = this.state;
     const startDate = moment().startOf('day');
 
-    return <form onSubmit={this.onSubmit}>
+    return <form onSubmit={this.onSubmit} className="scroll-form">
       <fieldset disabled={disabled} className="simple-form">
         <label>
           Hotel Chain
@@ -83,6 +83,7 @@ export default class RentalForm extends ReactForm {
               startDateId={`startDate-${hotelChainName}-${hotelId}`}
               disabled={START_DATE}
               endDate={endDate}
+              numberOfMonths={window.innerWidth < 1000 ? 1 : 2}
               endDateId={`endDate-${hotelChainName}-${hotelId}`}
               onDatesChange={this.onDatesChange}
               focusedInput={this.state.focusedInput}
