@@ -1,14 +1,14 @@
 import React from "react";
 import "./EmployeeActionsPage.css";
-import {Link} from "react-router-dom";
-import HeaderContext from "../contexts/HeaderContext";
 import CheckIn from "../components/EmployeeActionsComponents/CheckIn";
 import {toast} from "react-toastify";
+import AccountContext from "../contexts/AccountContext";
 
 export default class EmployeeActionsPage extends React.Component {
-  static contextType = HeaderContext;
+  static contextType = AccountContext;
+
   state = {
-    employee: null
+    loadingEmployee: true
   };
 
   loadEmployee = async employeeId => {
@@ -17,25 +17,14 @@ export default class EmployeeActionsPage extends React.Component {
       throw new Error("Unable to fetch employee");
     }
     const employee = await response.json();
-    this.setState({employee});
-    return employee;
+    this.context.setAccount({accountType: "employee", ...employee});
+    this.setState({loadingEmployee: false});
   };
 
   async componentDidMount() {
     const {employeeId} = this.props.match.params;
-
-    this.context.setActions(<Link to="/admin/employees" className="btn">Logout</Link>);
-    this.context.setPath([
-      {url: "/admin/employees", text: "Employees"},
-      {url: `/employee/${employeeId}`, text: employeeId + " ", className: "spinner"}
-    ]);
     try {
-      const {givenName, familyName} = await this.loadEmployee(employeeId);
-
-      this.context.setPath([
-        {url: "/admin/employees", text: "Employees"},
-        {url: `/employee/${employeeId}`, text: `${givenName} ${familyName}`}
-      ]);
+      await this.loadEmployee(employeeId);
     } catch (error) {
       console.error(error);
       toast.error("Unable to login");
@@ -43,15 +32,15 @@ export default class EmployeeActionsPage extends React.Component {
   }
 
   render() {
-    // Todo: Add hotelChainName to url to avoid awaiting login before loading check in
-    if (this.state.employee) {
-      const {hotelChainName, id: employeeId} = this.state.employee;
-      return <main className="main-content main-content--clear">
-        <CheckIn employeeId={employeeId} hotelChainName={hotelChainName}/>
-      </main>
-    } else {
+    if (this.state.loadingEmployee) {
       return <main className="main-content">
         <h2 className="spinner">Logging in...</h2>
+      </main>
+    } else {
+      const {hotelChainName, givenName, familyName, id: employeeId} = this.context.account;
+      return <main className="main-content main-content--clear">
+        <h2>Logged in as: {givenName} {familyName}</h2>
+        <CheckIn employeeId={employeeId} hotelChainName={hotelChainName}/>
       </main>
     }
   }
