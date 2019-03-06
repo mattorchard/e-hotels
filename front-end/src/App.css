@@ -279,7 +279,7 @@ th.hidden-column {
     background-color: white;
 }
 
-.selected-row {
+.clickable-row.selected-row{
     color: white;
     background-color: green;
 }

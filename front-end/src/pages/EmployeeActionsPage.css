@@ -3,3 +3,7 @@
     justify-content: space-between;
     align-items: flex-start;
 }
+.customer-select__head {
+    color: white;
+    background-color: green;
+}

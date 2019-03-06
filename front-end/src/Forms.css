@@ -86,6 +86,13 @@ input[type="number"] {
     align-items: center;
 }
 
+.input-table {
+    font-weight: normal;
+    font-size: .75em;
+    border-collapse: collapse;
+    min-width: 100%;
+}
+
 .list-input__list {
     font-weight: normal;
     font-size: .8em;

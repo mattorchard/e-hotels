@@ -9,11 +9,17 @@ export default class RentalForm extends ReactForm {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      customerId: null,
+      roomNumber: null,
+      startDate: null,
+      endDate: null
+    }
   }
 
   onSubmit = async () => {
-    const booking = this.state;
+    const {employeeId, hotelChainName, hotelId} = this.props;
+    const booking = {employeeId, hotelChainName, hotelId, ...this.state};
     await this.props.onSubmit(booking);
   };
 
@@ -37,7 +43,10 @@ export default class RentalForm extends ReactForm {
 
         <label>
           Customer
-          <CustomerSelect customers={customers}/>
+          <CustomerSelect
+            customers={customers}
+            value={this.state.customerId}
+            onChange={({id}) => this.setState({customerId: id})}/>
         </label>
 
         <label>

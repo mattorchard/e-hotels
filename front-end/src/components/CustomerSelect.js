@@ -9,9 +9,9 @@ export default class CustomerSelect extends React.Component {
     const {onChange, customers, value} = this.props;
 
     return <>
-      <input type="hidden" value={value}/>
-      <table>
-        <thead>
+      <input type="hidden" value={value} onChange={onChange}/>
+      <table className="input-table">
+        <thead className="customer-select__head">
         <tr>
           <th>ID</th>
           <th>Name</th>
