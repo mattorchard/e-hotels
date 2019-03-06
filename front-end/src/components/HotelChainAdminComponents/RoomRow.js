@@ -3,24 +3,25 @@ import React from "react";
 
 export default class RoomRow extends React.Component {
   render() {
+    const {roomNumber, price, capacity, extendable, scenery, amenities, damages} = this.props;
     return <tr className="striped">
       <td>
-        <strong>#{this.props.roomNumber}</strong>
+        <strong>#{roomNumber}</strong>
       </td>
       <td>
-        ${this.props.price}
+        ${price}
       </td>
       <td>
-        {this.props.capacity}<span title="Extendable">{this.props.extendable && "+"}</span>
+        {capacity}<span title="Extendable">{extendable && "+"}</span>
       </td>
       <td>
-        {this.props.scenery}
+        {scenery}
       </td>
       <td>
-        {this.props.amenities.join(" ")}
+        {amenities.join(" ")}
       </td>
       <td>
-        {this.props.damages.join(" ")}
+        {damages.join(" ")}
       </td>
     </tr>
   }
