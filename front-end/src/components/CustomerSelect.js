@@ -1,13 +1,40 @@
 import React from "react";
 import CustomerRow from "./CustomerAdminComponents/CustomerRow";
+import {toast} from "react-toastify";
+import {AsyncItems} from "./AsyncItems";
 
 
 export default class CustomerSelect extends React.Component {
 
+  state = {
+    loadingCustomers: false,
+    customers: []
+  };
+
+  loadCustomers = async () => {
+    this.setState({loadingCustomers: true});
+    try {
+      const response = await fetch("/api/customers");
+      if (!response.ok) {
+        throw Error(`Unable to fetch customers ${response.status}`);
+      }
+      const customers = await response.json();
+      this.setState({customers, loadingCustomers: false});
+    } catch (error) {
+      console.error(error);
+      toast.error("Unable to fetch customers");
+      this.setState({loadingCustomers: false});
+    }
+  };
+
+
+  async componentDidMount() {
+    await this.loadCustomers();
+  }
 
   render() {
-    const {onChange, customers, value} = this.props;
-
+    const {onChange, value} = this.props;
+    const {customers, loadingCustomers} = this.state;
     return <>
       <input type="hidden" value={value} onChange={onChange}/>
       <table className="input-table">
@@ -22,12 +49,14 @@ export default class CustomerSelect extends React.Component {
         </tr>
         </thead>
         <tbody>
-        {customers.map(customer =>
-          <CustomerRow
-            key={customer.id}
-            className={customer.id === value && "selected-row"}
-            {...customer}
-            onSelectRow={onChange}/>)}
+        <AsyncItems loading={loadingCustomers} wrapper="table">
+          {customers.map(customer =>
+            <CustomerRow
+              key={customer.id}
+              className={customer.id === value && "selected-row"}
+              {...customer}
+              onSelectRow={onChange}/>)}
+        </AsyncItems>
         </tbody>
       </table>
     </>

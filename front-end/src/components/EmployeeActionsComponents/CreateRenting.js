@@ -8,11 +8,11 @@ export default class CreateRenting extends React.Component {
   };
 
   render() {
-    const {customers, hotelChainName, hotelId, onRequestClose} = this.props;
+    const {hotelChainName, hotelId, onRequestClose} = this.props;
     return <div className="create-renting">
       <hr/>
       <h3>Create Renting</h3>
-      <RentalForm booking={{hotelChainName, hotelId}} customers={customers} onSubmit={this.saveRenting}>
+      <RentalForm booking={{hotelChainName, hotelId}} onSubmit={this.saveRenting}>
         <button type="button" className="btn btn--inline" onClick={onRequestClose}>
           Cancel
         </button>

@@ -5,26 +5,27 @@ import moment from "moment";
 import CustomerSelect from "../CustomerSelect";
 import RoomSelect from "../RoomSelect";
 
+
+
 export default class RentalForm extends ReactForm {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      customerId: null,
-      roomNumber: null,
-      startDate: null,
-      endDate: null
-    }
-  }
+  state = {
+    customerId: "",
+    roomNumber: "",
+    startDate: null,
+    endDate: null
+  };
 
   onSubmit = async () => {
     const {employeeId, hotelChainName, hotelId} = this.props;
-    const booking = {employeeId, hotelChainName, hotelId, ...this.state};
+    const {customerId, roomNumber, startDate, endDate} = this.state;
+    const booking = {employeeId, hotelChainName, hotelId, customerId, roomNumber, startDate, endDate};
     await this.props.onSubmit(booking);
   };
 
+
   render() {
-    const {booking, disabled, children, customers} = this.props;
+    const {booking, disabled, children} = this.props;
     const {hotelChainName, hotelId} = booking;
     return <form onSubmit={this.onSubmit}>
       <fieldset disabled={disabled} className="simple-form">
@@ -44,7 +45,7 @@ export default class RentalForm extends ReactForm {
         <label>
           Customer
           <CustomerSelect
-            customers={customers}
+            customers={this.state.customers}
             value={this.state.customerId}
             onChange={({id}) => this.setState({customerId: id})}/>
         </label>
