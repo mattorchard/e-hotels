@@ -29,7 +29,7 @@ export default class RentalForm extends ReactForm {
   };
 
   onDatesChange = async ({startDate, endDate}) => {
-    this.setState({startDate, endDate});
+    this.setState({startDate, endDate, roomNumber: ""});
     const {hotelChainName, hotelId} = this.props;
     await this.loadRooms(({hotelChainName, hotelId, startDate, endDate}));
   };

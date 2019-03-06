@@ -36,7 +36,12 @@ export default class CustomerSelect extends React.Component {
     const {onChange, value} = this.props;
     const {customers, loadingCustomers} = this.state;
     return <>
-      <input type="hidden" value={value} onChange={onChange} required aria-label="Select a customer"/>
+      <input type="number"
+             value={value}
+             required
+             onChange={() => {}}
+             aria-label="Select a customer"
+             className="hidden-input"/>
       <table className="input-table">
         <thead className="customer-select__head">
         <tr>
