@@ -13,7 +13,8 @@ export default class BookingsTable extends React.Component {
   loadBookings = async() => {
     try {
       this.setState({loadingBookings: true});
-      const response = await fetch(`/api`);
+      const {hotelChainName, hotelId} = this.props;
+      const response = await fetch(`/api/hotel-chains/${hotelChainName}/${hotelId}/bookings`);
       if (!response.ok) {
         throw new Error(`Unable to fetch bookings [${response.status}]`);
       }

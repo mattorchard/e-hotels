@@ -6,7 +6,7 @@ import BookingsTable from "./BookingsTable";
 
 export default class HotelCheckIn extends React.Component {
   render() {
-    const {employee, hotel, hotelChainName} = this.props;
+    const {hotel, hotelChainName} = this.props;
     const {category, address, manager} = hotel;
     return <section className="large-card">
       <div className="check-in-card__head">
