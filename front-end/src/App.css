@@ -278,3 +278,8 @@ th.hidden-column {
     box-shadow: 0 .5em .5em lightgray;
     background-color: white;
 }
+
+.selected-row {
+    color: white;
+    background-color: green;
+}

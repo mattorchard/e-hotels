@@ -1,6 +1,4 @@
 import React from 'react';
-import './App.css';
-import './Forms.css';
 import {Route, BrowserRouter, Switch} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import HotelChainAdminPage from "./pages/HotelChainAdminPage";
@@ -10,8 +8,13 @@ import NotFoundPage from "./pages/NotFoundPage";
 import EmployeeActionsPage from "./pages/EmployeeActionsPage";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
 import {Header} from "./components/Header";
 import HeaderProvider from "./contexts/HeaderProvider";
+import './App.css';
+import './Forms.css';
+
 
 class App extends React.Component {
   render() {
