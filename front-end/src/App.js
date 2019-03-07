@@ -14,6 +14,7 @@ import Header from "./components/Header";
 import './App.css';
 import './Forms.css';
 import AccountProvider from "./contexts/AccountProvider";
+import CustomerActionsPage from "./pages/CustomerActionsPage";
 
 
 class App extends React.Component {
@@ -27,6 +28,7 @@ class App extends React.Component {
           <Route path="/admin/customers" component={CustomerAdminPage}/>
           <Route path="/admin/employees" component={EmployeeAdminPage}/>
           <Route path="/employee/:employeeId" component={EmployeeActionsPage}/>
+          <Route path="/customer/:customerId" component={CustomerActionsPage}/>
 
           <Route component={NotFoundPage}/>
         </Switch>
