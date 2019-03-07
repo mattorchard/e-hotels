@@ -1,13 +1,35 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import HeaderContext from "../contexts/HeaderContext";
+import {Link, withRouter} from "react-router-dom";
+import AccountContext from "../contexts/AccountContext";
 
 
-export class Header extends React.Component {
-  static contextType = HeaderContext;
+class HeaderActions extends React.Component {
+  static contextType = AccountContext;
+
 
   render() {
-    const {path, actions} = this.context;
+    const {accountType} = this.context.account;
+    if (!accountType) {
+      return "";
+    }
+    let to = "/";
+    if (accountType === "employee") {
+      to = "/admin/employees";
+    } else if (accountType === "customer") {
+      to = "/admin/customers";
+    }
+    return <div className="banner__actions">
+      <Link to={to} className="btn">
+        Logout
+      </Link>
+    </div>
+  }
+}
+
+class Header extends React.Component {
+
+  render() {
+    const path = this.props.location.pathname;
     return <header className="banner">
       <h1 className="banner__heading">
         <ol className="banner__breadcrumbs breadcrumbs">
@@ -16,16 +38,11 @@ export class Header extends React.Component {
               E-Hotels
             </Link>
           </li>
-          {path.map(({url, text, className}) =>
-            <li key={text} className="banner__breadcrumb">
-            <Link to={url} className={"banner__heading-link " + className}>{text}</Link>
-          </li>)}
-
+          {path}
         </ol>
       </h1>
-      <div className="banner__actions">
-        {actions}
-      </div>
+      <HeaderActions/>
     </header>
   }
 }
+export default withRouter(Header);

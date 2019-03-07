@@ -7,12 +7,6 @@
     color: white;
 }
 
-.hotel-card {
-    padding: 1em;
-    margin-bottom: 1.5em;
-    box-shadow: 0 .5em .5em lightgray;
-}
-
 .hotel-card__head {
     display: flex;
     align-items: center;

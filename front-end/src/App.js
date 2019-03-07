@@ -1,6 +1,4 @@
 import React from 'react';
-import './App.css';
-import './Forms.css';
 import {Route, BrowserRouter, Switch} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import HotelChainAdminPage from "./pages/HotelChainAdminPage";
@@ -10,13 +8,18 @@ import NotFoundPage from "./pages/NotFoundPage";
 import EmployeeActionsPage from "./pages/EmployeeActionsPage";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
-import {Header} from "./components/Header";
-import HeaderProvider from "./contexts/HeaderProvider";
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import Header from "./components/Header";
+import './App.css';
+import './Forms.css';
+import AccountProvider from "./contexts/AccountProvider";
+
 
 class App extends React.Component {
   render() {
     return <BrowserRouter>
-      <HeaderProvider>
+      <AccountProvider>
         <Header/>
         <Switch>
           <Route path="/" component={HomePage} exact={true}/>
@@ -27,8 +30,8 @@ class App extends React.Component {
 
           <Route component={NotFoundPage}/>
         </Switch>
-        <ToastContainer />
-      </HeaderProvider>
+        <ToastContainer/>
+      </AccountProvider>
     </BrowserRouter>;
   }
 }
