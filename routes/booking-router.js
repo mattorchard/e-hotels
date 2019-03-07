@@ -1,4 +1,5 @@
 const {responseToRows, nestCustomer} = require('../services/postgres-service');
+const {getHotels} = require('../services/hotel-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const createError = require('http-errors');
@@ -37,7 +38,7 @@ const getRoomsAvailableForBooking = async(req, res, next) => {
     return next(createError.UnprocessableEntity("Start date must be before end date"));
   }
   try {
-    const response = await pool.query(`
+    const roomPromise = await pool.query(`
       SELECT * FROM room
       WHERE (hotel_chain_name, hotel_id, room_number) NOT IN ((
           SELECT hotel_chain_name, hotel_id, room_number
@@ -59,8 +60,31 @@ const getRoomsAvailableForBooking = async(req, res, next) => {
           )
         )
       )`, [startDate, endDate]);
-    const rows = responseToRows(response);
-    return res.send(rows);
+
+    const hotels = await getHotels(pool);
+    const rooms = responseToRows(await roomPromise);
+
+    const groupedRooms = rooms.reduce((groups, room) => {
+      if (room.hotelChainName in groups) {
+        const hotelChainGroup = groups[room.hotelChainName];
+        if (room.hotelId in hotelChainGroup) {
+          hotelChainGroup[room.hotelId].push(room);
+        } else {
+          hotelChainGroup[room.hotelId] = [room];
+        }
+
+      } else {
+        groups[room.hotelChainName] = {[room.hotelId]: [room]};
+      }
+      return groups;
+    }, {});
+
+
+
+    hotels.forEach(hotel =>
+      hotel.rooms = groupedRooms[hotel.hotelChainName][hotel.id] || [] );
+
+    return res.send(hotels);
   } catch(error) {
     console.error(error);
     return next(error);
