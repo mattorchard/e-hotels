@@ -6,7 +6,7 @@ const {getHotels} = require('./hotel-router');
 const {getRooms} = require('./room-router');
 const {getEmployees, getEmployee, deleteEmployee, createEmployee, updateEmployee} = require('./employee-router');
 const {getCustomers, getCustomer} = require('./customer-router');
-const {getBookings} = require('./booking-router');
+const {getBookings, getRoomsAvailableForBooking} = require('./booking-router');
 const {getRoomsAvailableForRent, createRental} = require ('./rental-router');
 
 router.get('/test', (req, res) =>
@@ -30,6 +30,9 @@ router.delete("/employee/:employeeId", deleteEmployee);
 
 router.get("/customers", getCustomers);
 router.get("/customers/:customerId", getCustomer);
+
+
+router.get("/rooms", getRoomsAvailableForBooking);
 
 router.use((req, res, next) =>
   next(new createError.NotFound(`API Endpoint not found [${req.url}]`))
