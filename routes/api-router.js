@@ -6,7 +6,7 @@ const {getHotels} = require('./hotel-router');
 const {getRooms, getRoom} = require('./room-router');
 const {getEmployees, getEmployee, deleteEmployee, createEmployee, updateEmployee} = require('./employee-router');
 const {getCustomers, getCustomer} = require('./customer-router');
-const {getBookings, getRoomsAvailableForBooking, createBooking} = require('./booking-router');
+const {getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions} = require('./booking-router');
 const {getRoomsAvailableForRent, createRental} = require ('./rental-router');
 
 router.get('/test', (req, res) =>
@@ -33,6 +33,7 @@ router.delete("/employee/:employeeId", deleteEmployee);
 router.get("/customers", getCustomers);
 router.get("/customers/:customerId", getCustomer);
 
+router.get("/bookings/searchOptions", getSearchOptions);
 
 router.get("/rooms", getRoomsAvailableForBooking);
 

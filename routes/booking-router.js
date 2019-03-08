@@ -120,4 +120,19 @@ const getRoomsAvailableForBooking = async(req, res, next) => {
   }
 };
 
-module.exports = {getBookings, getRoomsAvailableForBooking, createBooking};
+const getSearchOptions = async (req, res, next) => {
+  try {
+    const hotelChainPromise = pool.query("SELECT name FROM hotel_chain");
+    const areaPromise = pool.query("SELECT DISTINCT city, country FROM hotel, address WHERE address.id = address_id");
+
+    const responses = await Promise.all([hotelChainPromise, areaPromise]);
+    const [hotelChainRows, hotelAreas] = responseToRows(responses);
+    const hotelChainNames = hotelChainRows.map(row => row.name);
+    return res.send({hotelChainNames, hotelAreas})
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
+module.exports = {getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions};
