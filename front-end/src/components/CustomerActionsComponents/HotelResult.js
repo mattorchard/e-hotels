@@ -7,7 +7,7 @@ export default class HotelResult extends React.Component {
 
 
   render() {
-    const {onClick} = this.props;
+    const {onSelectRoom} = this.props;
     const {address, category, rooms, hotelChainName} = this.props.hotel;
     return <div className="large-card">
       <dl className="horizontal-dl hotel-search-result__head">
@@ -33,7 +33,8 @@ export default class HotelResult extends React.Component {
         <tbody>
         {rooms.map((room) =>
           <ClickableRow className="striped"
-                        onClick={() => onClick(room)}>
+                        key={room.roomNumber}
+                        onClick={() => onSelectRoom(room)}>
             <td>{room.roomNumber}</td>
             <td>${room.price}</td>
             <td>

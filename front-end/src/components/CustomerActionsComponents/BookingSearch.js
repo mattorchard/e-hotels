@@ -4,6 +4,7 @@ import {toast} from "react-toastify";
 import BookingSearchOptions from "./BookingSearchOptions";
 import BookingSearchResults from "./BookingSearchResults";
 import {debounce} from "lodash";
+import CreateBookingModal from "./CreateBookingModal";
 
 
 export default class BookingSearch extends React.Component {
@@ -13,6 +14,7 @@ export default class BookingSearch extends React.Component {
     endDate: null,
     focusedInput: null,
     loadingRooms: false,
+    selectedRoom: null,
     roomsByHotel: [],
     filterSettings: {
       minPrice: "",
@@ -53,30 +55,40 @@ export default class BookingSearch extends React.Component {
   setFilterSettings = debounce(
     filterSettings => this.setState({filterSettings: filterSettings}), 1000);
 
+
   render() {
     const {customerId} = this.props;
-    const {startDate, endDate, filterSettings, roomsByHotel} = this.state;
+    const {startDate, endDate, filterSettings, roomsByHotel, selectedRoom} = this.state;
     return <section>
-      <h2>Book a room</h2>
+      <div className="large-card">
+        <h2>Book a room</h2>
+        <DateRangePicker
+          startDate={startDate}
+          startDateId={`startDate-${customerId}`}
+          endDate={endDate}
+          numberOfMonths={window.innerWidth < 1000 ? 1 : 2}
+          endDateId={`endDate-${customerId}`}
+          onDatesChange={this.onDatesChange}
+          focusedInput={this.state.focusedInput}
+          onFocusChange={focusedInput => this.setState({focusedInput})}/>
 
-      <DateRangePicker
-        startDate={startDate}
-        startDateId={`startDate-${customerId}`}
-        endDate={endDate}
-        numberOfMonths={window.innerWidth < 1000 ? 1 : 2}
-        endDateId={`endDate-${customerId}`}
-        onDatesChange={this.onDatesChange}
-        focusedInput={this.state.focusedInput}
-        onFocusChange={focusedInput => this.setState({focusedInput})}/>
+        <BookingSearchOptions
+          onChange={this.setFilterSettings}/>
 
-      <BookingSearchOptions
-        onChange={this.setFilterSettings}/>
-
-      {JSON.stringify(filterSettings)}
-
+      </div>
       <BookingSearchResults
         filterSettings={filterSettings}
-        roomsByHotel={roomsByHotel}/>
+        roomsByHotel={roomsByHotel}
+        onSelectRoom={room => this.setState({selectedRoom: room})}/>
+
+      {selectedRoom &&
+      <CreateBookingModal
+        startDate={startDate}
+        endDate={endDate}
+        customerId={customerId}
+        room={selectedRoom}
+        onRequestClose={() => this.setState({selectedRoom: null})}/>
+      }
 
     </section>;
   }

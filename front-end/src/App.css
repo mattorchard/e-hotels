@@ -73,7 +73,7 @@ html, body, #root {
     overflow: hidden;
 }
 
-.breadcrumbs li+li:before {
+.breadcrumbs li + li:before {
     content: "/\00a0";
     margin: .25em;
 }
@@ -169,6 +169,10 @@ html, body, #root {
     padding-left: 0;
 }
 
+.inline-list {
+    margin: 0;
+}
+
 .rails {
     list-style: none;
     transition: border-color .4s ease;
@@ -180,8 +184,29 @@ html, body, #root {
     border-left: .1em dashed #22aa22;
 }
 
+.nested-dl {
+    width: max-content;
+}
+
+.nested-dl > dt {
+    text-decoration: underline;
+}
+
+.nested-dl dt {
+    font-weight: bold;
+}
+
+.nested-dl dd {
+    margin-left: 1em;
+}
+
+.nested-dl dl {
+    margin: 0;
+}
+
 .horizontal-dl {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0;
@@ -238,7 +263,7 @@ th.hidden-column {
     cursor: pointer;
 }
 
-.clickable-row.selected-row{
+.clickable-row.selected-row {
     outline: .2em dashed green;
     color: green;
 }
@@ -271,7 +296,7 @@ th.hidden-column {
 }
 
 .ReactModal__Overlay {
-    background-color: rgba(0, 0, 0, .5)!important;
+    background-color: rgba(0, 0, 0, .5) !important;
 }
 
 .expanding-list__btn {

@@ -43,17 +43,18 @@ export default class BookingSearchResults extends React.Component {
       ? roomsByHotel
       : roomsByHotel
       .filter(filterHotels(filterSettings))
-      .map(({rooms, ...rest}) => ({...rest, rooms: rooms.filter(filterRooms(filterSettings))}));
+      .map(({rooms, ...rest}) => ({...rest, rooms: rooms.filter(filterRooms(filterSettings))}))
+      .filter(hotel => hotel.rooms.length > 0);
 
   render() {
-    const {filterSettings, roomsByHotel} = this.props;
+    const {filterSettings, roomsByHotel, onSelectRoom} = this.props;
     const filteredRoomsByHotel = BookingSearchResults.applyFilter(roomsByHotel, filterSettings);
     return <>
       <h3>Search Results</h3>
       <ul className="no-bullet rails booking-search-results">
         {filteredRoomsByHotel.map(hotel =>
           <li key={`${hotel.hotelChainName}-${hotel.id}`}>
-            <HotelResult hotel={hotel}/>
+            <HotelResult hotel={hotel} onSelectRoom={onSelectRoom}/>
           </li>)}
         <li className="placeholder">
           No rooms
