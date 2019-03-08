@@ -34,3 +34,7 @@
     width: 80%;
     margin: 0 auto;
 }
+
+.hotel-search-result__head {
+    border-bottom: green solid .2em;
+}

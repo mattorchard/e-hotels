@@ -183,6 +183,8 @@ html, body, #root {
 .horizontal-dl {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
 }
 
 .horizontal-dl > dt {
@@ -236,6 +238,11 @@ th.hidden-column {
     cursor: pointer;
 }
 
+.clickable-row.selected-row{
+    outline: .2em dashed green;
+    color: green;
+}
+
 .ReactModal__Body--open {
     overflow-y: hidden;
     padding-right: 17px;
@@ -277,12 +284,6 @@ th.hidden-column {
     margin-bottom: 1.5em;
     box-shadow: 0 .5em .5em lightgray;
     background-color: white;
-}
-
-.clickable-row.selected-row{
-    /*color: white;*/
-    /*background-color: green;*/
-    border: .2em dashed green;
 }
 
 .placeholder {
