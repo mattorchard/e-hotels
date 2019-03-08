@@ -4,6 +4,7 @@ import {toast} from "react-toastify";
 import moment from "moment";
 import {formatDateShort} from "../../services/format-service";
 import {AsyncItems} from "../AsyncItems";
+import AsyncButton from "../AsyncButton";
 
 export default class CreateBookingModal extends React.Component {
   state = {
@@ -14,8 +15,29 @@ export default class CreateBookingModal extends React.Component {
     }
   };
 
-  bookRoom = () => {
-
+  bookRoom = async () => {
+    const {room, startDate, endDate, customerId} = this.props;
+    const {hotelChainName, hotelId, roomNumber} = room;
+    const body = {startDate, endDate, customerId};
+    try {
+      const response = await fetch(`/api/hotel-chains/${hotelChainName}/${hotelId}/${roomNumber}/book`, {
+        method: "POST",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify(body)
+      });
+      if (!response.ok) {
+        if (response.status === 409) {
+          toast.error("That room is unavailable at that time");
+        }
+        throw new Error(`Unable to create rental ${response.status}`);
+      }
+      toast.success(`Room ${roomNumber} booked successfully`);
+      this.props.onRequestClose();
+      this.props.onRequestReload();
+    } catch(error) {
+      console.error(error);
+      toast.error("Unable to book room");
+    }
   };
 
   async componentDidMount() {
@@ -109,11 +131,11 @@ export default class CreateBookingModal extends React.Component {
         </dd>
       </dl>
       <div>
-        <button onClick={this.bookRoom}
+        <AsyncButton onClick={this.bookRoom}
                 className="btn btn--inline"
                 type="button">
           Book
-        </button>
+        </AsyncButton>
         <button onClick={onRequestClose}
                 className="btn btn--inline"
                 type="button">

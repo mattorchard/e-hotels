@@ -14,8 +14,8 @@ html, body, #root {
 
 .spinner::after {
     content: "";
-    width: 1em;
-    height: 1em;
+    width: .75em;
+    height: .75em;
     display: inline-block;
     animation: spin 0.75s infinite linear;
     border: 0.1em solid green;
@@ -23,6 +23,9 @@ html, body, #root {
     border-top: none;
     border-radius: 50%;
     cursor: wait;
+}
+.spinner-inverse::after {
+    border-color: white;
 }
 
 .banner {

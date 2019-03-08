@@ -52,6 +52,10 @@ export default class BookingSearch extends React.Component {
     }
   };
 
+  clearResults = () => {
+    this.setState({startDate: null, endDate: null, roomsByHotel: []})
+  };
+
   setFilterSettings = debounce(
     filterSettings => this.setState({filterSettings: filterSettings}), 1000);
 
@@ -82,12 +86,13 @@ export default class BookingSearch extends React.Component {
         onSelectRoom={room => this.setState({selectedRoom: room})}/>
 
       {selectedRoom &&
-      <CreateBookingModal
-        startDate={startDate}
-        endDate={endDate}
-        customerId={customerId}
-        room={selectedRoom}
-        onRequestClose={() => this.setState({selectedRoom: null})}/>
+        <CreateBookingModal
+          startDate={startDate}
+          endDate={endDate}
+          customerId={customerId}
+          room={selectedRoom}
+          onRequestReload={this.clearResults}
+          onRequestClose={() => this.setState({selectedRoom: null})}/>
       }
 
     </section>;

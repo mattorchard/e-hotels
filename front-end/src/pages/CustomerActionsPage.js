@@ -29,7 +29,7 @@ export default class CustomerActionsPage extends React.Component {
     return <main className="main-content">
       <h2>Logged in as {givenName}, {familyName}</h2>
       {customerId ? <>
-        <BookingSearch/>
+        <BookingSearch customerId={customerId}/>
       </> : <p className="spinner">Logging in...</p>}
     </main>
   }
