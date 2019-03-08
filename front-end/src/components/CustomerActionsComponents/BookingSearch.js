@@ -14,6 +14,8 @@ export default class BookingSearch extends React.Component {
     endDate: null,
     focusedInput: null,
     loadingRooms: false,
+    hotelChainNames: [],
+    hotelAreas: [],
     selectedRoom: null,
     roomsByHotel: [],
     filterSettings: {
@@ -21,10 +23,18 @@ export default class BookingSearch extends React.Component {
       maxPrice: "",
       minCapacity: "",
       category: "",
-      chain: "",
-      minRooms: ""
+      hotelChain: "",
+      minRooms: "",
+      area: {
+        city: "",
+        country: "",
+      }
     }
   };
+
+  async componentDidMount() {
+    await this.loadSearchOptions();
+  }
 
   onDatesChange = async ({startDate, endDate}) => {
     this.setState({startDate, endDate});
@@ -52,6 +62,18 @@ export default class BookingSearch extends React.Component {
     }
   };
 
+  loadSearchOptions = async () => {
+    try {
+      const response = await fetch("/api/bookings/searchOptions");
+      const {hotelChainNames, hotelAreas} = await response.json();
+      this.setState({hotelChainNames, hotelAreas})
+    } catch (error) {
+      console.error("", error);
+      toast.error("Unable to fetch advanced search options");
+      this.setState({hotelChainNames: [], hotelAreas: []});
+    }
+  };
+
   clearResults = () => {
     this.setState({startDate: null, endDate: null, roomsByHotel: []})
   };
@@ -62,7 +84,7 @@ export default class BookingSearch extends React.Component {
 
   render() {
     const {customerId} = this.props;
-    const {startDate, endDate, filterSettings, roomsByHotel, selectedRoom} = this.state;
+    const {startDate, endDate, filterSettings, roomsByHotel, selectedRoom, hotelAreas, hotelChainNames} = this.state;
     return <section>
       <div className="large-card">
         <h2>Book a room</h2>
@@ -77,6 +99,8 @@ export default class BookingSearch extends React.Component {
           onFocusChange={focusedInput => this.setState({focusedInput})}/>
 
         <BookingSearchOptions
+          hotelChainNames={hotelChainNames}
+          hotelAreas={hotelAreas}
           onChange={this.setFilterSettings}/>
 
       </div>

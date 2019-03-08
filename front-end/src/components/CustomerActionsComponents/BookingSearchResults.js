@@ -1,22 +1,25 @@
 import React from "react";
 import HotelResult from "./HotelResult";
 
-const filterHotels = ({category, chain, minRooms, area}) => hotel => {
+const filterHotels = ({category, hotelChainName, minRooms, area}) => hotel => {
   if (hotel.rooms.length === 0) {
     return false;
   }
   if (category && hotel.category !== parseInt(category)) {
     return false;
   }
-  if (chain && hotel.hotelChainName !== chain) {
+  if (hotelChainName && hotel.hotelChainName !== hotelChainName) {
     return false;
   }
   // Todo: Replace once room count is actually included on the hotel
   if (minRooms && hotel.totalRooms < minRooms) {
     return false;
   }
-  if (area && area.city !== hotel.address.city && area.country !== hotel.address.country) {
-    return false;
+  if (area) {
+    const {city, country} = area;
+    if ((city && country) && (city !== hotel.address.city || country !== hotel.address.country)) {
+      return false;
+    }
   }
   // Passed all tests
   return true;

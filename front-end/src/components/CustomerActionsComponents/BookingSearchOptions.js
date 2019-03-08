@@ -1,6 +1,7 @@
 import React from "react";
 import Stars from "../Stars";
-
+import HotelChainSelect from "../HotelChainSelect";
+import AreaSelect from "../AreaSelect";
 
 export default class BookingSearchOptions extends React.Component {
 
@@ -10,10 +11,12 @@ export default class BookingSearchOptions extends React.Component {
     maxPrice: "",
     minCapacity: "",
     category: "",
-    chain: "",
+    hotelChainName: "",
     minRooms: "",
-    city: "",
-    country: ""
+    area: {
+      city: "",
+      country: ""
+    }
   };
 
   handleInputChange = event => {
@@ -29,7 +32,8 @@ export default class BookingSearchOptions extends React.Component {
 
 
   render() {
-    const {minPrice, maxPrice, minCapacity, category, chain, minRooms, area} = this.state;
+    const {hotelChainNames, hotelAreas} = this.props;
+    const {minPrice, maxPrice, minCapacity, category, hotelChain, minRooms, area} = this.state;
     return <form className="search-form">
       <fieldset className="search-form__fields">
         <label>
@@ -66,11 +70,19 @@ export default class BookingSearchOptions extends React.Component {
         </label>
         <label>
           Hotel Chain
-          <select/>
+          <HotelChainSelect
+            name="hotelChainName"
+            value={hotelChain}
+            hotelChainNames={hotelChainNames}
+            onChange={this.handleInputChange}/>
         </label>
         <label>
           Area
-          <select/>
+          <AreaSelect
+            name="area"
+            areas={hotelAreas}
+            value={area}
+            onChange={this.handleInputChange}/>
         </label>
         <label>
           Category
