@@ -13,7 +13,7 @@ export default class BookingSearch extends React.Component {
     endDate: null,
     focusedInput: null,
     loadingRooms: false,
-    groupedRooms: [],
+    roomsByHotel: [],
     filterSettings: {
       minPrice: "",
       maxPrice: "",
@@ -41,8 +41,8 @@ export default class BookingSearch extends React.Component {
       if (!response.ok) {
         throw new Error(`Unable to fetch available rooms ${response.status}`);
       }
-      const groupedRooms = await response.json();
-      this.setState({groupedRooms, loadingRooms: false});
+      const roomsByHotel = await response.json();
+      this.setState({roomsByHotel, loadingRooms: false});
     } catch (error) {
       console.error("Unable to load rooms", error);
       toast.error("Unable to load available rooms");
@@ -51,14 +51,14 @@ export default class BookingSearch extends React.Component {
   };
 
   setFilterSettings = debounce(
-    filterSettings => this.setState({filterSettings: filterSettings})
-  , 1000);
+    filterSettings => this.setState({filterSettings: filterSettings}), 1000);
 
   render() {
     const {customerId} = this.props;
-    const {startDate, endDate, filterSettings, groupedRooms} = this.state;
+    const {startDate, endDate, filterSettings, roomsByHotel} = this.state;
     return <section>
       <h2>Book a room</h2>
+
       <DateRangePicker
         startDate={startDate}
         startDateId={`startDate-${customerId}`}
@@ -67,17 +67,16 @@ export default class BookingSearch extends React.Component {
         endDateId={`endDate-${customerId}`}
         onDatesChange={this.onDatesChange}
         focusedInput={this.state.focusedInput}
-        block
         onFocusChange={focusedInput => this.setState({focusedInput})}/>
-
 
       <BookingSearchOptions
         onChange={this.setFilterSettings}/>
 
       {JSON.stringify(filterSettings)}
+
       <BookingSearchResults
         filterSettings={filterSettings}
-        groupedRooms={groupedRooms}/>
+        roomsByHotel={roomsByHotel}/>
 
     </section>;
   }

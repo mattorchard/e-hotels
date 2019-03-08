@@ -9,7 +9,7 @@ input[type="number"] {
 }
 
 .radio-star-group {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     margin-bottom: .5em;
 }
@@ -67,7 +67,8 @@ input[type="number"] {
     font-weight: bold;
 }
 
-.simple-form input {
+.simple-form input,
+.simple-input{
     padding: .1em;
     font-size: .8em;
     border: none;
@@ -76,12 +77,14 @@ input[type="number"] {
     margin-bottom: .25em;
 }
 
-.simple-form input:focus {
+.simple-form input:focus,
+.simple-input:focus {
     outline: none;
     border-color: green;
 }
 
-.simple-form input:invalid {
+.simple-form input:invalid,
+.simple-input:invalid {
     outline: none;
     border-color: red;
 }

@@ -30,12 +30,13 @@ export default class BookingSearchOptions extends React.Component {
 
   render() {
     const {minPrice, maxPrice, minCapacity, category, chain, minRooms, area} = this.state;
-    return <form>
-      <fieldset className="search-form">
+    return <form className="search-form">
+      <fieldset className="search-form__fields">
         <label>
           Minimum price
           <input name="minPrice"
                  value={minPrice}
+                 className="simple-input"
                  onChange={this.handleInputChange}
                  type="number"/>
         </label>
@@ -43,6 +44,7 @@ export default class BookingSearchOptions extends React.Component {
           Max price
           <input name="maxPrice"
                  value={maxPrice}
+                 className="simple-input"
                  onChange={this.handleInputChange}
                  type="number"/>
         </label>
@@ -50,8 +52,25 @@ export default class BookingSearchOptions extends React.Component {
           Minimum capacity
           <input name="minCapacity"
                  value={minCapacity}
+                 className="simple-input"
                  onChange={this.handleInputChange}
                  type="number"/>
+        </label>
+        <label>
+          Minimum hotel rooms
+          <input name="minRooms"
+                 value={minRooms}
+                 className="simple-input"
+                 onChange={this.handleInputChange}
+                 type="number"/>
+        </label>
+        <label>
+          Hotel Chain
+          <select/>
+        </label>
+        <label>
+          Area
+          <select/>
         </label>
         <label>
           Category
@@ -66,21 +85,6 @@ export default class BookingSearchOptions extends React.Component {
               Any
             </label>
           </Stars>
-        </label>
-        <label>
-          Hotel Chain
-          <select/>
-        </label>
-        <label>
-          Area
-          <select/>
-        </label>
-        <label>
-          Minimum rooms in hotel
-          <input name="minRooms"
-                 value={minRooms}
-                 onChange={this.handleInputChange}
-                 type="number"/>
         </label>
       </fieldset>
     </form>
