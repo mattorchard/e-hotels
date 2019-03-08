@@ -52,8 +52,10 @@ export default class BookingSearchResults extends React.Component {
   render() {
     const {filterSettings, roomsByHotel, onSelectRoom} = this.props;
     const filteredRoomsByHotel = BookingSearchResults.applyFilter(roomsByHotel, filterSettings);
+    const hotelCount = filteredRoomsByHotel.length;
+    const roomCount = filteredRoomsByHotel.reduce((sum, hotel) => sum + hotel.rooms.length, 0);
     return <>
-      <h3>Search Results</h3>
+      <h3>Search Results {hotelCount ? <>{roomCount} rooms at {hotelCount} hotels</> : ""}</h3>
       <ul className="no-bullet rails booking-search-results">
         {filteredRoomsByHotel.map(hotel =>
           <li key={`${hotel.hotelChainName}-${hotel.id}`}>
