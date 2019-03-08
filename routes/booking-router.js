@@ -3,10 +3,39 @@ const {getHotels} = require('../services/hotel-service');
 const {Pool} = require('pg');
 const pool = new Pool();
 const createError = require('http-errors');
+const {roomInUse} = require("../services/booking-service");
 
 
-// Search availability
-// Add a booking
+const createBooking = async(req, res, next) => {
+  const {hotelChainName, hotelId, roomNumber} = req.params;
+  const {customerId, startDate: startDateRaw, endDate: endDateRaw} = req.body;
+  if (!hotelChainName || !hotelId || !roomNumber || !customerId || !startDateRaw || !endDateRaw) {
+    return next(createError.UnprocessableEntity(
+      "Must supply hotel chain, hotel, room, customer, start, and end date"));
+  }
+
+  const startDate = new Date(startDateRaw);
+  const endDate = new Date(endDateRaw);
+  if (startDate >= endDate) {
+    return next(createError.UnprocessableEntity("Start date must be before end date"));
+  }
+
+  try {
+    if (await roomInUse(pool, hotelChainName, hotelId, roomNumber, startDate, endDate)) {
+      return res.status(409).send("Room is not available at that time");
+    }
+    const response = await pool.query(
+      `INSERT INTO booking VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id`,
+      [customerId, hotelChainName, hotelId, roomNumber, startDate, endDate]);
+    const rows = responseToRows(response);
+    const [{id}] = rows;
+    res.send({id});
+  } catch (error) {
+    console.error("Unable to create booking", error);
+    next(error);
+  }
+};
+
 
 const getBookings = async (req, res, next) => {
   const {hotelChainName, hotelId} = req.params;
@@ -91,4 +120,4 @@ const getRoomsAvailableForBooking = async(req, res, next) => {
   }
 };
 
-module.exports = {getBookings, getRoomsAvailableForBooking};
+module.exports = {getBookings, getRoomsAvailableForBooking, createBooking};
