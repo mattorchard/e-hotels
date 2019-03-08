@@ -1,6 +1,10 @@
 import React from "react";
 import {DateRangePicker} from "react-dates";
 import {toast} from "react-toastify";
+import BookingSearchOptions from "./BookingSearchOptions";
+import BookingSearchResults from "./BookingSearchResults";
+import {debounce} from "lodash";
+
 
 export default class BookingSearch extends React.Component {
 
@@ -9,7 +13,15 @@ export default class BookingSearch extends React.Component {
     endDate: null,
     focusedInput: null,
     loadingRooms: false,
-    rooms: []
+    groupedRooms: [],
+    filterSettings: {
+      minPrice: "",
+      maxPrice: "",
+      minCapacity: "",
+      category: "",
+      chain: "",
+      minRooms: ""
+    }
   };
 
   onDatesChange = async ({startDate, endDate}) => {
@@ -29,8 +41,8 @@ export default class BookingSearch extends React.Component {
       if (!response.ok) {
         throw new Error(`Unable to fetch available rooms ${response.status}`);
       }
-      const rooms = await response.json();
-      this.setState({rooms, loadingRooms: false});
+      const groupedRooms = await response.json();
+      this.setState({groupedRooms, loadingRooms: false});
     } catch (error) {
       console.error("Unable to load rooms", error);
       toast.error("Unable to load available rooms");
@@ -38,13 +50,16 @@ export default class BookingSearch extends React.Component {
     }
   };
 
+  setFilterSettings = debounce(
+    filterSettings => this.setState({filterSettings: filterSettings})
+  , 1000);
+
   render() {
     const {customerId} = this.props;
-    const {startDate, endDate, rooms} = this.state;
+    const {startDate, endDate, filterSettings, groupedRooms} = this.state;
     return <section>
       <h2>Book a room</h2>
       <DateRangePicker
-        required
         startDate={startDate}
         startDateId={`startDate-${customerId}`}
         endDate={endDate}
@@ -52,8 +67,18 @@ export default class BookingSearch extends React.Component {
         endDateId={`endDate-${customerId}`}
         onDatesChange={this.onDatesChange}
         focusedInput={this.state.focusedInput}
+        block
         onFocusChange={focusedInput => this.setState({focusedInput})}/>
-      {JSON.stringify(rooms)}
+
+
+      <BookingSearchOptions
+        onChange={this.setFilterSettings}/>
+
+      {JSON.stringify(filterSettings)}
+      <BookingSearchResults
+        filterSettings={filterSettings}
+        groupedRooms={groupedRooms}/>
+
     </section>;
   }
 }

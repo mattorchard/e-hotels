@@ -9,7 +9,7 @@ input[type="number"] {
 }
 
 .radio-star-group {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     margin-bottom: .5em;
 }
