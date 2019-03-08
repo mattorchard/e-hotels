@@ -3,7 +3,7 @@ const router = express.Router();
 const createError = require('http-errors');
 const {getHotelChains} = require('./hotel-chain-router');
 const {getHotels} = require('./hotel-router');
-const {getRooms} = require('./room-router');
+const {getRooms, getRoom} = require('./room-router');
 const {getEmployees, getEmployee, deleteEmployee, createEmployee, updateEmployee} = require('./employee-router');
 const {getCustomers, getCustomer} = require('./customer-router');
 const {getBookings, getRoomsAvailableForBooking} = require('./booking-router');
@@ -17,6 +17,7 @@ router.get("/hotel-chains", getHotelChains);
 
 router.get("/hotel-chains/:hotelChainName/hotels", getHotels);
 
+router.get("/hotel-chains/:hotelChainName/:hotelId/:roomNumber", getRoom);
 router.get("/hotel-chains/:hotelChainName/:hotelId/rooms", getRooms);
 router.get("/hotel-chains/:hotelChainName/:hotelId/bookings", getBookings);
 router.get("/hotel-chains/:hotelChainName/:hotelId/rentals", getRoomsAvailableForRent);
