@@ -104,19 +104,20 @@ export default class BookingSearch extends React.Component {
           onChange={this.setFilterSettings}/>
 
       </div>
+      {startDate && endDate &&
       <BookingSearchResults
         filterSettings={filterSettings}
         roomsByHotel={roomsByHotel}
-        onSelectRoom={room => this.setState({selectedRoom: room})}/>
+        onSelectRoom={room => this.setState({selectedRoom: room})}/>}
 
       {selectedRoom &&
-        <CreateBookingModal
-          startDate={startDate}
-          endDate={endDate}
-          customerId={customerId}
-          room={selectedRoom}
-          onRequestReload={this.clearResults}
-          onRequestClose={() => this.setState({selectedRoom: null})}/>
+      <CreateBookingModal
+        startDate={startDate}
+        endDate={endDate}
+        customerId={customerId}
+        room={selectedRoom}
+        onRequestReload={this.clearResults}
+        onRequestClose={() => this.setState({selectedRoom: null})}/>
       }
 
     </section>;
