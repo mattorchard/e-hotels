@@ -18,7 +18,7 @@ export default class HotelChainAdminPage extends React.Component {
   }
 
   render() {
-    return <main className="main-content">
+    return <main className="main-content main-content--clear">
       <h2>Hotel Chains</h2>
       <button type="button" className="btn fill add-btn">
         Add Hotel Chain

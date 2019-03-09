@@ -87,7 +87,7 @@ export default class BookingSearch extends React.Component {
     const {startDate, endDate, filterSettings, roomsByHotel, selectedRoom, hotelAreas, hotelChainNames} = this.state;
     return <section>
       <div className="large-card">
-        <h2>Book a room</h2>
+        <h2>Book a Room</h2>
         <DateRangePicker
           startDate={startDate}
           startDateId={`startDate-${customerId}`}

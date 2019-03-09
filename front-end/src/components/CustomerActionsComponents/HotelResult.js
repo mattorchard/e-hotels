@@ -8,13 +8,17 @@ export default class HotelResult extends React.Component {
 
   render() {
     const {onSelectRoom} = this.props;
-    const {address, category, rooms, hotelChainName} = this.props.hotel;
+    const {address, category, rooms, hotelChainName, numRooms, capacity} = this.props.hotel;
     return <div className="large-card">
-      <dl className="horizontal-dl hotel-search-result__head">
+      <dl className="hotel-search-result__head horizontal-dl">
         <dt>Chain</dt>
         <dd>{hotelChainName}</dd>
         <dt>Address</dt>
         <dd><Address {...address}/></dd>
+        <dt>Total Rooms</dt>
+        <dd>{numRooms}</dd>
+        <dt>Capacity</dt>
+        <dd>{capacity}</dd>
         <dt>Category</dt>
         <dd>
           <Stars number={category} disabled/>

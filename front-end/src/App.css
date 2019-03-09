@@ -211,17 +211,19 @@ html, body, #root {
 .horizontal-dl {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: 0;
 }
-
 .horizontal-dl > dt {
     font-weight: bold;
 }
+.horizontal-dl > dt:not(:first-child) {
+    margin-left: auto;
+}
 
 .horizontal-dl > dd {
-    margin-left: 0;
+    margin-left: .5em;
+    break-before: avoid;
 }
 
 .horizontal-scroll {
@@ -249,6 +251,7 @@ html, body, #root {
 }
 
 .multi-col-dl dd {
+    break-before: avoid;
     margin-left: 1em;
 }
 
