@@ -55,6 +55,10 @@ export default class EmployeeModal extends React.Component {
       {employee && <>
         <div className="employee-modal__actions">
           <div className={`wrapper ${this.state.editingEmployee && "hidden"}`}>
+            <Link to={`/employee/${id}`}
+                  className="btn btn--inline fill">
+              Login&nbsp;as
+            </Link>
             <button onClick={() => this.setState({editingEmployee: true})}
                     type="button"
                     className="btn btn--inline">
@@ -65,10 +69,6 @@ export default class EmployeeModal extends React.Component {
               className="btn btn--inline">
               Delete
             </button>
-            <Link to={`/employee/${id}`}
-                  className="btn btn--inline">
-              Login&nbsp;as
-            </Link>
           </div>
           <button onClick={modalProps.onRequestClose}
                   type="button"
