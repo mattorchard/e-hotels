@@ -3,6 +3,7 @@ import {toast} from "react-toastify";
 import "./CustomerActionsPage.css"
 import AccountContext from "../contexts/AccountContext";
 import BookingSearch from "../components/CustomerActionsComponents/BookingSearch";
+import RoomsByArea from "../components/CustomerActionsComponents/RoomsByArea";
 
 
 export default class CustomerActionsPage extends React.Component {
@@ -29,6 +30,7 @@ export default class CustomerActionsPage extends React.Component {
     return <main className="main-content main-content--clear">
       {customerId ? <>
         <h2>Logged in as {givenName}, {familyName}</h2>
+        <RoomsByArea />
         <BookingSearch customerId={customerId}/>
       </> : <p className="spinner">Logging in...</p>}
     </main>

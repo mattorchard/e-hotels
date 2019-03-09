@@ -37,7 +37,7 @@ export default class BookingSearchOptions extends React.Component {
     return <form className="search-form">
       <fieldset className="search-form__fields">
         <label>
-          Minimum price
+          Minimum Price
           <input name="minPrice"
                  value={minPrice}
                  className="simple-input"
@@ -45,7 +45,7 @@ export default class BookingSearchOptions extends React.Component {
                  type="number"/>
         </label>
         <label>
-          Max price
+          Max Price
           <input name="maxPrice"
                  value={maxPrice}
                  className="simple-input"
@@ -53,7 +53,7 @@ export default class BookingSearchOptions extends React.Component {
                  type="number"/>
         </label>
         <label>
-          Minimum capacity
+          Minimum Capacity
           <input name="minCapacity"
                  value={minCapacity}
                  className="simple-input"
@@ -61,7 +61,7 @@ export default class BookingSearchOptions extends React.Component {
                  type="number"/>
         </label>
         <label>
-          Minimum hotel rooms
+          Minimum Hotel Rooms
           <input name="minRooms"
                  value={minRooms}
                  className="simple-input"

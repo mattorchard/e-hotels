@@ -24,6 +24,7 @@ html, body, #root {
     border-radius: 50%;
     cursor: wait;
 }
+
 .spinner-inverse::after {
     border-color: white;
 }
@@ -225,6 +226,30 @@ html, body, #root {
 
 .horizontal-scroll {
     overflow-x: auto;
+}
+
+.multi-col-dl {
+    columns: 2;
+}
+
+@media only screen and (min-width: 800px) {
+    .multi-col-dl {
+        columns: 3;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .multi-col-dl {
+        columns: 4;
+    }
+}
+
+.multi-col-dl dt {
+    font-weight: 500;
+}
+
+.multi-col-dl dd {
+    margin-left: 1em;
 }
 
 .striped {
