@@ -45,7 +45,10 @@ const getBookings = async (req, res, next) => {
   try {
     const response = await pool.query(
       `SELECT * FROM customer, booking
-      WHERE hotel_chain_name = $1 AND hotel_id = $2 AND customer.id = customer_id`,
+      WHERE hotel_chain_name = $1
+      AND hotel_id = $2
+      AND customer.id = customer_id
+      ORDER BY start_date`,
       [hotelChainName, hotelId]);
     const rows = responseToRows(response);
     const bookings = rows.map(nestCustomer);
