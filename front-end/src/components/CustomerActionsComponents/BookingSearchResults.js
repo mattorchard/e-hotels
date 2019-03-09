@@ -11,8 +11,7 @@ const filterHotels = ({category, hotelChainName, minRooms, area}) => hotel => {
   if (hotelChainName && hotel.hotelChainName !== hotelChainName) {
     return false;
   }
-  // Todo: Replace once room count is actually included on the hotel
-  if (minRooms && hotel.totalRooms < minRooms) {
+  if (minRooms && hotel.numRooms < minRooms) {
     return false;
   }
   if (area) {
