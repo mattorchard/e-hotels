@@ -64,7 +64,7 @@ export default class BookingSearch extends React.Component {
 
   loadSearchOptions = async () => {
     try {
-      const response = await fetch("/api/bookings/searchOptions");
+      const response = await fetch("/api/bookings/search-options");
       const {hotelChainNames, hotelAreas} = await response.json();
       this.setState({hotelChainNames, hotelAreas})
     } catch (error) {

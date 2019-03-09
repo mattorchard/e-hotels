@@ -26,7 +26,7 @@ export default class CheckIn extends React.Component {
     this.setState({loadingBookings: true});
 
     const hotelPromise = fetch(`/api/hotel-chains/${hotelChainName}/hotels`);
-    const bookingPromise = fetch(`/api/hotel-chains/${hotelChainName}/upcomingBookings`);
+    const bookingPromise = fetch(`/api/hotel-chains/${hotelChainName}/upcoming-bookings`);
     const [hotelResponse, bookingResponse] = await Promise.all([hotelPromise, bookingPromise]);
     if (!hotelResponse.ok) {
       throw new Error(`Unable to fetch hotels ${hotelResponse.status}`)

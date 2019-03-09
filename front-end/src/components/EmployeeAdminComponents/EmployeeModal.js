@@ -14,7 +14,7 @@ export default class EmployeeModal extends React.Component {
 
   saveEmployee = async employee => {
     const {id} = this.props.employee;
-    const response = await fetch(`/api/employee/${id}`, {
+    const response = await fetch(`/api/employees/${id}`, {
       method: "PUT",
       body: JSON.stringify(employee),
       headers: {"Content-Type": "application/json"}
@@ -28,7 +28,7 @@ export default class EmployeeModal extends React.Component {
 
   deleteEmployee = async () => {
     try {
-      const response = await fetch(`/api/employee/${this.props.employee.id}`, {method: "DELETE"});
+      const response = await fetch(`/api/employees/${this.props.employee.id}`, {method: "DELETE"});
       if (!response.ok) {
         throw new Error(`Failed to delete employee ${response.status}`);
       }

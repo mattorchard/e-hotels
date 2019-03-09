@@ -81,4 +81,8 @@ const getRoomsAvailableForRent = async (req, res, next) => {
   }
 };
 
-module.exports = {getRoomsAvailableForRent, createRental};
+const checkIn = async(req, res, next) => {
+
+};
+
+module.exports = {getRoomsAvailableForRent, createRental, checkIn};

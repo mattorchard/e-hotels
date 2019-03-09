@@ -30,7 +30,15 @@ export default class CheckInModal extends React.Component {
   };
 
   checkIn = async () => {
-
+    const {employeeId} = this.props;
+    const {selectedBooking} = this.state;
+    const {} = selectedBooking;
+    try {
+      console.log(employeeId, selectedBooking);
+    } catch(error) {
+      console.error("Unable to check in user");
+      toast.error("Unable to save check in");
+    }
   };
 
   render() {

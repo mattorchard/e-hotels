@@ -7,7 +7,7 @@ export default class EmployeeModal extends React.Component {
   state = {};
 
   saveEmployee = async employee => {
-    const response = await fetch("/api/employee", {
+    const response = await fetch("/api/employees", {
       method: "POST",
       body: JSON.stringify(employee),
       headers: {"Content-Type": "application/json"}

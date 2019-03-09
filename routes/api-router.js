@@ -9,7 +9,7 @@ const {getCustomers, getCustomer} = require('./customer-router');
 const {
   getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions, getAmountOfUpcomingBookings
 } = require('./booking-router');
-const {getRoomsAvailableForRent, createRental} = require ('./rental-router');
+const {getRoomsAvailableForRent, createRental, checkIn} = require ('./rental-router');
 
 
 router.get("/hotels/capacity", getCapacityByHotel);
@@ -17,7 +17,7 @@ router.get("/hotels/capacity", getCapacityByHotel);
 router.get("/hotel-chains", getHotelChains);
 
 router.get("/hotel-chains/:hotelChainName/hotels", getHotels);
-router.get("/hotel-chains/:hotelChainName/upcomingBookings", getAmountOfUpcomingBookings);
+router.get("/hotel-chains/:hotelChainName/upcoming-bookings", getAmountOfUpcomingBookings);
 
 router.get("/hotel-chains/:hotelChainName/:hotelId/rooms", getRooms);
 router.get("/hotel-chains/:hotelChainName/:hotelId/bookings", getBookings);
@@ -27,16 +27,17 @@ router.get("/hotel-chains/:hotelChainName/:hotelId/:roomNumber", getRoom);
 router.post("/hotel-chains/:hotelChainName/:hotelId/:roomNumber/rent", createRental);
 router.post("/hotel-chains/:hotelChainName/:hotelId/:roomNumber/book", createBooking);
 
-router.post("/employee", createEmployee);
+router.post("/employees", createEmployee);
 router.get("/employees", getEmployees);
-router.get("/employee/:employeeId", getEmployee);
-router.put("/employee/:employeeId", updateEmployee);
-router.delete("/employee/:employeeId", deleteEmployee);
+router.get("/employees/:employeeId", getEmployee);
+router.put("/employees/:employeeId", updateEmployee);
+router.delete("/employees/:employeeId", deleteEmployee);
+router.post("/employees/:employeeId/check-in", checkIn);
 
 router.get("/customers", getCustomers);
 router.get("/customers/:customerId", getCustomer);
 
-router.get("/bookings/searchOptions", getSearchOptions);
+router.get("/bookings/search-options", getSearchOptions);
 
 router.get("/rooms", getRoomsAvailableForBooking);
 router.get("/areas/rooms", getRoomsByArea);

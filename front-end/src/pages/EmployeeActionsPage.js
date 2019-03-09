@@ -12,7 +12,7 @@ export default class EmployeeActionsPage extends React.Component {
   };
 
   loadEmployee = async employeeId => {
-    const response = await fetch(`/api/employee/${employeeId}`);
+    const response = await fetch(`/api/employees/${employeeId}`);
     if (!response.ok) {
       throw new Error("Unable to fetch employee");
     }
