@@ -92,7 +92,7 @@ export default class RentalForm extends ReactForm {
         </label>
 
         <label>
-          Room #
+          Room Number
           {loadingRooms
             ? <div className="spinner">Loading available rooms...</div>
             : <RoomSelect

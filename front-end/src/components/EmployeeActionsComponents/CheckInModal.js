@@ -42,10 +42,11 @@ export default class CheckInModal extends React.Component {
       onAfterOpen={this.loadBookings}
       appElement={document.getElementById('root')}
       className="modal-fit-content">
-
+      <h3 className="check-in-modal__head">Check In</h3>
       <BookingsTable
         bookings={bookings}
         loadingBookings={loadingBookings}
+        selectedBooking={selectedBooking}
         onSelectBooking={booking => this.setState({selectedBooking: booking})}/>
 
       <div>
