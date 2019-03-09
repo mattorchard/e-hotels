@@ -6,17 +6,18 @@ const {getHotels, getCapacityByHotel} = require('./hotel-router');
 const {getRooms, getRoom, getRoomsByArea} = require('./room-router');
 const {getEmployees, getEmployee, deleteEmployee, createEmployee, updateEmployee} = require('./employee-router');
 const {getCustomers, getCustomer} = require('./customer-router');
-const {getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions} = require('./booking-router');
+const {
+  getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions, getAmountOfUpcomingBookings
+} = require('./booking-router');
 const {getRoomsAvailableForRent, createRental} = require ('./rental-router');
 
-router.get('/test', (req, res) =>
-  res.send({"Howdy": "World"})
-);
+
+router.get("/hotels/capacity", getCapacityByHotel);
 
 router.get("/hotel-chains", getHotelChains);
 
 router.get("/hotel-chains/:hotelChainName/hotels", getHotels);
-router.get("/hotels/capacity", getCapacityByHotel);
+router.get("/hotel-chains/:hotelChainName/upcomingBookings", getAmountOfUpcomingBookings);
 
 router.get("/hotel-chains/:hotelChainName/:hotelId/rooms", getRooms);
 router.get("/hotel-chains/:hotelChainName/:hotelId/bookings", getBookings);

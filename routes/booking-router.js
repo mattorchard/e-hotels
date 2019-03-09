@@ -56,6 +56,27 @@ const getBookings = async (req, res, next) => {
   }
 };
 
+const getAmountOfUpcomingBookings = async(req, res, next) => {
+  const {hotelChainName} = req.params;
+  try {
+    const response = await pool.query(
+      `SELECT hotel_chain_name, hotel_id, COUNT(id) AS num_bookings
+      FROM booking
+      WHERE hotel_chain_name = $1
+      AND end_date > now()
+      GROUP BY (hotel_chain_name, hotel_id)`, [hotelChainName]);
+    const rows = responseToRows(response);
+    const amountsByHotel = rows.reduce((amounts, row) => {
+      amounts[row.hotelId] = row.numBookings;
+      return amounts
+    }, {});
+    return res.send(amountsByHotel);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
 const getRoomsAvailableForBooking = async(req, res, next) => {
   const {startDate: startDateRaw, endDate: endDateRaw} = req.query;
   if (!startDateRaw || !endDateRaw) {
@@ -135,4 +156,6 @@ const getSearchOptions = async (req, res, next) => {
   }
 };
 
-module.exports = {getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions};
+module.exports = {
+  getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions, getAmountOfUpcomingBookings
+};
