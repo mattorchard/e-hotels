@@ -2,11 +2,11 @@ const {responseToRows, nestAddress, nestManager} = require('../services/postgres
 
 const getHotels = async client => {
   const response = await client.query(
-    `(SELECT *, (
+    `SELECT *, (
       SELECT COUNT(room_number) AS num_rooms FROM room WHERE hotel_id = hotel.id
     ) FROM address, employee, hotel
     WHERE address.id = hotel.address_id
-    AND employee.id = hotel.manager_id)`);
+    AND employee.id = hotel.manager_id`);
   return responseToRows(response)
     .map(nestAddress)
     .map(nestManager);

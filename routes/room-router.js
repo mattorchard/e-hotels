@@ -87,7 +87,19 @@ const getRoom = async (req, res, next) => {
   return next(error);
 }
 };
+
+const getRoomsByArea = async (req, res, next) => {
+  try {
+    const response = await pool.query("SELECT * FROM ROOMS_BY_AREA");
+    const rows = responseToRows(response);
+    return res.send(rows);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
 // Add room
 // Edit room
 // Delete room
-module.exports = {getRooms, getRoom};
+module.exports = {getRooms, getRoom, getRoomsByArea};
