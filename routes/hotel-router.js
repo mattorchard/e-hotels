@@ -5,19 +5,19 @@ const createError = require('http-errors');
 
 
 const getHotels = async (req, res, next) => {
+  const {hotelChainName} = req.params;
+  if (!hotelChainName) {
+    return next(new createError.UnprocessableEntity("Must supply hotel chain name"));
+  }
   try {
-    if (!req.params.hotelChainName) {
-      return next(new createError.UnprocessableEntity());
-    }
     const response = await pool.query(
-      `SELECT hotel.id, hotel.hotel_chain_name, category, manager_id,
-      street_number, street_name, city, country,
-      given_name, family_name 
-      FROM hotel, address, employee
+      `SELECT * FROM address, employee, capacity_by_hotel, hotel
       WHERE hotel.hotel_chain_name = $1
       AND hotel.address_id = address.id
-      AND manager_id = employee.id`,
-      [req.params.hotelChainName]);
+      AND manager_id = employee.id
+      AND hotel.id = capacity_by_hotel.hotel_id
+      AND hotel.hotel_chain_name = capacity_by_hotel.hotel_chain_name`,
+      [hotelChainName]);
     const rows = responseToRows(response);
     const hotels = rows.map(nestAddress).map(nestManager);
     res.send(hotels);
@@ -27,8 +27,19 @@ const getHotels = async (req, res, next) => {
   }
 };
 
+const getCapacityByHotel = async(req, res, next) => {
+  try {
+    const response = await pool.query("SELECT * FROM capacity_by_hotel");
+    const rows = responseToRows(response);
+    return res.send(rows);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
 // Add hotel
 // Edit hotel
 // Delete hotel
 
-module.exports = {getHotels};
+module.exports = {getHotels, getCapacityByHotel};
