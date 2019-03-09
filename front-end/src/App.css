@@ -14,8 +14,8 @@ html, body, #root {
 
 .spinner::after {
     content: "";
-    width: 1em;
-    height: 1em;
+    width: .75em;
+    height: .75em;
     display: inline-block;
     animation: spin 0.75s infinite linear;
     border: 0.1em solid green;
@@ -23,6 +23,10 @@ html, body, #root {
     border-top: none;
     border-radius: 50%;
     cursor: wait;
+}
+
+.spinner-inverse::after {
+    border-color: white;
 }
 
 .banner {
@@ -73,7 +77,7 @@ html, body, #root {
     overflow: hidden;
 }
 
-.breadcrumbs li+li:before {
+.breadcrumbs li + li:before {
     content: "/\00a0";
     margin: .25em;
 }
@@ -169,6 +173,10 @@ html, body, #root {
     padding-left: 0;
 }
 
+.inline-list {
+    margin: 0;
+}
+
 .rails {
     list-style: none;
     transition: border-color .4s ease;
@@ -180,21 +188,71 @@ html, body, #root {
     border-left: .1em dashed #22aa22;
 }
 
-.horizontal-dl {
-    display: flex;
-    justify-content: space-between;
+.nested-dl {
+    width: max-content;
 }
 
-.horizontal-dl > dt {
+.nested-dl > dt {
+    text-decoration: underline;
+}
+
+.nested-dl dt {
     font-weight: bold;
 }
 
+.nested-dl dd {
+    margin-left: 1em;
+}
+
+.nested-dl dl {
+    margin: 0;
+}
+
+.horizontal-dl {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 0;
+}
+.horizontal-dl > dt {
+    font-weight: bold;
+}
+.horizontal-dl > dt:not(:first-child) {
+    margin-left: auto;
+}
+
 .horizontal-dl > dd {
-    margin-left: 0;
+    margin-left: .5em;
+    break-before: avoid;
 }
 
 .horizontal-scroll {
     overflow-x: auto;
+}
+
+.multi-col-dl {
+    columns: 2;
+}
+
+@media only screen and (min-width: 800px) {
+    .multi-col-dl {
+        columns: 3;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .multi-col-dl {
+        columns: 4;
+    }
+}
+
+.multi-col-dl dt {
+    font-weight: 500;
+}
+
+.multi-col-dl dd {
+    break-before: avoid;
+    margin-left: 1em;
 }
 
 .striped {
@@ -236,6 +294,11 @@ th.hidden-column {
     cursor: pointer;
 }
 
+.clickable-row.selected-row {
+    outline: .2em dashed green;
+    color: green;
+}
+
 .ReactModal__Body--open {
     overflow-y: hidden;
     padding-right: 17px;
@@ -264,7 +327,7 @@ th.hidden-column {
 }
 
 .ReactModal__Overlay {
-    background-color: rgba(0, 0, 0, .5)!important;
+    background-color: rgba(0, 0, 0, .5) !important;
 }
 
 .expanding-list__btn {
@@ -279,8 +342,10 @@ th.hidden-column {
     background-color: white;
 }
 
-.clickable-row.selected-row{
-    /*color: white;*/
-    /*background-color: green;*/
-    border: .2em dashed green;
+.placeholder {
+    display: none;
+}
+
+.placeholder:first-child:last-child {
+    display: list-item;
 }

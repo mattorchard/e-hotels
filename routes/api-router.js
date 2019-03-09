@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const {getHotelChains} = require('./hotel-chain-router');
-const {getHotels} = require('./hotel-router');
-const {getRooms} = require('./room-router');
+const {getHotels, getCapacityByHotel} = require('./hotel-router');
+const {getRooms, getRoom, getRoomsByArea} = require('./room-router');
 const {getEmployees, getEmployee, deleteEmployee, createEmployee, updateEmployee} = require('./employee-router');
-const {getCustomers} = require('./customer-router');
-const {getBookings} = require('./booking-router');
+const {getCustomers, getCustomer} = require('./customer-router');
+const {getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions} = require('./booking-router');
 const {getRoomsAvailableForRent, createRental} = require ('./rental-router');
 
 router.get('/test', (req, res) =>
@@ -16,11 +16,15 @@ router.get('/test', (req, res) =>
 router.get("/hotel-chains", getHotelChains);
 
 router.get("/hotel-chains/:hotelChainName/hotels", getHotels);
+router.get("/hotels/capacity", getCapacityByHotel);
 
 router.get("/hotel-chains/:hotelChainName/:hotelId/rooms", getRooms);
 router.get("/hotel-chains/:hotelChainName/:hotelId/bookings", getBookings);
 router.get("/hotel-chains/:hotelChainName/:hotelId/rentals", getRoomsAvailableForRent);
+router.get("/hotel-chains/:hotelChainName/:hotelId/:roomNumber", getRoom);
+
 router.post("/hotel-chains/:hotelChainName/:hotelId/:roomNumber/rent", createRental);
+router.post("/hotel-chains/:hotelChainName/:hotelId/:roomNumber/book", createBooking);
 
 router.post("/employee", createEmployee);
 router.get("/employees", getEmployees);
@@ -29,6 +33,12 @@ router.put("/employee/:employeeId", updateEmployee);
 router.delete("/employee/:employeeId", deleteEmployee);
 
 router.get("/customers", getCustomers);
+router.get("/customers/:customerId", getCustomer);
+
+router.get("/bookings/searchOptions", getSearchOptions);
+
+router.get("/rooms", getRoomsAvailableForBooking);
+router.get("/areas/rooms", getRoomsByArea);
 
 router.use((req, res, next) =>
   next(new createError.NotFound(`API Endpoint not found [${req.url}]`))

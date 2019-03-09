@@ -150,7 +150,7 @@ CREATE TABLE rental (
     FOREIGN KEY (customer_id) REFERENCES customer(id),
     FOREIGN KEY (employee_id) REFERENCES employee(id),
     FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number),
-    CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL and end_date IS NOT NULL and end_date > start_date)
+    CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL AND end_date IS NOT NULL AND end_date > start_date)
 );
 
 CREATE TABLE booking (
@@ -164,5 +164,19 @@ CREATE TABLE booking (
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id),
     FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number),
-    CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL and end_date IS NOT NULL and end_date > start_date)
+    CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL AND end_date IS NOT NULL AND end_date > start_date)
 );
+
+CREATE VIEW rooms_by_area AS
+SELECT city, country, SUM(num_rooms) AS num_rooms
+FROM (
+	SELECT city, country, (
+	  SELECT COUNT(room_number) AS num_rooms FROM room WHERE hotel_id = hotel.id
+	) FROM address, hotel
+	WHERE address.id = hotel.address_id
+) AS address_counts
+GROUP BY (city, country)
+
+CREATE VIEW capacity_by_hotel AS
+SELECT hotel_chain_name, hotel_id, SUM(capacity) AS capacity
+FROM room GROUP BY (hotel_chain_name, hotel_id)

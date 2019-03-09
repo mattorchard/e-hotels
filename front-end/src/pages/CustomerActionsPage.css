@@ -1,0 +1,40 @@
+
+@supports (display: grid) {
+    @media only screen and (min-width: 800px) {
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media only screen and (min-width: 1000px) {
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media only screen and (min-width: 1200px) {
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+}
+.search-form__fields {
+    display: contents;
+}
+
+.search-form__fields label {
+    font-weight: 500;
+    display: block;
+}
+
+.search-form__fields > label > input,
+.search-form__fields select {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.hotel-search-result__head {
+    border-bottom: green solid .2em;
+}

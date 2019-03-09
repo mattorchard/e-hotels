@@ -14,7 +14,24 @@ const getCustomers = async (req, res, next) => {
     next(error);
   }
 };
+
+const getCustomer = async (req, res, next) => {
+  const {customerId} = req.params;
+  if (!customerId) {
+    return next(createError.NotFound("Must supply a customer ID"));
+  }
+  try {
+    const response = await pool.query(
+      `SELECT * FROM address, customer WHERE address.id = address_id AND customer.id = $1`,
+      [customerId]);
+    const [customer] = responseToRows(response);
+    return res.send(nestAddress(customer))
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
 // Add a customer
 // Edit customer
 // Delete customer
-module.exports = {getCustomers};
+module.exports = {getCustomers, getCustomer};

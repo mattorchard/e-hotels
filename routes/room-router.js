@@ -43,13 +43,63 @@ const getRooms = async (req, res, next) => {
       room.amenities = (groupedAmenities[room.roomNumber] || []).map(a => a.amenity);
     });
 
-    res.send(rooms);
+    return res.send(rooms);
   } catch (error) {
     console.error("Unable to fetch rooms", error);
-    next(error);
+    return next(error);
   }
 };
+
+const getRoom = async (req, res, next) => {
+  const {hotelChainName, hotelId, roomNumber} = req.params;
+  if (!hotelChainName || !hotelId || !roomNumber) {
+    return next(new createError.NotFound("Must supply hotel chain name, hotel ID and room number"));
+  }
+  try {
+    const response = await pool.query(
+      `SELECT * FROM room LEFT JOIN ((
+        SELECT damage, null AS amenity
+        FROM room_damage
+        WHERE hotel_chain_name = $1 AND hotel_id = $2 AND room_number = $3
+      ) UNION (
+        SELECT null as damage, amenity
+        FROM room_amenity
+        WHERE hotel_chain_name = $1 AND hotel_id = $2 AND room_number = $3
+      )) AS room_details ON True
+      WHERE hotel_chain_name = $1 AND hotel_id = $2 AND room_number = $3`,
+      [hotelChainName, hotelId, roomNumber]);
+    const rows = responseToRows(response);
+    if (rows.length === 0) {
+      return res.status(404).send(`No room found matching ${hotelChainName}-${hotelId}-${roomNumber}`);
+    }
+    const room = rows.reduce((room, {damage, amenity}) => {
+      if (damage) {
+        room.damages.push(damage);
+      } if (amenity) {
+        room.amenities.push(amenity);
+      }
+      return room;
+    }, {...rows[0], damages: [], amenities: []});
+
+    return res.send(room);
+  } catch (error) {
+  console.error("Unable to fetch room", error);
+  return next(error);
+}
+};
+
+const getRoomsByArea = async (req, res, next) => {
+  try {
+    const response = await pool.query("SELECT * FROM ROOMS_BY_AREA");
+    const rows = responseToRows(response);
+    return res.send(rows);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
 // Add room
 // Edit room
 // Delete room
-module.exports = {getRooms};
+module.exports = {getRooms, getRoom, getRoomsByArea};

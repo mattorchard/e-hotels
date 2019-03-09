@@ -39,7 +39,7 @@ export default class HotelCard extends React.Component {
           {this.props.manager.givenName} {this.props.manager.familyName}
         </div>
         <div className="hotel-card__head__end">
-          <Stars number={this.props.category} name="radio-stars"/>
+          <Stars number={this.props.category} name="category" disabled/>
         </div>
       </div>
 
