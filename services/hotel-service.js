@@ -3,7 +3,7 @@ const {responseToRows, nestAddress, nestManager} = require('../services/postgres
 const getHotels = async client => {
   const response = await client.query(
     `(SELECT *, (
-      SELECT COUNT(room_number) as num_rooms from room where hotel_id = hotel.id
+      SELECT COUNT(room_number) AS num_rooms FROM room WHERE hotel_id = hotel.id
     ) FROM address, employee, hotel
     WHERE address.id = hotel.address_id
     AND employee.id = hotel.manager_id)`);
