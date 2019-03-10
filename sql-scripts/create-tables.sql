@@ -18,7 +18,7 @@ CREATE TABLE hotel_chain (
 
 CREATE TABLE hotel_chain_phone_number (
     hotel_chain_name VARCHAR(100),
-    phone_number INTEGER,
+    phone_number BIGINT,
     PRIMARY KEY (hotel_chain_name, phone_number),
     FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name),
     CONSTRAINT valid_phone_number CHECK (phone_number BETWEEN 1000000000 AND 9999999999)
@@ -29,7 +29,7 @@ CREATE TABLE hotel_chain_email_address (
     email_address VARCHAR(100),
     PRIMARY KEY (hotel_chain_name, email_address),
     FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name),
-    CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.___%')
+    CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.__%')
 );
 
 CREATE TABLE hotel (
@@ -46,19 +46,21 @@ CREATE TABLE hotel (
 );
 
 CREATE TABLE hotel_phone_number (
+    hotel_chain_name VARCHAR(100),
     hotel_id INTEGER,
-    phone_number INTEGER,
-    PRIMARY KEY(hotel_id, phone_number),
-    FOREIGN KEY (hotel_id) REFERENCES hotel(id),
+    phone_number BIGINT,
+    PRIMARY KEY(hotel_chain_name, hotel_id, phone_number),
+    FOREIGN KEY (hotel_chain_name, hotel_id) REFERENCES hotel(hotel_chain_name, id),
     CONSTRAINT valid_phone_number CHECK (phone_number BETWEEN 1000000000 AND 9999999999)
 );
 
 CREATE TABLE hotel_email_address (
+    hotel_chain_name VARCHAR(100),
     hotel_id INTEGER,
     email_address VARCHAR(100),
-    PRIMARY KEY (hotel_id, email_address),
-    FOREIGN KEY (hotel_id) references hotel(id),
-    CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.___%')
+    PRIMARY KEY (hotel_chain_name, hotel_id, email_address),
+    FOREIGN KEY (hotel_chain_name, hotel_id) REFERENCES hotel(hotel_chain_name, id),
+    CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.__%')
   );
 
 CREATE TABLE room (
@@ -175,8 +177,8 @@ FROM (
 	) FROM address, hotel
 	WHERE address.id = hotel.address_id
 ) AS address_counts
-GROUP BY (city, country)
+GROUP BY (city, country);
 
 CREATE VIEW capacity_by_hotel AS
 SELECT hotel_chain_name, hotel_id, SUM(capacity) AS capacity
-FROM room GROUP BY (hotel_chain_name, hotel_id)
+FROM room GROUP BY (hotel_chain_name, hotel_id);
