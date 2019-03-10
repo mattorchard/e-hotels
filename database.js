@@ -38,7 +38,7 @@ const bootstrap = async () => {
     if (clearAndReplaceDatabase || !(await hasSampleData())) {
       await executeScript("./sql-scripts/drop-tables.sql", "drop all tables");
       await executeScript("./sql-scripts/create-tables.sql", "create tables");
-      await insertSampleData();
+      await insertSampleData(pool);
     } else {
       console.log("Using existing database");
     }
