@@ -1,11 +1,22 @@
-.hotel-chain-item__head {
+.hotel-chain-section__head {
     position: sticky;
-    top: 0;
+    top: -1px;
     z-index: 1;
-    padding: .5em 1em 1em 1em;
+    padding: .5em 1.5em 1em 1.5em;
     background-color: green;
     color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+    box-shadow: 0 0.5em 1em rgba(0,128,0, .2);
 }
+
+.hotel-chain-section__title {
+    margin: .25em 0;
+}
+
 
 .hotel-card__head {
     display: flex;

@@ -131,6 +131,16 @@ html, body, #root {
     cursor: default;
 }
 
+.btn.btn--inverse {
+    color: white;
+    background-color: green;
+    border-color: white;
+}
+
+.btn.btn--inverse:hover:not(:disabled), .btn.btn--inverse:focus {
+    background-color: darkgreen;
+}
+
 .btn--inline {
     padding: 0 .35em .25em;
     margin: .25em;
