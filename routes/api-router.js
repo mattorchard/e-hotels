@@ -32,12 +32,12 @@ router.get("/employees", getEmployees);
 router.get("/employees/:employeeId", getEmployee);
 router.put("/employees/:employeeId", updateEmployee);
 router.delete("/employees/:employeeId", deleteEmployee);
-router.post("/employees/:employeeId/check-in", checkIn);
 
 router.get("/customers", getCustomers);
 router.get("/customers/:customerId", getCustomer);
 
 router.get("/bookings/search-options", getSearchOptions);
+router.post("/bookings/:bookingId/check-in", checkIn);
 
 router.get("/rooms", getRoomsAvailableForBooking);
 router.get("/areas/rooms", getRoomsByArea);
