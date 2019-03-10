@@ -40,6 +40,7 @@ html, body, #root {
 
 .banner .btn {
     border-color: white;
+    background-color: transparent;
     color: white;
 }
 
@@ -60,21 +61,10 @@ html, body, #root {
 
 .banner__heading {
     margin: 0;
-}
-
-.banner__breadcrumbs {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.banner__breadcrumb {
-    max-width: 33vw;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    max-width: 66vw;
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .breadcrumbs li + li:before {

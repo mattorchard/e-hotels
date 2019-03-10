@@ -32,14 +32,10 @@ class Header extends React.Component {
     const path = this.props.location.pathname;
     return <header className="banner">
       <h1 className="banner__heading">
-        <ol className="banner__breadcrumbs breadcrumbs">
-          <li className="banner__breadcrumb">
-            <Link to="/" className="banner__heading-link">
-              E-Hotels
-            </Link>
-          </li>
-          {path}
-        </ol>
+        <Link to="/" className="banner__heading-link">
+          E-Hotels
+        </Link>
+        {path}
       </h1>
       <HeaderActions/>
     </header>
