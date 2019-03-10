@@ -1,7 +1,6 @@
 const {responseToRows, inTransaction} = require('../services/postgres-service');
 const {roomInUse} = require('../services/booking-service');
-const {Pool} = require('pg');
-const pool = new Pool();
+const pool = require("../pool");
 const createError = require('http-errors');
 
 // Check in (booking to rental)

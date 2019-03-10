@@ -1,6 +1,5 @@
 const {responseToRows} = require('../services/postgres-service');
-const {Pool} = require('pg');
-const pool = new Pool();
+const pool = require("../pool");
 const createError = require('http-errors');
 const lodash = require("lodash");
 

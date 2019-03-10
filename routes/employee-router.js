@@ -1,7 +1,6 @@
 const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
 const employeeService = require('../services/employee-service');
-const {Pool} = require('pg');
-const pool = new Pool();
+const pool = require("../pool");
 const lodash = require("lodash");
 const createError = require('http-errors');
 

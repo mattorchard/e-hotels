@@ -1,7 +1,6 @@
 const {responseToRows, nestCustomer} = require('../services/postgres-service');
 const {getHotels} = require('../services/hotel-service');
-const {Pool} = require('pg');
-const pool = new Pool();
+const pool = require("../pool");
 const createError = require('http-errors');
 const {roomInUse} = require("../services/booking-service");
 
