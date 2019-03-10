@@ -4,6 +4,8 @@ const randomInt = (min, max) => Math.floor(min + Math.random() * (max - min));
 const randomBoolean = () => Math.random() > 0.5;
 const idFromResponse = ({rows}) => rows[0].id;
 const formatDate = (date=new Date()) => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+const randomEmail = () =>
+  `${choose(randomData.email.usernames)}@${choose(randomData.email.domains)}.${choose(randomData.email.extensions)}`
 const randomSinOrSsn = () => {
   let sin = randomInt(100000000, 1000000000);
   let ssn = randomInt(100000000, 1000000000);
@@ -34,10 +36,19 @@ const insertSampleData = async (pool, numHotelChains=5, numCustomers=5) => {
 
   const insertHotelChain = async (chainName, numHotels = 5) => {
     const addressId = await insertAddress();
-    const {rows} = await pool.query(
+    await pool.query(
       "INSERT INTO hotel_chain VALUES ($1, $2, $3) RETURNING name",
       [chainName, numHotels, addressId]);
-    return rows[0].name;
+    for(let i = 0; i < 2; i++) {
+      await pool.query(
+        "INSERT INTO hotel_chain_phone_number VALUES ($1, $2)",
+        [chainName, randomInt(1000000000, 9999999999)]);
+
+      await pool.query(
+        "INSERT INTO hotel_chain_email_address VALUES ($1, $2)",
+        [chainName, randomEmail()]);
+    }
+    return chainName;
   };
 
   const insertEmployee = async (hotelChainName, roles = []) => {
@@ -62,7 +73,17 @@ const insertSampleData = async (pool, numHotelChains=5, numCustomers=5) => {
     const response = await pool.query(
       "INSERT INTO hotel VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id",
       [hotelChainName, category, addressId, managerId]);
-    return idFromResponse(response);
+    const id = idFromResponse(response);
+    for(let i = 0; i < 2; i++) {
+      await pool.query(
+        "INSERT INTO hotel_phone_number VALUES ($1, $2, $3)",
+        [hotelChainName, id, randomInt(1000000000, 9999999999)]);
+
+      await pool.query(
+        "INSERT INTO hotel_email_address VALUES ($1, $2, $3)",
+        [hotelChainName, id, randomEmail()]);
+    }
+    return id;
   };
 
   const insertRoom = async (hotelChainName, hotelId, roomNumber) => {

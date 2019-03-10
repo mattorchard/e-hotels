@@ -2,6 +2,11 @@
   "hotelChains": [
     "Daze Inn", "Motel 9", "Major", "Most Good Eastern", "Hiltoff"
   ],
+  "email": {
+    "usernames": ["alnassd", "nudsfnijld", "nukdsfa", "niudfs", "nijldsaf", "ndiakf", "afsdmo", "sdafmi"],
+    "domains": ["gmail", "uottawa", "proton"],
+    "extensions": ["com", "ca", "net", "dev", "co", "gov"]
+  },
   "streetNames": [
     "Sesame st", "Lovers ln", "Main st", "King st", "Elm st", "Boileau rd", "Boyle rd", "Massey rd",
     "Foo st", "Bar ave", "Baz cr"
