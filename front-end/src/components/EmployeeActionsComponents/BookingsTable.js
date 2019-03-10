@@ -17,7 +17,7 @@ export default class BookingsTable extends React.Component {
       </tr>
       </thead>
       <tbody>
-      <AsyncItems wrapper="table" loading={loadingBookings}>
+      <AsyncItems wrapper="table" loading={loadingBookings} placeholderMessage="No bookings">
         {bookings.map(booking =>
           <ClickableRow
             key={booking.id}

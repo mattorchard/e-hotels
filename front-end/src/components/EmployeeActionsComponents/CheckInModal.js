@@ -15,7 +15,7 @@ export default class CheckInModal extends React.Component {
   loadBookings = async () => {
     const {hotelChainName, hotelId} = this.props;
     try {
-      this.setState({loadingBookings: true});
+      this.setState({selectedBooking: null, loadingBookings: true});
       const response = await fetch(`/api/hotel-chains/${hotelChainName}/${hotelId}/bookings`);
       if (!response.ok) {
         throw new Error(`Unable to fetch bookings ${response.status}`);
@@ -32,9 +32,21 @@ export default class CheckInModal extends React.Component {
   checkIn = async () => {
     const {employeeId} = this.props;
     const {selectedBooking} = this.state;
-    const {} = selectedBooking;
+    const {customer} = selectedBooking;
     try {
-      console.log(employeeId, selectedBooking);
+      const query = new URLSearchParams();
+      query.append("employeeId", employeeId);
+      const response = await fetch(`/api/bookings/${selectedBooking.id}/check-in?${query}`, {method: "POST",});
+      if (!response.ok) {
+        if (response.status === 404) {
+          toast.error("Booking not found");
+        }
+        throw new Error(`Unable to check in ${response.status}`);
+      }
+      toast.success(`${customer.givenName} ${customer.familyName} has been checked in sucessfully`);
+      // Fire off loading (but do not await as to let the button spinner disappear)
+      // noinspection JSIgnoredPromiseFromCall
+      this.loadBookings();
     } catch(error) {
       console.error("Unable to check in user");
       toast.error("Unable to save check in");
