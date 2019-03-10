@@ -30,11 +30,11 @@ const responseToRows = response => {
 const nestAddress = ({streetNumber, streetName, city, country, addressId, ...parent}) =>
   ({...parent, address: {id: addressId, streetNumber, streetName, city, country}});
 
-const nestManager = ({givenName, familyName, managerId, ...parent}) =>
-  ({...parent, manager: {id: managerId, givenName, familyName}});
+const nestManager = ({givenName, familyName, managerId, sin, ssn, ...parent}) =>
+  ({...parent, manager: {id: managerId, givenName, familyName, sin, ssn}});
 
-const nestCustomer = ({givenName, familyName, customerId, ...parent}) =>
-  ({...parent, customer: {id: customerId, givenName, familyName}});
+const nestCustomer = ({givenName, familyName, customerId, sin, ssn, ...parent}) =>
+  ({...parent, customer: {id: customerId, givenName, familyName, sin, ssn}});
 
 const inTransaction = async (pool, callback) => {
   const client = await pool.connect();

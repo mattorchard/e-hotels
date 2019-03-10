@@ -28,7 +28,7 @@ export default class HotelResult extends React.Component {
       <table className="input-table">
         <thead className="">
         <tr>
-          <th>Room #</th>
+          <th>Room</th>
           <th>Price</th>
           <th>Capacity</th>
           <th>Scenery</th>

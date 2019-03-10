@@ -19,7 +19,7 @@ class HeaderActions extends React.Component {
       to = "/admin/customers";
     }
     return <div className="banner__actions">
-      <Link to={to} className="btn">
+      <Link to={to} className="btn" onClick={() => this.context.setAccount({})}>
         Logout
       </Link>
     </div>

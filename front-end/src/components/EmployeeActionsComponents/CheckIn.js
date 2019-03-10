@@ -7,8 +7,9 @@ import HotelCheckIn from "./HotelCheckIn";
 export default class CheckIn extends React.Component {
 
   state = {
-    loadingHotels: false,
-    hotels: []
+    loading: false,
+    hotels: [],
+    numBookingsByHotel: {}
   };
 
   async componentDidMount() {
@@ -23,24 +24,34 @@ export default class CheckIn extends React.Component {
   loadHotels = async elementId => {
     const {hotelChainName} = this.props;
     this.setState({loadingBookings: true});
-    const response = await fetch(`/api/hotel-chains/${hotelChainName}/hotels`);
-    if (!response.ok) {throw new Error(`Failed to fetch hotels [${response.status}]`)}
-    const hotels = await response.json();
-    this.setState({hotels, loadingHotels: false});
-  };
 
+    const hotelPromise = fetch(`/api/hotel-chains/${hotelChainName}/hotels`);
+    const bookingPromise = fetch(`/api/hotel-chains/${hotelChainName}/upcoming-bookings`);
+    const [hotelResponse, bookingResponse] = await Promise.all([hotelPromise, bookingPromise]);
+    if (!hotelResponse.ok) {
+      throw new Error(`Unable to fetch hotels ${hotelResponse.status}`)
+    }
+    if (!bookingResponse.ok) {
+      throw new Error(`Unable to fetch upcoming bookings ${bookingResponse.status}`)
+    }
+    const [hotels, numBookingsByHotel] = await Promise.all([hotelResponse.json(), bookingResponse.json()]);
+
+    this.setState({hotels, numBookingsByHotel, loading: false});
+  };
 
 
   render() {
     const {employeeId, hotelChainName} = this.props;
+    const {numBookingsByHotel, hotels} = this.state;
     return <>
       <ul className="no-bullet">
-        <AsyncItems loading={this.state.loadingHotels}>
-          {this.state.hotels.map(hotel =>
+        <AsyncItems loading={this.state.loading}>
+          {hotels.map(hotel =>
             <li key={hotel.id}>
               <HotelCheckIn
                 employeeId={employeeId}
                 hotel={hotel}
+                numberOfUpcomingBookings={numBookingsByHotel[hotel.id]}
                 hotelChainName={hotelChainName}
                 onSave={this.loadHotels}/>
             </li>)}

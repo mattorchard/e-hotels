@@ -14,7 +14,7 @@ export default class EmployeeModal extends React.Component {
 
   saveEmployee = async employee => {
     const {id} = this.props.employee;
-    const response = await fetch(`/api/employee/${id}`, {
+    const response = await fetch(`/api/employees/${id}`, {
       method: "PUT",
       body: JSON.stringify(employee),
       headers: {"Content-Type": "application/json"}
@@ -28,7 +28,7 @@ export default class EmployeeModal extends React.Component {
 
   deleteEmployee = async () => {
     try {
-      const response = await fetch(`/api/employee/${this.props.employee.id}`, {method: "DELETE"});
+      const response = await fetch(`/api/employees/${this.props.employee.id}`, {method: "DELETE"});
       if (!response.ok) {
         throw new Error(`Failed to delete employee ${response.status}`);
       }
@@ -55,6 +55,10 @@ export default class EmployeeModal extends React.Component {
       {employee && <>
         <div className="employee-modal__actions">
           <div className={`wrapper ${this.state.editingEmployee && "hidden"}`}>
+            <Link to={`/employee/${id}`}
+                  className="btn btn--inline fill">
+              Login&nbsp;as
+            </Link>
             <button onClick={() => this.setState({editingEmployee: true})}
                     type="button"
                     className="btn btn--inline">
@@ -65,10 +69,6 @@ export default class EmployeeModal extends React.Component {
               className="btn btn--inline">
               Delete
             </button>
-            <Link to={`/employee/${id}`}
-                  className="btn btn--inline">
-              Login&nbsp;as
-            </Link>
           </div>
           <button onClick={modalProps.onRequestClose}
                   type="button"

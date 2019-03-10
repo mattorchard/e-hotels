@@ -1,4 +1,4 @@
-const {responseToRows} = require('../services/postgres-service');
+const {responseToRows, inTransaction} = require('../services/postgres-service');
 const {roomInUse} = require('../services/booking-service');
 const {Pool} = require('pg');
 const pool = new Pool();
@@ -81,4 +81,28 @@ const getRoomsAvailableForRent = async (req, res, next) => {
   }
 };
 
-module.exports = {getRoomsAvailableForRent, createRental};
+const checkIn = async(req, res, next) => {
+  const {bookingId} =  req.params;
+  const {employeeId} = req.query;
+  try {
+    const bookingResponse = await pool.query("SELECT * FROM booking WHERE id = $1", [bookingId]);
+    const [booking] = responseToRows(bookingResponse);
+    if (!booking) {
+      return next(createError.NotFound("No booking found for that ID"));
+    }
+    const {customerId, hotelChainName, hotelId, roomNumber, startDate, endDate} = booking;
+    await inTransaction(pool, async client => {
+      await client.query(
+        `INSERT INTO rental VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7)`,
+        [customerId, employeeId, hotelChainName, hotelId, roomNumber, startDate, endDate]);
+      await client.query(`DELETE FROM booking WHERE id = $1`, [bookingId])
+    });
+
+    return res.send({message: "Checked in"});
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+};
+
+module.exports = {getRoomsAvailableForRent, createRental, checkIn};

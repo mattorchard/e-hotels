@@ -5,10 +5,10 @@ html, body, #root {
 
 @keyframes spin {
     from {
-        transform: rotate(0deg);
+        transform: rotateZ(0deg);
     }
     to {
-        transform: rotate(360deg);
+        transform: rotateZ(360deg);
     }
 }
 
@@ -119,10 +119,10 @@ html, body, #root {
     font-variant: small-caps;
     font-weight: 500;
     transition-duration: 0.4s;
-    -webkit-transition-property: transform, box-shadow, color, background-color;
-    -moz-transition-property: transform, box-shadow, color, background-color;
-    -o-transition-property: transform, box-shadow, color, background-color;
-    transition-property: transform, box-shadow, color, background-color;
+    -webkit-transition-property: transform, color, background-color;
+    -moz-transition-property: transform, color, background-color;
+    -o-transition-property: transform, color, background-color;
+    transition-property: transform, color, background-color;
 }
 
 .btn:disabled {
@@ -156,8 +156,8 @@ html, body, #root {
 }
 
 .btn.fill:focus, .btn.fill:hover:not(:disabled) {
-    box-shadow: 0 .2em .5em rgba(0, 128, 0, .4);
-    transform: translate(0, -.1em);
+    background-color: darkgreen;
+    border-color: darkgreen;
 }
 
 .add-btn::before {
@@ -228,6 +228,7 @@ html, body, #root {
 
 .horizontal-scroll {
     overflow-x: auto;
+    padding: 0 .2em 0 .2em;
 }
 
 .multi-col-dl {
@@ -267,12 +268,21 @@ html, body, #root {
     background-color: whitesmoke;
 }
 
+.table-spaced {
+    border-collapse: collapse;
+}
+
 .table-spaced th {
     padding: .2em .5em;
 }
 
 .table-spaced td {
     padding: .1em .5em;
+}
+
+.table-head {
+    color: white;
+    background-color: green;
 }
 
 @media only screen and (min-width: 800px) {
@@ -296,7 +306,7 @@ th.hidden-column {
 
 .clickable-row.selected-row {
     outline: .2em dashed green;
-    color: green;
+    color: darkgreen;
 }
 
 .ReactModal__Body--open {

@@ -45,11 +45,36 @@ const getBookings = async (req, res, next) => {
   try {
     const response = await pool.query(
       `SELECT * FROM customer, booking
-      WHERE hotel_chain_name = $1 AND hotel_id = $2 AND customer.id = customer_id`,
+      WHERE hotel_chain_name = $1
+      AND hotel_id = $2
+      AND customer.id = customer_id
+      AND END_DATE >= (now()::date)
+      ORDER BY start_date`,
       [hotelChainName, hotelId]);
     const rows = responseToRows(response);
     const bookings = rows.map(nestCustomer);
     return res.send(bookings);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
+const getAmountOfUpcomingBookings = async(req, res, next) => {
+  const {hotelChainName} = req.params;
+  try {
+    const response = await pool.query(
+      `SELECT hotel_chain_name, hotel_id, COUNT(id) AS num_bookings
+      FROM booking
+      WHERE hotel_chain_name = $1
+      AND END_DATE >= (now()::date)
+      GROUP BY (hotel_chain_name, hotel_id)`, [hotelChainName]);
+    const rows = responseToRows(response);
+    const amountsByHotel = rows.reduce((amounts, row) => {
+      amounts[row.hotelId] = row.numBookings;
+      return amounts
+    }, {});
+    return res.send(amountsByHotel);
   } catch (error) {
     console.error(error);
     return next(error);
@@ -135,4 +160,6 @@ const getSearchOptions = async (req, res, next) => {
   }
 };
 
-module.exports = {getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions};
+module.exports = {
+  getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions, getAmountOfUpcomingBookings
+};

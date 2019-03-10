@@ -2,17 +2,21 @@ import React from "react";
 import Address from "../Address";
 import Stars from "../Stars";
 import CreateRental from "./CreateRental";
+import CheckInModal from "./CheckInModal";
 
 
 export default class HotelCheckIn extends React.Component {
 
   state = {
-    creatingRenting: false
+    creatingRenting: false,
+    checkingIn: false
   };
 
   render() {
-    const {hotel, hotelChainName, employeeId} = this.props;
+    const {hotel, hotelChainName, employeeId, numberOfUpcomingBookings: numBookings} = this.props;
     const {category, address, manager} = hotel;
+    const {creatingRenting, checkingIn} = this.state;
+
     return <section className="large-card">
       <div className="check-in-card__head">
         <div>
@@ -24,13 +28,18 @@ export default class HotelCheckIn extends React.Component {
             <Stars disabled number={category} name="radio-stars"/>
           </form>
         </div>
-        <button
-          type="button"
-          className="btn fill">
-          Check In
+        <button onClick={() => this.setState({checkingIn: true})}
+                disabled={!numBookings}
+                title={numBookings ? "" : "No upcoming bookings for this hotel"}
+                type="button"
+                className="btn fill">
+          Check In {numBookings ?
+          <span title={`${numBookings} upcoming bookings`}>
+            ({numBookings})
+          </span> : ""}
         </button>
       </div>
-      {this.state.creatingRenting ?
+      {creatingRenting ?
         <CreateRental
           hotelId={hotel.id}
           hotelChainName={hotelChainName}
@@ -42,6 +51,13 @@ export default class HotelCheckIn extends React.Component {
           onClick={() => this.setState({creatingRenting: true})}>
           Rent without booking
         </button>}
+
+      <CheckInModal
+        isOpen={checkingIn}
+        hotelId={hotel.id}
+        hotelChainName={hotelChainName}
+        employeeId={employeeId}
+        onRequestClose={() => this.setState({checkingIn: false})}/>
 
     </section>
   }
