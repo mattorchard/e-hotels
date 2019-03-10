@@ -1,17 +1,32 @@
 const {Pool} = require('pg');
 const pool = new Pool();
 const {responseToRows, nestAddress} = require('../services/postgres-service');
-
+const lodash = require("lodash");
 
 const getHotelChains = async(req, res, next) => {
   try {
-    const response = await pool.query("SELECT * FROM hotel_chain, address WHERE main_office_address_id = id");
-    const rows = responseToRows(response);
-    const hotelChains = rows.map(nestAddress);
-    res.send(hotelChains);
+    const hotelChainPromise = pool.query(
+      `SELECT * FROM address, hotel_chain
+      WHERE main_office_address_id = id`);
+    const phonePromise = pool.query("SELECT * FROM hotel_chain_phone_number");
+    const emailPromise = pool.query("SELECT * FROM hotel_chain_email_address");
+    const responses = await Promise.all([hotelChainPromise, phonePromise, emailPromise]);
+    const [hotelChainRows, phoneRows, emailRows] = responseToRows(responses);
+
+    const hotelChains = hotelChainRows.map(nestAddress);
+
+    const groupedPhones = lodash.groupBy(phoneRows, "hotelChainName");
+    const groupedEmails = lodash.groupBy(emailRows, "hotelChainName");
+
+    hotelChains.forEach(hotelChain => {
+      hotelChain.phoneNumbers = (groupedPhones[hotelChain.name] || []).map(p => p.phoneNumber);
+      hotelChain.emailAddresses = (groupedEmails[hotelChain.name] || []).map(e => e.emailAddress);
+    });
+
+    return res.send(hotelChains);
   } catch (error) {
     console.error("Unable to fetch hotel chains", error);
-    next(error);
+    return next(error);
   }
 };
 // Add hotel chain
