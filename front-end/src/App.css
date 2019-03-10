@@ -110,7 +110,7 @@ html, body, #root {
     font-size: 1.1em;
     text-decoration: none;
     color: green;
-    background-color: transparent;
+    background-color: white;
     border: .1em solid green;
     border-radius: .33em;
     padding: .15em .7em .45em;

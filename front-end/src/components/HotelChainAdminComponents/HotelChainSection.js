@@ -4,7 +4,7 @@ import ShowContentButton from "../ShowContentButton";
 import Address from "../Address";
 import {AsyncItems} from "../AsyncItems";
 
-export default class HotelChainItem extends React.Component {
+export default class HotelChainSection extends React.Component {
   state = {
     loadingHotels: false,
     hotels: []
@@ -19,7 +19,7 @@ export default class HotelChainItem extends React.Component {
   };
 
   render() {
-    return <>
+    return <section>
       <div className="hotel-chain-item__head">
         <h3>{this.props.name}</h3>
         <strong>
@@ -39,6 +39,6 @@ export default class HotelChainItem extends React.Component {
         </ul>
       </ShowContentButton>
       <hr/>
-    </>;
+    </section>;
   }
 }
