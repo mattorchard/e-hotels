@@ -48,6 +48,7 @@ const getBookings = async (req, res, next) => {
       WHERE hotel_chain_name = $1
       AND hotel_id = $2
       AND customer.id = customer_id
+      AND END_DATE >= (now()::date)
       ORDER BY start_date`,
       [hotelChainName, hotelId]);
     const rows = responseToRows(response);
@@ -66,7 +67,7 @@ const getAmountOfUpcomingBookings = async(req, res, next) => {
       `SELECT hotel_chain_name, hotel_id, COUNT(id) AS num_bookings
       FROM booking
       WHERE hotel_chain_name = $1
-      AND end_date > now()
+      AND END_DATE >= (now()::date)
       GROUP BY (hotel_chain_name, hotel_id)`, [hotelChainName]);
     const rows = responseToRows(response);
     const amountsByHotel = rows.reduce((amounts, row) => {
