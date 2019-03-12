@@ -3,8 +3,11 @@ import HotelCard from "./HotelCard";
 import Address from "../Address";
 import {AsyncItems} from "../AsyncItems";
 import ContactInfo from "../ContactInfo";
+import HotelModalContext from "../../contexts/HotelModalContext";
 
 export default class HotelChainSection extends React.Component {
+  static contextType = HotelModalContext;
+
   state = {
     showingHotels: false,
     loadingHotels: false,
@@ -24,6 +27,7 @@ export default class HotelChainSection extends React.Component {
   render() {
     const {name, address, phoneNumbers, emailAddresses} = this.props;
     const {showingHotels} = this.state;
+    const {addHotel} = this.context;
     return <section>
       <div className="hotel-chain-section__head">
         <div>
@@ -32,7 +36,7 @@ export default class HotelChainSection extends React.Component {
         </div>
         <ContactInfo phoneNumbers={phoneNumbers} emailAddresses={emailAddresses}/>
         {showingHotels
-          ? <button className="btn btn--inverse">
+          ? <button className="btn btn--inverse" onClick={() => addHotel(name)}>
             Add Hotel
           </button>
           : <button className="btn btn--inverse" onClick={this.loadHotels}>

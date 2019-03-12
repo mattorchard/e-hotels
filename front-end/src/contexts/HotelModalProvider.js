@@ -19,16 +19,27 @@ export default class HotelModalProvider extends React.Component {
     console.log("Open room", room);
   };
 
-  state = {
+  contextFunctions = {
+    addHotel: this.editHotel,
     editHotel: this.editHotel,
     deleteHotel: this.deleteHotel,
     addRoom: this.addRoom,
     openRoom: this.openRoom
   };
 
+  state = {
+    addingHotel: false,
+    editingHotel: false,
+    deletingHotel: false,
+    addingRoom: false,
+    selectedRoom: null
+  };
+
   render() {
-    return <HotelModalContext.Provider value={this.state}>
+    const {} = this.state;
+    return <HotelModalContext.Provider value={this.contextFunctions}>
       {this.props.children}
+
     </HotelModalContext.Provider>
   }
 }
