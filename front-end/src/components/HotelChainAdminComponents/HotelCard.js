@@ -1,20 +1,24 @@
 import React from "react";
 import RoomRow from "./RoomRow";
-import ShowContentButton from "../ShowContentButton";
 import Address from "../Address";
 import Stars from "../Stars";
 import {AsyncItems} from "../AsyncItems";
+import ContactInfo from "../ContactInfo";
+import HotelModalContext from "../../contexts/HotelModalContext";
 
 
 export default class HotelCard extends React.Component {
+  static contextType = HotelModalContext;
   state = {
-    loadingRooms: true,
+    showingRooms: false,
+    loadingRooms: false,
     rooms: []
   };
 
   loadRooms = async () => {
     try {
-      const {id, hotelChainName} = this.props;
+      this.setState({showingRooms: true, loadingRooms: false});
+      const {id, hotelChainName} = this.props.hotel;
       const response = await fetch(`/api/hotel-chains/${hotelChainName}/${id}/rooms`);
       if (!response.ok) {
         throw new Error(`Unable to fetch rooms code: [${response.status}]`);
@@ -29,45 +33,67 @@ export default class HotelCard extends React.Component {
   };
 
   render() {
-    return <form className="large-card">
-      <div className="hotel-card__head">
-        <h5 className="hotel-card__title">
-          <Address {...this.props.address}/>
-        </h5>
-        <div className="hotel-card__head__field">
-          <strong>Manager: </strong>
-          {this.props.manager.givenName} {this.props.manager.familyName}
+    const {address, emailAddresses, phoneNumbers, category, manager} = this.props.hotel;
+    const {showingRooms, loadingRooms, rooms} = this.state;
+    const {editHotel, deleteHotel, addRoom, openRoom} = this.context;
+
+    return <div className="large-card">
+      <div className="hotel-card__head ">
+        <div>
+          <h3 className="hotel-card__title">
+            <Address {...address}/>
+          </h3>
+          Manager: {manager.givenName} {manager.familyName}
         </div>
-        <div className="hotel-card__head__end">
-          <Stars number={this.props.category} name="category" disabled/>
-        </div>
+
+        <ContactInfo phoneNumbers={phoneNumbers} emailAddresses={emailAddresses}/>
+        <Stars number={category} disabled/>
       </div>
 
-      <ShowContentButton
-        className="btn"
-        buttonLabel="Show rooms"
-        onClick={this.loadRooms}>
-        <div className="horizontal-scroll">
-          <table className="hotel-card__room-table table-spaced">
-            <thead>
-            <tr className="hotel-card__room-table__head">
-              <th>Room Number</th>
-              <th>Price</th>
-              <th>Capacity</th>
-              <th>View</th>
-              <th>Amenities</th>
-              <th>Damages</th>
-            </tr>
-            </thead>
-            <tbody>
-            <AsyncItems loading={this.state.loadingRooms} wrapper="table">
-              {this.state.rooms.map(room =>
-                <RoomRow key={room.roomNumber} {...room}/>)}
-            </AsyncItems>
-            </tbody>
-          </table>
-        </div>
-      </ShowContentButton>
-    </form>
+      <div className="hotel-card__actions">
+        {showingRooms
+          ? <button onClick={() => addRoom(this.props.hotel)}
+                    className="btn"
+                    type="button">
+            Add Room
+          </button>
+          : <button onClick={this.loadRooms}
+                    className="btn"
+                    type="button">
+            Show Rooms
+          </button>}
+        <button onClick={() => editHotel(this.props.hotel)}
+                className="btn"
+                type="button">
+          Edit Hotel
+        </button>
+        <button onClick={() => deleteHotel(this.props.hotel)}
+                className="btn"
+                type="button">
+          Delete Hotel
+        </button>
+      </div>
+
+      {showingRooms && <div className="horizontal-scroll">
+        <table className="hotel-card__room-table table-spaced">
+          <thead>
+          <tr className="hotel-card__room-table__head">
+            <th>Room Number</th>
+            <th>Price</th>
+            <th>Capacity</th>
+            <th>View</th>
+            <th>Amenities</th>
+            <th>Damages</th>
+          </tr>
+          </thead>
+          <tbody>
+          <AsyncItems loading={loadingRooms} wrapper="table">
+            {rooms.map(room =>
+              <RoomRow key={room.roomNumber} room={room} onClick={openRoom}/>)}
+          </AsyncItems>
+          </tbody>
+        </table>
+      </div>}
+    </div>
   }
 }

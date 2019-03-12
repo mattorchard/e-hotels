@@ -43,7 +43,9 @@ export default class HotelChainSection extends React.Component {
       {showingHotels && <ul className="rails">
         <AsyncItems loading={this.state.loadingHotels}>
           {this.state.hotels.map(hotel =>
-            <li key={hotel.id}><HotelCard {...hotel}/></li>)}
+            <li key={hotel.id}>
+              <HotelCard hotel={hotel}/>
+            </li>)}
         </AsyncItems>
       </ul>}
     </section>;

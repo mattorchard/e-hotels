@@ -17,20 +17,19 @@
 
 .hotel-card__head {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
     flex-wrap: wrap;
-}
-
-.hotel-card__head__end {
-    margin-left: auto;
+    margin-bottom: 1em;
 }
 
 .hotel-card__title {
-    font-size: 1em;
+    margin: 0;
 }
 
-.hotel-card__head__field {
-    margin-left: 1em;
+.hotel-card__actions {
+    display: flex;
+    justify-content: center;
 }
 
 .hotel-card__room-table {

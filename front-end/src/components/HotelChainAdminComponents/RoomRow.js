@@ -1,10 +1,13 @@
 import React from "react";
+import ExpandingList from "../ExpandingList";
+import ClickableRow from "../ClickableRow";
 
 
 export default class RoomRow extends React.Component {
   render() {
-    const {roomNumber, price, capacity, extendable, scenery, amenities, damages} = this.props;
-    return <tr className="striped">
+    const {roomNumber, price, capacity, extendable, scenery, amenities, damages} = this.props.room;
+
+    return <ClickableRow className="striped" onClick={() => this.props.onClick(this.props.room)}>
       <td>
         <strong>#{roomNumber}</strong>
       </td>
@@ -18,11 +21,19 @@ export default class RoomRow extends React.Component {
         {scenery}
       </td>
       <td>
-        {amenities.join(" ")}
+        <ul>
+          <ExpandingList>
+            {amenities.map(amenity => <li key={amenity}>{amenity}</li>)}
+          </ExpandingList>
+        </ul>
       </td>
       <td>
-        {damages.join(" ")}
+        <ul>
+          <ExpandingList>
+            {damages.map(damage => <li key={damage}>{damage}</li>)}
+          </ExpandingList>
+        </ul>
       </td>
-    </tr>
+    </ClickableRow>
   }
 }
