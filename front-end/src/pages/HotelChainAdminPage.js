@@ -3,6 +3,7 @@ import HotelChainSection from "../components/HotelChainAdminComponents/HotelChai
 import {AsyncItems} from "../components/AsyncItems";
 import {toast} from "react-toastify";
 import "./HotelChainAdminPage.css";
+import HotelModalProvider from "../contexts/HotelModalProvider";
 
 
 export default class HotelChainAdminPage extends React.Component {
@@ -26,15 +27,17 @@ export default class HotelChainAdminPage extends React.Component {
   }
 
   render() {
-    return <main className="main-content main-content--clear">
-      <AsyncItems loading={this.state.loadingHotelChains}
-                  placeholderMessage="No hotel chains."
-                  loadingMessage="Loading hotel chains..."
-                  wrapper>
+    return <HotelModalProvider>
+      <main className="main-content main-content--clear">
+        <AsyncItems loading={this.state.loadingHotelChains}
+                    placeholderMessage="No hotel chains."
+                    loadingMessage="Loading hotel chains..."
+                    wrapper>
 
-        {this.state.hotelChains.map(chain =>
-          <HotelChainSection key={chain.id} {...chain}/>)}
-      </AsyncItems>
-    </main>;
+          {this.state.hotelChains.map(chain =>
+            <HotelChainSection key={chain.id} {...chain}/>)}
+        </AsyncItems>
+      </main>
+    </HotelModalProvider>;
   }
 }
