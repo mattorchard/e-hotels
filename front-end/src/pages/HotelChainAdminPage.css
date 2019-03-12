@@ -1,7 +1,4 @@
 .hotel-chain-section__head {
-    position: sticky;
-    top: -1px;
-    z-index: 1;
     padding: .5em 1.5em 1em 1.5em;
     background-color: green;
     color: white;
