@@ -31,7 +31,7 @@ export default class RoomSelect extends React.Component {
         {rooms.map(({roomNumber, price, capacity, extendable, scenery}) =>
           <ClickableRow
             key={roomNumber}
-            className={"striped " + (roomNumber === value ? "selected-row" : "")}
+            className={"striped row-top " + (roomNumber === value ? "selected-row" : "")}
             onClick={() => onChange(roomNumber)}>
 
             <td><strong>{roomNumber}</strong></td>

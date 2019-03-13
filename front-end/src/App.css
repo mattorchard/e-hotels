@@ -256,6 +256,10 @@ html, body, #root {
     margin-left: 1em;
 }
 
+.row-top {
+    vertical-align: top;
+}
+
 .striped {
     background-color: white;
 }
