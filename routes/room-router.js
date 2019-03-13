@@ -125,5 +125,24 @@ const createRoom = async (req, res, next) => {
   }
 };
 // Edit room
-// Delete room
-module.exports = {getRooms, getRoom, getRoomsByArea, createRoom};
+
+const deleteRoom = async (req, res, next) => {
+  const {hotelChainName, hotelId, roomNumber} = req.params;
+  if (!hotelChainName || !hotelId || !roomNumber) {
+    return next(new createError.NotFound("Must supply hotel chain name, hotel ID and room number"));
+  }
+  try {
+    await pool.query(
+      `DELETE FROM room
+      WHERE hotel_chain_name = $1
+      AND hotel_id = $2
+      AND room_number = $3`,
+      [hotelChainName, hotelId, roomNumber]
+    );
+    res.send({message: "Room deleted"});
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+module.exports = {getRooms, getRoom, getRoomsByArea, createRoom, deleteRoom};
