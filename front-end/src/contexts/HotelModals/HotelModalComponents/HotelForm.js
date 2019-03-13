@@ -17,14 +17,14 @@ export default class HotelForm extends ReactForm {
   }
 
   onSubmit = async () => {
-
+    const {managerId, category} = this.state;
   };
 
   render() {
-    const {children, disabled} = this.props;
+    const {children, disabled, hotelChainName} = this.props;
     return <form onSubmit={this.onSubmit}>
       <fieldset disabled={disabled} className="simple-form">
-        <HotelFields onChange={this.handleInputChange} state={this.state}>
+        <HotelFields hotelChainName={hotelChainName} onChange={this.handleInputChange} state={this.state}>
           {children}
         </HotelFields>
       </fieldset>

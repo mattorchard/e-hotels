@@ -13,7 +13,7 @@ export default class EmployeeSelect extends React.Component {
     try {
       const {hotelChainName} = this.props;
       this.setState({selectedEmployee: null, loadingEmployees: true});
-      const response = await fetch(`/api/${hotelChainName}/employees`);
+      const response = await fetch(`/api/hotel-chains/${hotelChainName}/employees`);
       if (!response.ok) {
         throw new Error(`Unable to fetch employees ${response.status}`);
       }

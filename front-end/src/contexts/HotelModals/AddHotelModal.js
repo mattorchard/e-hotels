@@ -11,14 +11,14 @@ export default class AddHotelModal extends React.Component {
   };
 
   render() {
-    const {isOpen, onRequestClose} = this.props;
+    const {isOpen, onRequestClose, hotelChainName} = this.props;
     return <ReactModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       appElement={document.getElementById('root')}
       className="modal-fit-content">
 
-      <HotelForm onSubmit={this.addHotel}/>
+      <HotelForm hotelChainName={hotelChainName} onSubmit={this.addHotel}/>
     </ReactModal>
   }
 }
