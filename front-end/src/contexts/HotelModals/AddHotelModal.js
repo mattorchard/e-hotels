@@ -1,12 +1,14 @@
 import React from "react";
 import ReactModal from "react-modal";
 import {toast} from "react-toastify";
+import HotelForm from "./HotelModalComponents/HotelForm";
 
 export default class AddHotelModal extends React.Component {
 
-  async addHotel() {
+  addHotel = async hotel => {
     toast.warn("Feature not implemented");
-  }
+    console.log(hotel);
+  };
 
   render() {
     const {isOpen, onRequestClose} = this.props;
@@ -15,6 +17,8 @@ export default class AddHotelModal extends React.Component {
       onRequestClose={onRequestClose}
       appElement={document.getElementById('root')}
       className="modal-fit-content">
+
+      <HotelForm onSubmit={this.addHotel}/>
     </ReactModal>
   }
 }

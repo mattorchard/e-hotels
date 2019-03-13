@@ -8,9 +8,8 @@ import RoomModal from "./HotelModals/RoomModal";
 
 export default class HotelModalProvider extends React.Component {
 
-  addHotel = hotelChainName => {
-    console.log("Add Hotel", hotelChainName);
-  };
+  addHotel = (hotelChainName, onComplete) =>
+    this.setState({addingHotel: true, hotelChainName, onComplete});
 
   editHotel = hotel => {
     console.log("Edit Hotel", hotel);
@@ -67,12 +66,16 @@ export default class HotelModalProvider extends React.Component {
       {this.props.children}
       <AddHotelModal
         isOpen={addingHotel}
+        hotelChainName={hotelChainName}
+        onComplete={this.onComplete}
         onRequestClose={() => this.setState({addingHotel: false, hotelChainName: null})}/>
       <EditHotelModal
         isOpen={editingHotel}
+        onComplete={this.onComplete}
         onRequestClose={() => this.setState({editingHotel: false, hotel: null})}/>
       <DeleteHotelModal
         isOpen={deletingHotel}
+        onComplete={this.onComplete}
         onRequestClose={() => this.setState({deletingHotel: false, hotel: null})}/>
       <AddRoomModal
         hotel={hotel}

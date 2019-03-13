@@ -36,7 +36,7 @@ export default class HotelChainSection extends React.Component {
         </div>
         <ContactInfo phoneNumbers={phoneNumbers} emailAddresses={emailAddresses}/>
         {showingHotels
-          ? <button className="btn btn--inverse" onClick={() => addHotel(name)}>
+          ? <button className="btn btn--inverse" onClick={() => addHotel(name, this.loadHotels)}>
             Add Hotel
           </button>
           : <button className="btn btn--inverse" onClick={this.loadHotels}>
