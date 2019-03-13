@@ -4,8 +4,8 @@ const randomInt = (min, max) => Math.floor(min + Math.random() * (max - min));
 const randomBoolean = () => Math.random() > 0.5;
 const idFromResponse = ({rows}) => rows[0].id;
 const formatDate = (date=new Date()) => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-const randomEmail = () =>
-  `${choose(randomData.email.usernames)}@${choose(randomData.email.domains)}.${choose(randomData.email.extensions)}`
+const randomEmail = username =>
+  `${username.replace(/\s/g, "_")}@${choose(randomData.email.domains)}.${choose(randomData.email.extensions)}`;
 const randomSinOrSsn = () => {
   let sin = randomInt(100000000, 1000000000);
   let ssn = randomInt(100000000, 1000000000);
@@ -46,7 +46,7 @@ const insertSampleData = async (pool, numHotelChains=5, numCustomers=5) => {
 
       await pool.query(
         "INSERT INTO hotel_chain_email_address VALUES ($1, $2)",
-        [chainName, randomEmail()]);
+        [chainName, randomEmail(`${chainName}-${i}`)]);
     }
     return chainName;
   };
@@ -81,7 +81,7 @@ const insertSampleData = async (pool, numHotelChains=5, numCustomers=5) => {
 
       await pool.query(
         "INSERT INTO hotel_email_address VALUES ($1, $2, $3)",
-        [hotelChainName, id, randomEmail()]);
+        [hotelChainName, id, randomEmail(`${hotelChainName}-${id}-${i}`)]);
     }
     return id;
   };
