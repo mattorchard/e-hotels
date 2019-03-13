@@ -1,6 +1,7 @@
 import React from "react";
 import Stars from "../../../components/Stars";
 import AddressFields from "../../../components/AddressFields";
+import EmployeeSelect from "../../../components/EmployeeSelect";
 
 
 const HotelFields = ({state, onChange}) => <>
@@ -13,7 +14,7 @@ const HotelFields = ({state, onChange}) => <>
   </label>
   <label>
     Manager
-    <select className="simple-input"/>
+    <EmployeeSelect/>
   </label>
   <AddressFields state={state} onChange={onChange}/>
 </>;
