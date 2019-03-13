@@ -2,6 +2,7 @@ const {responseToRows} = require('../services/postgres-service');
 const pool = require("../pool");
 const createError = require('http-errors');
 const lodash = require("lodash");
+const {insertRoom} = require("../services/room-service");
 
 const getRooms = async (req, res, next) => {
   try {
@@ -98,7 +99,31 @@ const getRoomsByArea = async (req, res, next) => {
   }
 };
 
-// Add room
+const createRoom = async (req, res, next) => {
+  const {hotelChainName, hotelId} = req.params;
+  const room = req.body;
+  if (!hotelChainName || !hotelId || !room.roomNumber) {
+    return next(new createError.NotFound("Must supply hotel chain name, hotel ID and room number"));
+  }
+  try {
+    const conflictResponse = await pool.query(
+      `SELECT * FROM room
+      WHERE hotel_chain_name = $1
+      AND hotel_id = $2
+      AND room_number = $3`,
+      [hotelChainName, hotelId, room.roomNumber]
+    );
+    const conflictRows = responseToRows(conflictResponse);
+    if (conflictRows.length !== 0) {
+      return res.status(409).send({message: "That room number is already in use"});
+    }
+    await insertRoom(pool, {...room, hotelId, hotelChainName});
+    res.send({message: "Room created"});
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
 // Edit room
 // Delete room
-module.exports = {getRooms, getRoom, getRoomsByArea};
+module.exports = {getRooms, getRoom, getRoomsByArea, createRoom};
