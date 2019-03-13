@@ -11,7 +11,7 @@ const ConfirmationModal = ({children, isOpen, onConfirm, onCancel}) => <ReactMod
 
   <div>
     <button onClick={onConfirm}
-            className="btn"
+            className="btn fill"
             type="button">
       Confirm
     </button>
