@@ -7,7 +7,7 @@ export default class RoomRow extends React.Component {
   render() {
     const {roomNumber, price, capacity, extendable, scenery, amenities, damages} = this.props.room;
 
-    return <ClickableRow className="striped" onClick={() => this.props.onClick(this.props.room)}>
+    return <ClickableRow className="striped row-top" onClick={() => this.props.onClick(this.props.room)}>
       <td>
         <strong>#{roomNumber}</strong>
       </td>
