@@ -1,8 +1,8 @@
-const {responseToRows} = require('../services/postgres-service');
+const {responseToRows, inTransaction} = require('../services/postgres-service');
 const pool = require("../pool");
 const createError = require('http-errors');
 const lodash = require("lodash");
-const {insertRoom} = require("../services/room-service");
+const {insertRoom, roomNumberInUse, updateDamages, updateAmenities} = require("../services/room-service");
 
 const getRooms = async (req, res, next) => {
   try {
@@ -106,15 +106,7 @@ const createRoom = async (req, res, next) => {
     return next(new createError.NotFound("Must supply hotel chain name, hotel ID and room number"));
   }
   try {
-    const conflictResponse = await pool.query(
-      `SELECT * FROM room
-      WHERE hotel_chain_name = $1
-      AND hotel_id = $2
-      AND room_number = $3`,
-      [hotelChainName, hotelId, room.roomNumber]
-    );
-    const conflictRows = responseToRows(conflictResponse);
-    if (conflictRows.length !== 0) {
+    if (await roomNumberInUse(pool, {hotelChainName, hotelId, roomNumber: room.roomNumber})) {
       return res.status(409).send({message: "That room number is already in use"});
     }
     await insertRoom(pool, {...room, hotelId, hotelChainName});
@@ -124,7 +116,6 @@ const createRoom = async (req, res, next) => {
     return next(error);
   }
 };
-// Edit room
 
 const deleteRoom = async (req, res, next) => {
   const {hotelChainName, hotelId, roomNumber} = req.params;
@@ -145,4 +136,39 @@ const deleteRoom = async (req, res, next) => {
     return next(error);
   }
 };
-module.exports = {getRooms, getRoom, getRoomsByArea, createRoom, deleteRoom};
+
+const updateRoom = async (req, res, next) => {
+  const {hotelChainName, hotelId, roomNumber} = req.params;
+  const {price, capacity ,scenery, extendable, damages, amenities} = req.body;
+  if (!hotelChainName || !hotelId || !roomNumber || !price || !capacity) {
+    return next(new createError.NotFound("Must supply hotel chain name, hotel ID room number, price, and capacity"));
+  }
+  if (price < 1) {
+    return next(new createError.UnprocessableEntity("Price must be 1 or more"));
+  }
+  if (capacity < 1) {
+    return next(new createError.UnprocessableEntity("Capacity must be 1 or more"));
+  }
+  try {
+    const room = {hotelChainName, hotelId, roomNumber, price, capacity, scenery, extendable, damages, amenities};
+    await inTransaction(pool, async client => {
+      await updateDamages(client, room);
+      await updateAmenities(client, room);
+      await client.query(
+        `UPDATE room
+        SET price = $4, capacity = $5, scenery = $6, extendable = $7
+        WHERE hotel_chain_name = $1
+        AND hotel_id = $2
+        AND room_number = $3`,
+        [hotelChainName, hotelId, roomNumber, price, capacity, scenery, extendable]
+      );
+    });
+
+    res.send({message: "Room updated"});
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
+module.exports = {getRooms, getRoom, getRoomsByArea, createRoom, deleteRoom, updateRoom};
