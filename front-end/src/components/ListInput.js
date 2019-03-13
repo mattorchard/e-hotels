@@ -6,8 +6,10 @@ const RemovableListItem = ({value, onRemove}) => <li className="removable-list-i
   {value}
   <button type="button"
           className="btn btn--char"
+          aria-label="Remove"
+          title="Remove"
           onClick={() => onRemove(value)}>
-    x
+    &times;
   </button>
 </li>;
 
@@ -60,6 +62,8 @@ export default class ListInput extends ReactForm {
           {this.renderInput()}
           <button type="button"
                   className="btn btn--char"
+                  aria-label="Add"
+                  title="Add"
                   onClick={() => this.addNewValue(this.state.newValue)}>
             +
           </button>

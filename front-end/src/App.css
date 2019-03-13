@@ -141,6 +141,7 @@ html, body, #root {
     padding: 0 .35em 0.2em;
     width: 1.75em;
     height: 1.75em;
+    border-radius: 50%;
     margin: 0 .25em;
     font-weight: 900;
 }
