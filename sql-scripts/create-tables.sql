@@ -85,7 +85,7 @@ CREATE TABLE room_amenity (
     room_number INTEGER,
     amenity VARCHAR(100),
     PRIMARY KEY(hotel_chain_name, hotel_id, room_number, amenity),
-    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number)
+    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE
 );
 
 CREATE TABLE room_damage (
@@ -94,7 +94,7 @@ CREATE TABLE room_damage (
     room_number INTEGER,
     damage VARCHAR(100),
     PRIMARY KEY(hotel_chain_name, hotel_id, room_number, damage),
-    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number)
+    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE
 );
 
 CREATE TABLE employee (
