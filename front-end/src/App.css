@@ -363,3 +363,8 @@ th.hidden-column {
 .placeholder:first-child:last-child {
     display: list-item;
 }
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+}

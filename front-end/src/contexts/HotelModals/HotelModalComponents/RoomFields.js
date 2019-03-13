@@ -1,12 +1,13 @@
 import React from "react";
 import ListInput from "../../../components/ListInput";
 
-const RoomFields = ({state, onChange}) => <>
+const RoomFields = ({state, onChange, roomNumberDisabled}) => <>
   <label>
     Room Number
     <input name="roomNumber"
            type="number"
            required
+           disabled={roomNumberDisabled}
            min={0}
            value={state.roomNumber}
            onChange={onChange}/>
