@@ -17,7 +17,7 @@ export default class HotelCard extends React.Component {
 
   loadRooms = async () => {
     try {
-      this.setState({showingRooms: true, loadingRooms: false});
+      this.setState({showingRooms: true, loadingRooms: true});
       const {id, hotelChainName} = this.props.hotel;
       const response = await fetch(`/api/hotel-chains/${hotelChainName}/${id}/rooms`);
       if (!response.ok) {
@@ -52,7 +52,7 @@ export default class HotelCard extends React.Component {
 
       <div className="hotel-card__actions">
         {showingRooms
-          ? <button onClick={() => addRoom(this.props.hotel)}
+          ? <button onClick={() => addRoom(this.props.hotel, this.loadRooms)}
                     className="btn"
                     type="button">
             Add Room

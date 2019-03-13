@@ -20,13 +20,21 @@ export default class HotelModalProvider extends React.Component {
     console.log("Delete Hotel", hotel);
   };
 
-  addRoom = hotel => {
-    console.log("Add room", hotel);
+  addRoom = (hotel, onComplete) => {
+    this.setState({addingRoom: true, hotel, onComplete});
   };
 
   openRoom = room => {
     console.log("Open room", room);
   };
+
+  onComplete = () => this.setState(({onComplete}) => {
+    if (onComplete) {
+      onComplete();
+    }
+    return {onComplete: null}
+  });
+
 
   contextFunctions = {
     addHotel: this.addHotel,
@@ -46,11 +54,16 @@ export default class HotelModalProvider extends React.Component {
     // Modal data
     hotelChainName: null,
     hotel: null,
-    room: null
+    room: null,
+    // Modal callback
+    onComplete: null
   };
 
   render() {
-    const {addingHotel, editingHotel, deletingHotel, addingRoom, roomOpen} = this.state;
+    const {
+      addingHotel, editingHotel, deletingHotel, addingRoom, roomOpen,
+      hotelChainName, hotel, room
+    } = this.state;
     return <HotelModalContext.Provider value={this.contextFunctions}>
       {this.props.children}
       <AddHotelModal
@@ -63,7 +76,9 @@ export default class HotelModalProvider extends React.Component {
         isOpen={deletingHotel}
         onRequestClose={() => this.setState({deletingHotel: false, hotel: null})}/>
       <AddRoomModal
+        hotel={hotel}
         isOpen={addingRoom}
+        onComplete={this.onComplete}
         onRequestClose={() => this.setState({addingRoom: false, hotel: null})}/>
       <RoomModal
         isOpen={roomOpen}
