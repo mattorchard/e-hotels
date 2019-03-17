@@ -11,12 +11,14 @@ const getHotels = async (req, res, next) => {
   }
   try {
     const hotelPromise = pool.query(
-      `SELECT * FROM address, employee, capacity_by_hotel, hotel
-      WHERE hotel.hotel_chain_name = $1
-      AND hotel.address_id = address.id
-      AND manager_id = employee.id
-      AND hotel.id = capacity_by_hotel.hotel_id
-      AND hotel.hotel_chain_name = capacity_by_hotel.hotel_chain_name`,
+      `SELECT *, hotel.* FROM
+      hotel
+      JOIN employee on employee.id = manager_id
+      JOIN address on address.id = hotel.address_id
+      LEFT JOIN capacity_by_hotel
+        ON hotel.id = capacity_by_hotel.hotel_id
+        AND hotel.hotel_chain_name = capacity_by_hotel.hotel_chain_name
+      WHERE hotel.hotel_chain_name = $1`,
       [hotelChainName]);
     const phonePromise = pool.query(
       `SELECT * FROM hotel_phone_number
