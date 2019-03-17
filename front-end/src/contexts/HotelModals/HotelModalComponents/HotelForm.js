@@ -12,12 +12,22 @@ export default class HotelForm extends ReactForm {
     } else {
       this.state = {
         category: 3,
+        managerId: "",
+        streetNumber: "",
+        streetName: "",
+        city: "",
+        country: "",
+        emailAddresses: [],
+        phoneNumbers: []
       };
     }
   }
 
-  onSubmit = async () => {
-    const {managerId, category} = this.state;
+  onSubmit = event => {
+    event.preventDefault();
+    const {managerId, category, emailAddresses, phoneNumbers, ...address} = this.state;
+    const hotel = {managerId, category, emailAddresses, phoneNumbers, address};
+    this.props.onSubmit(hotel);
   };
 
   render() {
@@ -27,6 +37,7 @@ export default class HotelForm extends ReactForm {
         <HotelFields hotelChainName={hotelChainName} onChange={this.handleInputChange} state={this.state}>
           {children}
         </HotelFields>
+        {children}
       </fieldset>
     </form>
   }

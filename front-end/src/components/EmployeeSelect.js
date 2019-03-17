@@ -28,17 +28,18 @@ export default class EmployeeSelect extends React.Component {
 
   render() {
     const {loadingEmployees, employees} = this.state;
-    const {selectedEmployee, onChange, required} = this.props;
+    const {selectedEmployee, onChange, required, name} = this.props;
     if (loadingEmployees) {
       return <div className="spinner">Loading employees...</div>
     } else {
       return <select className="simple-input"
+                     name={name}
                      value={selectedEmployee}
                      onChange={onChange}
                      required={required}>
         <option className="hidden-option" value=""/>
         {employees.map(employee =>
-          <option value={employee.id}>
+          <option value={employee.id} key={employee.id}>
           {employee.givenName} {employee.familyName}
         </option>)}
       </select>

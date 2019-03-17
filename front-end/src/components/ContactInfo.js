@@ -3,11 +3,10 @@ import ExpandingList from "./ExpandingList";
 
 const formatPhoneNumber = number => {
   const digits = (number + "");
-  const countryCode = digits.slice(0, 1);
-  const area = digits.slice(1, 4);
-  const city = digits.slice(4, 7);
-  const user = digits.slice(7, 10);
-  return `+${countryCode} (${area}) ${city}-${user}`;
+  const area = digits.slice(0, 3);
+  const city = digits.slice(3, 6);
+  const user = digits.slice(6, 10);
+  return `(${area}) ${city}-${user}`;
 };
 
 
