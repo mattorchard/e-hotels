@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const {getHotelChains} = require('./hotel-chain-router');
-const {getHotels, getCapacityByHotel, createHotel} = require('./hotel-router');
+const {getHotels, getCapacityByHotel, createHotel, deleteHotel} = require('./hotel-router');
 const {getRooms, getRoom, getRoomsByArea, createRoom, deleteRoom, updateRoom} = require('./room-router');
 const {
   getEmployees, getEmployeesByHotelChain, getEmployee, deleteEmployee, createEmployee, updateEmployee
@@ -22,6 +22,7 @@ router.get("/hotel-chains/:hotelChainName/hotels", getHotels);
 router.get("/hotel-chains/:hotelChainName/employees", getEmployeesByHotelChain);
 router.get("/hotel-chains/:hotelChainName/upcoming-bookings", getAmountOfUpcomingBookings);
 
+router.delete("/hotel-chains/:hotelChainName/:hotelId", deleteHotel);
 router.post("/hotel-chains/:hotelChainName/hotels", createHotel);
 
 router.get("/hotel-chains/:hotelChainName/:hotelId/rooms", getRooms);

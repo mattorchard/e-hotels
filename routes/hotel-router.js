@@ -81,7 +81,23 @@ const createHotel = async(req, res, next) => {
     return next(error);
   }
 };
-// Edit hotel
-// Delete hotel
 
-module.exports = {getHotels, getCapacityByHotel, createHotel};
+// Edit hotel
+
+const deleteHotel = async(req, res, next) => {
+  const {hotelChainName, hotelId} = req.params;
+  if (!hotelChainName || !hotelId) {
+    return next(createError.NotFound("Must supply a hotel chain name and hotel ID"));
+  }
+  try {
+    await pool.query(`DELETE FROM hotel WHERE hotel_chain_name = $1 AND id = $2`,
+      [hotelChainName, hotelId]);
+    return res.send({message: "Hotel deleted"});
+  } catch (error) {
+    console.error("Unable to delete hotel", error);
+    return next(error);
+  }
+};
+
+
+module.exports = {getHotels, getCapacityByHotel, createHotel, deleteHotel};
