@@ -30,7 +30,7 @@ const HotelFields = ({state, onChange, hotelChainName}) => <>
              format={stripPhoneNumber}
              onChange={onChange}>
     <input type="tel"
-           pattern="(\D?\d){11}"/>
+           pattern="(\D?\d){10}"/>
   </ListInput>
 
   <ListInput label="Email Addresses"
