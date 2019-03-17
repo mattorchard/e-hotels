@@ -20,7 +20,10 @@ const HotelFields = ({state, onChange, hotelChainName}) => <>
   </div>
   <label>
     Manager
-    <EmployeeSelect hotelChainName={hotelChainName}/>
+    <EmployeeSelect name="managerId"
+                    required
+                    hotelChainName={hotelChainName}
+                    onChange={onChange}/>
   </label>
   <AddressFields state={state} onChange={onChange}/>
 
