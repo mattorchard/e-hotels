@@ -33,6 +33,7 @@ export default class HotelCard extends React.Component {
   };
 
   render() {
+    const {reloadHotels} = this.props;
     const {address, emailAddresses, phoneNumbers, category, manager} = this.props.hotel;
     const {showingRooms, loadingRooms, rooms} = this.state;
     const {editHotel, deleteHotel, addRoom, openRoom} = this.context;
@@ -67,7 +68,7 @@ export default class HotelCard extends React.Component {
                 type="button">
           Edit Hotel
         </button>
-        <button onClick={() => deleteHotel(this.props.hotel)}
+        <button onClick={() => deleteHotel(this.props.hotel, reloadHotels)}
                 className="btn"
                 type="button">
           Delete Hotel
