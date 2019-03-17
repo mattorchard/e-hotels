@@ -1,4 +1,6 @@
-const {responseToRows, nestAddress, nestManager} = require('../services/postgres-service');
+const {responseToRows, inTransaction, nestAddress, nestManager} = require('../services/postgres-service');
+const {insertHotelPhoneNumbers, insertHotelEmailAddresses} = require("../services/hotel-service");
+const {insertAddress} = require("../services/address-service");
 const pool = require("../pool");
 const createError = require('http-errors');
 const lodash = require("lodash");
@@ -60,8 +62,26 @@ const getCapacityByHotel = async(req, res, next) => {
   }
 };
 
-// Add hotel
+const createHotel = async(req, res, next) => {
+  const {hotelChainName} = req.params;
+  const {category, managerId, address, phoneNumbers, emailAddresses} = req.body;
+  try {
+    await inTransaction(pool, async client => {
+      const addressId = await insertAddress(client, address);
+      const response = await client.query(
+        `INSERT INTO hotel VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id`,
+        [hotelChainName, category, addressId, managerId]);
+      const [{id: hotelId}] = responseToRows(response);
+      await insertHotelPhoneNumbers(client, {hotelChainName, hotelId}, phoneNumbers);
+      await insertHotelEmailAddresses(client, {hotelChainName, hotelId}, emailAddresses);
+    });
+    return res.send({message: "Created hotel"});
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
 // Edit hotel
 // Delete hotel
 
-module.exports = {getHotels, getCapacityByHotel};
+module.exports = {getHotels, getCapacityByHotel, createHotel};

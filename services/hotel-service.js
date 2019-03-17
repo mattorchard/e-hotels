@@ -14,5 +14,20 @@ const getHotels = async client => {
     .map(nestManager);
 };
 
-module.exports = {getHotels};
+const insertHotelPhoneNumbers = async (client, {hotelChainName, hotelId}, phoneNumbers) => {
+  if (phoneNumbers.length < 1) {return;}
+  const arguments = phoneNumbers.map((number, index) => `($1, $2, $${index + 3})`);
+  return client.query(`INSERT INTO hotel_phone_number VALUES ${arguments.join(", ")}`,
+    [hotelChainName, hotelId, ...phoneNumbers]);
+};
+
+const insertHotelEmailAddresses = async (client, {hotelChainName, hotelId}, emailAddresses) => {
+  if (emailAddresses.length < 1) {return;}
+  const arguments = emailAddresses.map((number, index) => `($1, $2, $${index + 3})`);
+  return client.query(`INSERT INTO hotel_email_address VALUES ${arguments.join(", ")}`,
+    [hotelChainName, hotelId, ...emailAddresses]);
+};
+
+
+module.exports = {getHotels, insertHotelPhoneNumbers, insertHotelEmailAddresses};
 
