@@ -1,5 +1,5 @@
 const {responseToRows, inTransaction, nestAddress, nestManager} = require('../services/postgres-service');
-const {insertHotelPhoneNumbers, insertHotelEmailAddresses} = require("../services/hotel-service");
+const hotelService = require("../services/hotel-service");
 const {insertAddress} = require("../services/address-service");
 const pool = require("../pool");
 const createError = require('http-errors');
@@ -71,9 +71,9 @@ const createHotel = async(req, res, next) => {
       const response = await client.query(
         `INSERT INTO hotel VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id`,
         [hotelChainName, category, addressId, managerId]);
-      const [{id: hotelId}] = responseToRows(response);
-      await insertHotelPhoneNumbers(client, {hotelChainName, hotelId}, phoneNumbers);
-      await insertHotelEmailAddresses(client, {hotelChainName, hotelId}, emailAddresses);
+      const [{id}] = responseToRows(response);
+      await hotelService.insertHotelPhoneNumbers(client, {hotelChainName, id}, phoneNumbers);
+      await hotelService.insertHotelEmailAddresses(client, {hotelChainName, id}, emailAddresses);
     });
     return res.send({message: "Created hotel"});
   } catch (error) {
@@ -82,7 +82,20 @@ const createHotel = async(req, res, next) => {
   }
 };
 
-// Edit hotel
+const updateHotel = async(req, res, next) => {
+  const {hotelChainName, hotelId} = req.params;
+  const hotel = req.body;
+  if (!hotelChainName || !hotelId) {
+    return next(createError.NotFound("Must supply a hotel chain name and hotel ID"));
+  }
+  try {
+    await hotelService.updateHotel(pool, {...hotel, hotelChainName, id: hotelId});
+    return res.send({message: "Hotel updated"});
+  } catch (error) {
+    console.error("Unable to update hotel", error);
+    return next(error);
+  }
+};
 
 const deleteHotel = async(req, res, next) => {
   const {hotelChainName, hotelId} = req.params;
@@ -90,6 +103,7 @@ const deleteHotel = async(req, res, next) => {
     return next(createError.NotFound("Must supply a hotel chain name and hotel ID"));
   }
   try {
+    // Todo: Delete address of hotel (to prevent orphaning
     await pool.query(`DELETE FROM hotel WHERE hotel_chain_name = $1 AND id = $2`,
       [hotelChainName, hotelId]);
     return res.send({message: "Hotel deleted"});
@@ -100,4 +114,4 @@ const deleteHotel = async(req, res, next) => {
 };
 
 
-module.exports = {getHotels, getCapacityByHotel, createHotel, deleteHotel};
+module.exports = {getHotels, getCapacityByHotel, createHotel, deleteHotel, updateHotel};
