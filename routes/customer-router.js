@@ -1,5 +1,5 @@
 const pool = require("../pool");
-const {responseToRows, nestAddress} = require('../services/postgres-service');
+const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
 
 
 const getCustomers = async (req, res, next) => {
@@ -32,5 +32,26 @@ const getCustomer = async (req, res, next) => {
 };
 // Add a customer
 // Edit customer
-// Delete customer
-module.exports = {getCustomers, getCustomer};
+const deleteCustomer = async(req, res, next) =>{
+  const {customerId} = req.params;
+  if (!customerId) {
+    return next(new createError.UnprocessableEntity("Must supply ID to delete customer"));
+  }
+
+  try {
+    const rows = responseToRows(await pool.query(
+      "SELECT address_id FROM customer WHERE id = $1", [customerId]));
+    const [{addressId}] = rows;
+
+    await inTransaction(pool, async client=> {
+      await client.query(`DELETE FROM customer WHERE id=$1`, [customerId]);
+      await client.query(`DELETE FROM address WHERE id=$1`, [addressId]);
+    });
+
+    return res.send({message: `Deleted customer ${customerId}`});
+  } catch(error){
+    console.error(`Unable to delete customer [${customerId}]`, error);
+    return next(error);
+  }
+};
+module.exports = {getCustomers, getCustomer, deleteCustomer};
