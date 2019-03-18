@@ -103,9 +103,18 @@ const deleteHotel = async(req, res, next) => {
     return next(createError.NotFound("Must supply a hotel chain name and hotel ID"));
   }
   try {
-    // Todo: Delete address of hotel (to prevent orphaning
-    await pool.query(`DELETE FROM hotel WHERE hotel_chain_name = $1 AND id = $2`,
-      [hotelChainName, hotelId]);
+    await inTransaction(pool, async client => {
+      const addressResponse = await client.query(
+        `SELECT address_id FROM hotel WHERE hotel_chain_name = $1 AND id = $2`,
+        [hotelChainName, hotelId]);
+      const [{addressId}] = responseToRows(addressResponse);
+      await client.query(
+        `DELETE FROM hotel WHERE hotel_chain_name = $1 AND id = $2`,
+        [hotelChainName, hotelId]);
+      await client.query(
+        `DELETE FROM address WHERE id = $1`, [addressId]);
+    });
+
     return res.send({message: "Hotel deleted"});
   } catch (error) {
     console.error("Unable to delete hotel", error);
