@@ -25,6 +25,7 @@ export default class DeleteHotelModal extends React.Component {
   render() {
     const {isOpen, onRequestClose, hotel} = this.props;
     return <ConfirmationModal
+      tripleConfirm
       isOpen={isOpen}
       onCancel={onRequestClose}
       onConfirm={this.deleteHotel}

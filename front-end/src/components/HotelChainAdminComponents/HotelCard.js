@@ -42,7 +42,7 @@ export default class HotelCard extends React.Component {
       <div className="hotel-card__head ">
         <div>
           <h3 className="hotel-card__title">
-            <Address {...address}/>
+            <Address {...address} twoLine/>
           </h3>
           Manager: {manager.givenName} {manager.familyName}
         </div>
