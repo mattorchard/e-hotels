@@ -1,8 +1,10 @@
 const pool = require("../pool");
-const {responseToRows, nestAddress} = require('../services/postgres-service');
+const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
+const {deleteAddresses} = require("../services/address-service");
 const lodash = require("lodash");
+const createError = require('http-errors');
 
-const getHotelChains = async(req, res, next) => {
+const getHotelChains = async (req, res, next) => {
   try {
     const hotelChainPromise = pool.query(
       `SELECT * FROM address, hotel_chain
@@ -30,6 +32,37 @@ const getHotelChains = async(req, res, next) => {
 };
 // Add hotel chain
 // Edit hotel chain
-// Delete hotel chain
+const deleteHotelChain = async (req, res, next) => {
+  if (process.env.DISABLE_DELETE_HOTEL_CHAINS) {
+    return next(createError.Forbidden("Deleting hotel chains has been disabled for this deployment"));
+  }
+  const {hotelChainName} = req.params;
+  if (!hotelChainName) {
+    return next(createError.NotFound("Must supply hotel chain name"));
+  }
+  try {
+    await inTransaction(pool, async client => {
+      const addressResponse = await client.query(`(
+          SELECT main_office_address_id as address_id
+          FROM hotel_chain
+          WHERE name = $1
+        ) UNION (
+          SELECT address_id
+          FROM hotel
+          WHERE hotel_chain_name = $1
+      )`, [hotelChainName]);
 
-module.exports = {getHotelChains};
+      const addressIds = responseToRows(addressResponse)
+      .map(({addressId}) => addressId);
+
+      await client.query(`DELETE FROM hotel_chain WHERE name = $1`, [hotelChainName]);
+      await deleteAddresses(client, addressIds)
+    });
+    return res.send({message: "Hotel chain deleted"});
+  } catch (error) {
+    console.error("Unable to delete hotel chain", error);
+    return next(error);
+  }
+};
+
+module.exports = {getHotelChains, deleteHotelChain};

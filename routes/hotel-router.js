@@ -1,5 +1,5 @@
 const {responseToRows, inTransaction, nestAddress, nestManager} = require('../services/postgres-service');
-const {insertHotelPhoneNumbers, insertHotelEmailAddresses} = require("../services/hotel-service");
+const hotelService = require("../services/hotel-service");
 const {insertAddress} = require("../services/address-service");
 const pool = require("../pool");
 const createError = require('http-errors');
@@ -71,9 +71,9 @@ const createHotel = async(req, res, next) => {
       const response = await client.query(
         `INSERT INTO hotel VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id`,
         [hotelChainName, category, addressId, managerId]);
-      const [{id: hotelId}] = responseToRows(response);
-      await insertHotelPhoneNumbers(client, {hotelChainName, hotelId}, phoneNumbers);
-      await insertHotelEmailAddresses(client, {hotelChainName, hotelId}, emailAddresses);
+      const [{id}] = responseToRows(response);
+      await hotelService.insertHotelPhoneNumbers(client, {hotelChainName, id}, phoneNumbers);
+      await hotelService.insertHotelEmailAddresses(client, {hotelChainName, id}, emailAddresses);
     });
     return res.send({message: "Created hotel"});
   } catch (error) {
@@ -81,7 +81,46 @@ const createHotel = async(req, res, next) => {
     return next(error);
   }
 };
-// Edit hotel
-// Delete hotel
 
-module.exports = {getHotels, getCapacityByHotel, createHotel};
+const updateHotel = async(req, res, next) => {
+  const {hotelChainName, hotelId} = req.params;
+  const hotel = req.body;
+  if (!hotelChainName || !hotelId) {
+    return next(createError.NotFound("Must supply a hotel chain name and hotel ID"));
+  }
+  try {
+    await hotelService.updateHotel(pool, {...hotel, hotelChainName, id: hotelId});
+    return res.send({message: "Hotel updated"});
+  } catch (error) {
+    console.error("Unable to update hotel", error);
+    return next(error);
+  }
+};
+
+const deleteHotel = async(req, res, next) => {
+  const {hotelChainName, hotelId} = req.params;
+  if (!hotelChainName || !hotelId) {
+    return next(createError.NotFound("Must supply a hotel chain name and hotel ID"));
+  }
+  try {
+    await inTransaction(pool, async client => {
+      const addressResponse = await client.query(
+        `SELECT address_id FROM hotel WHERE hotel_chain_name = $1 AND id = $2`,
+        [hotelChainName, hotelId]);
+      const [{addressId}] = responseToRows(addressResponse);
+      await client.query(
+        `DELETE FROM hotel WHERE hotel_chain_name = $1 AND id = $2`,
+        [hotelChainName, hotelId]);
+      await client.query(
+        `DELETE FROM address WHERE id = $1`, [addressId]);
+    });
+
+    return res.send({message: "Hotel deleted"});
+  } catch (error) {
+    console.error("Unable to delete hotel", error);
+    return next(error);
+  }
+};
+
+
+module.exports = {getHotels, getCapacityByHotel, createHotel, deleteHotel, updateHotel};

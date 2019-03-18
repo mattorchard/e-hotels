@@ -33,6 +33,7 @@ export default class HotelCard extends React.Component {
   };
 
   render() {
+    const {reloadHotels} = this.props;
     const {address, emailAddresses, phoneNumbers, category, manager} = this.props.hotel;
     const {showingRooms, loadingRooms, rooms} = this.state;
     const {editHotel, deleteHotel, addRoom, openRoom} = this.context;
@@ -41,7 +42,7 @@ export default class HotelCard extends React.Component {
       <div className="hotel-card__head ">
         <div>
           <h3 className="hotel-card__title">
-            <Address {...address}/>
+            <Address {...address} twoLine/>
           </h3>
           Manager: {manager.givenName} {manager.familyName}
         </div>
@@ -62,12 +63,12 @@ export default class HotelCard extends React.Component {
                     type="button">
             Show Rooms
           </button>}
-        <button onClick={() => editHotel(this.props.hotel)}
+        <button onClick={() => editHotel(this.props.hotel, reloadHotels)}
                 className="btn"
                 type="button">
           Edit Hotel
         </button>
-        <button onClick={() => deleteHotel(this.props.hotel)}
+        <button onClick={() => deleteHotel(this.props.hotel, reloadHotels)}
                 className="btn"
                 type="button">
           Delete Hotel
@@ -87,7 +88,7 @@ export default class HotelCard extends React.Component {
           </tr>
           </thead>
           <tbody>
-          <AsyncItems loading={loadingRooms} wrapper="table">
+          <AsyncItems loading={loadingRooms} wrapper="table" placeholderMessage="No rooms">
             {rooms.map(room =>
               <RoomRow key={room.roomNumber} room={room} onClick={room => openRoom(room, this.loadRooms)}/>)}
           </AsyncItems>
