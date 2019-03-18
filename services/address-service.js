@@ -15,4 +15,14 @@ const updateAddress = async (client, {id, streetNumber, streetName, city, countr
     [streetNumber, streetName, city, country, id]);
 };
 
-module.exports = {insertAddress, updateAddress};
+const deleteAddresses = async(client, addressIds) => {
+  if (!addressIds || addressIds.length < 1) {
+    return;
+  }
+  const arguments = addressIds.map((id, index) => `$${index + 1}`);
+  await client.query(`DELETE FROM address WHERE id IN (${arguments.join(", ")})`, [...addressIds]);
+};
+
+const deleteAddress = async(client, addressId) => deleteAddresses(client, [addressId]);
+
+module.exports = {insertAddress, updateAddress, deleteAddress, deleteAddresses};
