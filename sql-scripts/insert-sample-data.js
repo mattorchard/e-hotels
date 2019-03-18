@@ -133,7 +133,7 @@ const insertSampleData = async (pool, numHotelChains=5, numCustomers=5) => {
     // Manager for each hotel
     const managerIds = await Promise.all(
       new Array(numHotels).fill(null).map(() =>
-        insertEmployee(hotelChainName, ["Hotel Manager"])));
+        insertEmployee(hotelChainName, [])));
 
     // Collection of hotels
     const hotelIds = await Promise.all(managerIds.map(managerId =>

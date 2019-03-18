@@ -180,3 +180,22 @@ GROUP BY (city, country);
 CREATE VIEW capacity_by_hotel AS
 SELECT hotel_chain_name, hotel_id, SUM(capacity) AS capacity
 FROM room GROUP BY (hotel_chain_name, hotel_id);
+
+CREATE FUNCTION add_manager_role()
+	RETURNS trigger AS
+	$BODY$
+	BEGIN
+	INSERT INTO employee_role VALUES (NEW.manager_id, 'Hotel Manager') ON CONFLICT DO NOTHING;
+	RETURN NEW;
+	END
+	$BODY$ LANGUAGE plpgsql;
+CREATE TRIGGER check_manager_role_update
+	AFTER UPDATE OF manager_id ON hotel
+	FOR EACH ROW
+	WHEN (OLD.manager_id IS DISTINCT FROM NEW.manager_id)
+	EXECUTE PROCEDURE add_manager_role();
+
+CREATE TRIGGER check_manager_role_create
+	AFTER INSERT ON hotel
+	FOR EACH ROW
+	EXECUTE PROCEDURE add_manager_role();
