@@ -1,3 +1,4 @@
+const addressService = require("../services/address-service");
 const pool = require("../pool");
 const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
 
@@ -31,6 +32,22 @@ const getCustomer = async (req, res, next) => {
   }
 };
 // Add a customer
+const createCustomer = async (req, res, next) => {
+   const {ssn, sin, givenName, familyName, address} = req.body;
+  try {
+    const registeredOn = new Date();
+    const customerId = await inTransaction(pool, async client => {
+      const addressId = await addressService.insertAddress(client, address);
+      const customerResponse = await client.query(
+        "INSERT INTO customer VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id",
+        [ssn, sin, givenName, familyName, addressId, registeredOn]);
+      return customerResponse.rows[0].id;
+    });
+    return res.send({id: customerId});
+  } catch (error) {
+    return next(error);
+  }
+};
 // Edit customer
 const deleteCustomer = async(req, res, next) =>{
   const {customerId} = req.params;
@@ -54,4 +71,4 @@ const deleteCustomer = async(req, res, next) =>{
     return next(error);
   }
 };
-module.exports = {getCustomers, getCustomer, deleteCustomer};
+module.exports = {getCustomers, getCustomer, deleteCustomer, createCustomer};
