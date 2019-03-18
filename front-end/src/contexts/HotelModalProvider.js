@@ -5,6 +5,7 @@ import EditHotelModal from "./HotelModals/EditHotelModal";
 import DeleteHotelModal from "./HotelModals/DeleteHotelModal";
 import AddRoomModal from "./HotelModals/AddRoomModal";
 import RoomModal from "./HotelModals/RoomModal";
+import DeleteHotelChainModal from "./HotelModals/DeleteHotelChainModal";
 
 export default class HotelModalProvider extends React.Component {
 
@@ -23,6 +24,13 @@ export default class HotelModalProvider extends React.Component {
   openRoom = (room, onComplete) =>
     this.setState({roomOpen: true, room, onComplete});
 
+  deleteHotelChain = hotelChainName =>
+    this.setState({
+      hotelChainName,
+      deletingHotelChain: true,
+      onComplete: () => setTimeout(() => window.location.reload(), 650)});
+
+
 
   onComplete = () => this.setState(({onComplete}) => {
     if (onComplete) {
@@ -37,7 +45,8 @@ export default class HotelModalProvider extends React.Component {
     editHotel: this.editHotel,
     deleteHotel: this.deleteHotel,
     addRoom: this.addRoom,
-    openRoom: this.openRoom
+    openRoom: this.openRoom,
+    deleteHotelChain: this.deleteHotelChain,
   };
 
   state = {
@@ -47,6 +56,7 @@ export default class HotelModalProvider extends React.Component {
     deletingHotel: false,
     addingRoom: false,
     roomOpen: false,
+    deletingHotelChain: false,
     // Modal data
     hotelChainName: null,
     hotel: null,
@@ -57,7 +67,7 @@ export default class HotelModalProvider extends React.Component {
 
   render() {
     const {
-      addingHotel, editingHotel, deletingHotel, addingRoom, roomOpen,
+      addingHotel, editingHotel, deletingHotel, addingRoom, roomOpen, deletingHotelChain,
       hotelChainName, hotel, room
     } = this.state;
     return <HotelModalContext.Provider value={this.contextFunctions}>
@@ -87,6 +97,11 @@ export default class HotelModalProvider extends React.Component {
         room={room}
         onComplete={this.onComplete}
         onRequestClose={() => this.setState({roomOpen: false, room: null})}/>
+      <DeleteHotelChainModal
+        isOpen={deletingHotelChain}
+        hotelChainName={hotelChainName}
+        onComplete={this.onComplete}
+        onRequestClose={() => this.setState({deletingHotelChain: false, hotelChainName: null})}/>
     </HotelModalContext.Provider>
   }
 }

@@ -88,7 +88,7 @@ export default class HotelCard extends React.Component {
           </tr>
           </thead>
           <tbody>
-          <AsyncItems loading={loadingRooms} wrapper="table">
+          <AsyncItems loading={loadingRooms} wrapper="table" placeholderMessage="No rooms">
             {rooms.map(room =>
               <RoomRow key={room.roomNumber} room={room} onClick={room => openRoom(room, this.loadRooms)}/>)}
           </AsyncItems>

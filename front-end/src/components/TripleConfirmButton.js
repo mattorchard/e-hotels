@@ -22,7 +22,7 @@ export default class TripleConfirmButton extends React.Component {
     let contents = children;
     if (numConfirms === 1) {
       contents = "I'm sure";
-    } else if (numConfirms === 2) {
+    } else if (numConfirms > 1) {
       contents = "I'm positive";
     }
     return <button {...buttonProps} onClick={this.handleClick}>

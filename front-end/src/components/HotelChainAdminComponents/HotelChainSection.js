@@ -27,7 +27,7 @@ export default class HotelChainSection extends React.Component {
   render() {
     const {name, address, phoneNumbers, emailAddresses} = this.props;
     const {showingHotels} = this.state;
-    const {addHotel} = this.context;
+    const {addHotel, deleteHotelChain} = this.context;
     return <section>
       <div className="hotel-chain-section__head">
         <div>
@@ -43,6 +43,9 @@ export default class HotelChainSection extends React.Component {
             Show Hotels
           </button>
         }
+        <button className="x-icon" title="Delete Hotel Chain" onClick={() => deleteHotelChain(name)}>
+          &times;
+        </button>
       </div>
       {showingHotels && <ul className="rails">
         <AsyncItems loading={this.state.loadingHotels}>
