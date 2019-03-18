@@ -13,6 +13,7 @@ export default class EmployeeAdminPage extends React.Component {
 
 
   loadEmployees = async elementId => {
+    //todo: add try-catch
     this.setState({loadingEmployees: true});
     const response = await fetch("/api/employees");
     if (!response.ok) {

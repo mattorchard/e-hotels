@@ -2,26 +2,38 @@ import React from "react";
 import {AsyncItems} from "../components/AsyncItems";
 import CustomerRow from "../components/CustomerAdminComponents/CustomerRow";
 import "./CustomerAdminPage.css";
+import CustomerModal from "../components/CustomerAdminComponents/CustomerModal";
 
 
 export default class CustomerAdminPage extends React.Component {
   state = {
     loadingCustomers: true,
-    customers: []
+    customers: [],
+    selectedCustomer: null
   };
 
   async componentDidMount() {
-    this.setState({loadingCustomers: true});
-    const response = await fetch("/api/customers");
-    if (!response.ok) {
-      throw new Error(`Unable to get customers ${response.status}`);
-    }
-    const customers = await response.json();
-    this.setState({customers, loadingCustomers: false});
+    await this.loadCustomers();
   }
 
+  loadCustomers = async () =>{
+    try{
+      this.setState({loadingCustomers: true});
+      const response = await fetch("/api/customers");
+      if (!response.ok) {
+        throw new Error(`Unable to get customers ${response.status}`);
+      }
+      const customers = await response.json();
+      this.setState({customers, loadingCustomers: false});
+    } catch (error) {
+      console.log("Unable to load customers");
+      console.log(error);
+
+    }
+  };
+
   openCustomerModal = customer => {
-    debugger;
+    this.setState({selectedCustomer: customer})
   };
 
 
@@ -53,6 +65,11 @@ export default class CustomerAdminPage extends React.Component {
           </tbody>
         </table>
       </div>
+      <CustomerModal
+        customer={this.state.selectedCustomer}
+        onRequestClose={() => this.setState({selectedCustomer: null})}
+        onRequestReload={this.loadCustomers}
+        />
     </main>;
   }
 }
