@@ -3,13 +3,16 @@ import {AsyncItems} from "../components/AsyncItems";
 import CustomerRow from "../components/CustomerAdminComponents/CustomerRow";
 import "./CustomerAdminPage.css";
 import CustomerModal from "../components/CustomerAdminComponents/CustomerModal";
+import CreateEmployeeModal from "../components/EmployeeAdminComponents/CreateEmployeeModal";
+import CreateCustomerModal from "../components/CustomerAdminComponents/CreateCustomerModal";
 
 
 export default class CustomerAdminPage extends React.Component {
   state = {
     loadingCustomers: true,
     customers: [],
-    selectedCustomer: null
+    selectedCustomer: null,
+    creatingCustomer: false
   };
 
   async componentDidMount() {
@@ -39,6 +42,12 @@ export default class CustomerAdminPage extends React.Component {
 
   render() {
     return <main className="main-content">
+      <button className="btn fill add-btn"
+              type="button"
+              onClick={() => this.setState({creatingCustomer: true})}>
+        Add Customer
+      </button>
+
       <h2>Customers</h2>
       <div className="horizontal-scroll">
         <table className="customer-table table-spaced">
@@ -70,6 +79,10 @@ export default class CustomerAdminPage extends React.Component {
         onRequestClose={() => this.setState({selectedCustomer: null})}
         onRequestReload={this.loadCustomers}
         />
+      <CreateCustomerModal
+        isOpen={this.state.creatingCustomer}
+        onRequestClose={() => this.setState({creatingCustomer:false})}
+        onRequestReload={this.loadCustomers}/>
     </main>;
   }
 }

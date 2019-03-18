@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import EmployeeForm from "./EmployeeForm";
 import {toast} from "react-toastify";
 
-export default class EmployeeModal extends React.Component {
+export default class CreateEmployeeModal extends React.Component {
   state = {};
 
   saveEmployee = async employee => {
