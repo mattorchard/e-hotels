@@ -1,7 +1,8 @@
 import React from "react";
 import ReactModal from "react-modal";
+import TripleConfirmButton from "./TripleConfirmButton";
 
-const ConfirmationModal = ({children, isOpen, onConfirm, onCancel}) => <ReactModal
+const ConfirmationModal = ({children, isOpen, tripleConfirm, onConfirm, onCancel}) => <ReactModal
   isOpen={isOpen}
   appElement={document.getElementById('root')}
   onRequestClose={onCancel}
@@ -10,11 +11,19 @@ const ConfirmationModal = ({children, isOpen, onConfirm, onCancel}) => <ReactMod
   {children || "Are you sure?"}
 
   <div>
-    <button onClick={onConfirm}
-            className="btn"
-            type="button">
-      Confirm
-    </button>
+    {tripleConfirm
+      ? <TripleConfirmButton
+        onClick={onConfirm}
+        className="btn fill"
+        type="button">
+        Confirm
+      </TripleConfirmButton>
+      : <button onClick={onConfirm}
+                className="btn fill"
+                type="button">
+        Confirm
+      </button>
+    }
     <button onClick={onCancel}
             className="btn"
             type="button">

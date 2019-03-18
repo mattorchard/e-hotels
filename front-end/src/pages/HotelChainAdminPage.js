@@ -1,7 +1,10 @@
 import React from "react";
-import HotelChainItem from "../components/HotelChainAdminComponents/HotelChainItem";
+import HotelChainSection from "../components/HotelChainAdminComponents/HotelChainSection";
 import {AsyncItems} from "../components/AsyncItems";
+import {toast} from "react-toastify";
 import "./HotelChainAdminPage.css";
+import HotelModalProvider from "../contexts/HotelModalProvider";
+
 
 export default class HotelChainAdminPage extends React.Component {
 
@@ -11,28 +14,30 @@ export default class HotelChainAdminPage extends React.Component {
   };
 
   async componentDidMount() {
-    const response = await fetch("/api/hotel-chains");
-    if (!response.ok) { throw new Error(`Unable to fetch hotel chains code: [${response.status}]`); }
-    const hotelChains = await response.json();
-    this.setState({hotelChains, loadingHotelChains: false});
+    try {
+      const response = await fetch("/api/hotel-chains");
+      if (!response.ok) {
+        throw new Error(`Unable to fetch hotel chains code: [${response.status}]`);
+      }
+      const hotelChains = await response.json();
+      this.setState({hotelChains, loadingHotelChains: false});
+    } catch (error) {
+      toast.error("Unable to fetch hotel chains")
+    }
   }
 
   render() {
-    return <main className="main-content main-content--clear">
-      <h2>Hotel Chains</h2>
-      <button type="button" className="btn fill add-btn">
-        Add Hotel Chain
-      </button>
-      <ul className="no-bullet">
+    return <HotelModalProvider>
+      <main className="main-content main-content--clear">
         <AsyncItems loading={this.state.loadingHotelChains}
-                   placeholderMessage="No hotel chains."
-                   loadingMessage="Loading hotel chains...">
+                    placeholderMessage="No hotel chains."
+                    loadingMessage="Loading hotel chains..."
+                    wrapper>
 
           {this.state.hotelChains.map(chain =>
-            <li key={chain.id}><HotelChainItem {...chain}/></li>)}
+            <HotelChainSection key={chain.id} {...chain}/>)}
         </AsyncItems>
-      </ul>
-
-    </main>;
+      </main>
+    </HotelModalProvider>;
   }
 }

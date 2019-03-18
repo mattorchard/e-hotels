@@ -22,7 +22,7 @@ export default class BookingsTable extends React.Component {
           <ClickableRow
             key={booking.id}
             onClick={() => onSelectBooking(booking)}
-            className={"striped " + (selectedBooking && selectedBooking.id === booking.id ? "selected-row" : "")}>
+            className={"striped row-top " + (selectedBooking && selectedBooking.id === booking.id ? "selected-row" : "")}>
             <td>{booking.roomNumber}</td>
             <td>{booking.customer.givenName} {booking.customer.familyName}</td>
             <td>{formatDateShort(new Date(booking.startDate))}</td>

@@ -6,8 +6,10 @@ const RemovableListItem = ({value, onRemove}) => <li className="removable-list-i
   {value}
   <button type="button"
           className="btn btn--char"
+          aria-label="Remove"
+          title="Remove"
           onClick={() => onRemove(value)}>
-    x
+    &times;
   </button>
 </li>;
 
@@ -18,7 +20,7 @@ export default class ListInput extends ReactForm {
   };
 
   onKeyPress = event => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && event.currentTarget.checkValidity()) {
       this.addNewValue(this.state.newValue);
       event.preventDefault();
     }
@@ -37,10 +39,12 @@ export default class ListInput extends ReactForm {
     if (!value) {
       // Cannot add Empty values
       return false;
-    } else if (this.props.value.includes(value)) {
+    }
+    const formattedValue = this.props.format ? this.props.format(value) : value;
+    if (this.props.value.includes(formattedValue)) {
       this.setState({newValue: ""});
     } else {
-      const newValueList = [value, ...this.props.value];
+      const newValueList = [formattedValue, ...this.props.value];
       this.setState({newValue: ""});
       this.props.onChange({target: {value: newValueList, name: this.props.name}});
     }
@@ -60,6 +64,8 @@ export default class ListInput extends ReactForm {
           {this.renderInput()}
           <button type="button"
                   className="btn btn--char"
+                  aria-label="Add"
+                  title="Add"
                   onClick={() => this.addNewValue(this.state.newValue)}>
             +
           </button>

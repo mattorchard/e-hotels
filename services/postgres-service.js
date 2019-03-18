@@ -27,8 +27,8 @@ const responseToRows = response => {
   }
 };
 
-const nestAddress = ({streetNumber, streetName, city, country, addressId, ...parent}) =>
-  ({...parent, address: {id: addressId, streetNumber, streetName, city, country}});
+const nestAddress = ({streetNumber, streetName, city, country, addressId, mainOfficeAddressId, ...parent}) =>
+  ({...parent, address: {id: addressId || mainOfficeAddressId, streetNumber, streetName, city, country}});
 
 const nestManager = ({givenName, familyName, managerId, sin, ssn, ...parent}) =>
   ({...parent, manager: {id: managerId, givenName, familyName, sin, ssn}});
@@ -45,6 +45,7 @@ const inTransaction = async (pool, callback) => {
     return result;
   } catch (error) {
     await client.query("ROLLBACK");
+    console.error(error);
     throw error;
   } finally {
     client.release();

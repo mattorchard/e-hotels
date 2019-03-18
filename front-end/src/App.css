@@ -40,6 +40,7 @@ html, body, #root {
 
 .banner .btn {
     border-color: white;
+    background-color: transparent;
     color: white;
 }
 
@@ -60,21 +61,10 @@ html, body, #root {
 
 .banner__heading {
     margin: 0;
-}
-
-.banner__breadcrumbs {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.banner__breadcrumb {
-    max-width: 33vw;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    max-width: 66vw;
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .breadcrumbs li + li:before {
@@ -110,7 +100,7 @@ html, body, #root {
     font-size: 1.1em;
     text-decoration: none;
     color: green;
-    background-color: transparent;
+    background-color: white;
     border: .1em solid green;
     border-radius: .33em;
     padding: .15em .7em .45em;
@@ -131,6 +121,16 @@ html, body, #root {
     cursor: default;
 }
 
+.btn.btn--inverse {
+    color: white;
+    background-color: green;
+    border-color: white;
+}
+
+.btn.btn--inverse:hover:not(:disabled), .btn.btn--inverse:focus {
+    background-color: darkgreen;
+}
+
 .btn--inline {
     padding: 0 .35em .25em;
     margin: .25em;
@@ -141,6 +141,7 @@ html, body, #root {
     padding: 0 .35em 0.2em;
     width: 1.75em;
     height: 1.75em;
+    border-radius: 50%;
     margin: 0 .25em;
     font-weight: 900;
 }
@@ -256,6 +257,10 @@ html, body, #root {
     margin-left: 1em;
 }
 
+.row-top {
+    vertical-align: top;
+}
+
 .striped {
     background-color: white;
 }
@@ -358,4 +363,34 @@ th.hidden-column {
 
 .placeholder:first-child:last-child {
     display: list-item;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.x-icon {
+    font-size: 1.25em;
+    opacity: 0;
+    transition: opacity .2s ease;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
+    background-color: darkslategrey;
+    color: white;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    text-align: center;
+    padding: 0 .1em .2em;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.x-icon:focus {
+    outline: none;
+    box-shadow: 0 0 0 .2em dodgerblue;
 }

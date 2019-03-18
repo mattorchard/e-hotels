@@ -1,28 +1,51 @@
-.hotel-chain-item__head {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    padding: .5em 1em 1em 1em;
+.hotel-chain-section__head {
+    padding: .5em 1.5em 1em 1.5em;
     background-color: green;
     color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+    box-shadow: 0 0.5em 1em rgba(0,128,0, .2);
+    position: relative;
 }
+
+.hotel-chain-section__head:hover .x-icon,
+.hotel-chain-section__head:focus-within .x-icon {
+    opacity: 1;
+}
+
+.confirm-deletion-input {
+    border: .2em dashed grey;
+    padding: .25em;
+}
+
+.confirm-deletion-input:focus {
+    outline: none;
+    border-color: green;
+}
+
+.hotel-chain-section__title {
+    margin: .25em 0;
+}
+
 
 .hotel-card__head {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
     flex-wrap: wrap;
-}
-
-.hotel-card__head__end {
-    margin-left: auto;
+    margin-bottom: 1em;
 }
 
 .hotel-card__title {
-    font-size: 1em;
+    margin: 0;
 }
 
-.hotel-card__head__field {
-    margin-left: 1em;
+.hotel-card__actions {
+    display: flex;
+    justify-content: center;
 }
 
 .hotel-card__room-table {

@@ -21,11 +21,9 @@ export default class ExpandingList extends React.Component {
       if (collapsible) {
         return <>
           {children}
-          <li className="expanding-list">
-            <button type="button" className="btn btn--inline expanding-list__btn" onClick={this.collapse}>
-              {collapseLabel}
-            </button>
-          </li>
+          <button type="button" className="btn btn--inline expanding-list__btn" onClick={this.collapse}>
+            {collapseLabel}
+          </button>
         </>
       } else {
         return children;
@@ -34,11 +32,9 @@ export default class ExpandingList extends React.Component {
       const beforeFold = children.slice(0, numCollapsed - 1);
       return <>
         {beforeFold}
-        <li className="expanding-list">
           <button type="button" className="btn btn--inline expanding-list__btn" onClick={this.expand}>
             {expandLabel}
           </button>
-        </li>
       </>
     }
   }

@@ -36,7 +36,7 @@ export default class HotelResult extends React.Component {
         </thead>
         <tbody>
         {rooms.map((room) =>
-          <ClickableRow className="striped"
+          <ClickableRow className="striped row-top"
                         key={room.roomNumber}
                         onClick={() => onSelectRoom(room)}>
             <td>{room.roomNumber}</td>

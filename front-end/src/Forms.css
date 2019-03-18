@@ -68,13 +68,18 @@ input[type="number"] {
 }
 
 .simple-form input,
-.simple-input{
+.simple-input {
     padding: .1em;
     font-size: .8em;
     border: none;
     border-bottom: .115em solid grey;
-    width: 100%;
+
     margin-bottom: .25em;
+}
+
+.simple-form input:not([type="radio"]),
+.simple-input:not([type="radio"]) {
+    width: 100%;
 }
 
 .simple-form input:focus,

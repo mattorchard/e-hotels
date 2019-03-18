@@ -1,4 +1,4 @@
-const {Pool} = require('pg');
+const pool = require("./pool");
 const path = require('path');
 const fs = require('fs');
 const insertSampleData = require("./sql-scripts/insert-sample-data");
@@ -9,7 +9,7 @@ const readFile = filePath =>
       error ? reject(error) : resolve(data + "")
 ));
 
-const executeScript = async(pool, path) => {
+const executeScript = async(path) => {
   const script = await readFile(path);
   console.log(`Executing script [${path}]`);
   try {
@@ -21,7 +21,7 @@ const executeScript = async(pool, path) => {
   console.log(`Successfully executed [${path}]`);
 };
 
-const hasSampleData = async pool => {
+const hasSampleData = async () => {
   try {
     const {rows} = await pool.query("SELECT * FROM hotel_chain");
     return rows.length > 1;
@@ -34,16 +34,14 @@ const hasSampleData = async pool => {
 const bootstrap = async () => {
   console.log("Starting database bootstrap");
   try {
-    const pool = new Pool();
     const clearAndReplaceDatabase = Boolean(process.env.REPLACE_DATA);
-    if (clearAndReplaceDatabase || !(await hasSampleData(pool))) {
-      await executeScript(pool, "./sql-scripts/drop-tables.sql", "drop all tables");
-      await executeScript(pool, "./sql-scripts/create-tables.sql", "create tables");
+    if (clearAndReplaceDatabase || !(await hasSampleData())) {
+      await executeScript("./sql-scripts/drop-tables.sql", "drop all tables");
+      await executeScript("./sql-scripts/create-tables.sql", "create tables");
       await insertSampleData(pool);
     } else {
       console.log("Using existing database");
     }
-    pool.end();
   } catch (error) {
     console.error(`Error in database bootstrap ${error}`);
     process.exit(-1);

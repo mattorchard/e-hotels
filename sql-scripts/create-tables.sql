@@ -18,9 +18,9 @@ CREATE TABLE hotel_chain (
 
 CREATE TABLE hotel_chain_phone_number (
     hotel_chain_name VARCHAR(100),
-    phone_number INTEGER,
+    phone_number BIGINT,
     PRIMARY KEY (hotel_chain_name, phone_number),
-    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name),
+    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
     CONSTRAINT valid_phone_number CHECK (phone_number BETWEEN 1000000000 AND 9999999999)
 );
 
@@ -28,8 +28,8 @@ CREATE TABLE hotel_chain_email_address (
     hotel_chain_name VARCHAR(100),
     email_address VARCHAR(100),
     PRIMARY KEY (hotel_chain_name, email_address),
-    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name),
-    CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.___%')
+    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
+    CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.__%')
 );
 
 CREATE TABLE hotel (
@@ -40,25 +40,27 @@ CREATE TABLE hotel (
     manager_id INTEGER,
     UNIQUE (id),
     PRIMARY KEY (id, hotel_chain_name),
-    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name),
+    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
     CONSTRAINT check_category_validity CHECK (category BETWEEN 1 AND 5)
     -- todo: constraint for manager role
 );
 
 CREATE TABLE hotel_phone_number (
+    hotel_chain_name VARCHAR(100),
     hotel_id INTEGER,
-    phone_number INTEGER,
-    PRIMARY KEY(hotel_id, phone_number),
-    FOREIGN KEY (hotel_id) REFERENCES hotel(id),
+    phone_number BIGINT,
+    PRIMARY KEY(hotel_chain_name, hotel_id, phone_number),
+    FOREIGN KEY (hotel_chain_name, hotel_id) REFERENCES hotel(hotel_chain_name, id) ON DELETE CASCADE,
     CONSTRAINT valid_phone_number CHECK (phone_number BETWEEN 1000000000 AND 9999999999)
 );
 
 CREATE TABLE hotel_email_address (
+    hotel_chain_name VARCHAR(100),
     hotel_id INTEGER,
     email_address VARCHAR(100),
-    PRIMARY KEY (hotel_id, email_address),
-    FOREIGN KEY (hotel_id) references hotel(id),
-    CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.___%')
+    PRIMARY KEY (hotel_chain_name, hotel_id, email_address),
+    FOREIGN KEY (hotel_chain_name, hotel_id) REFERENCES hotel(hotel_chain_name, id) ON DELETE CASCADE,
+    CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.__%')
   );
 
 CREATE TABLE room (
@@ -69,10 +71,8 @@ CREATE TABLE room (
     capacity INTEGER,
     scenery VARCHAR(100),
     extendable BOOLEAN,
-    UNIQUE (hotel_chain_name, hotel_id, room_number),
     PRIMARY KEY(hotel_chain_name, hotel_id, room_number),
-    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name),
-    FOREIGN KEY (hotel_id) REFERENCES hotel(id),
+    FOREIGN KEY (hotel_chain_name, hotel_id) REFERENCES hotel(hotel_chain_name, id) ON DELETE CASCADE,
     CONSTRAINT check_price_validity CHECK (price > 0),
     CONSTRAINT check_room_capacity CHECK (capacity > 0)
 );
@@ -83,7 +83,7 @@ CREATE TABLE room_amenity (
     room_number INTEGER,
     amenity VARCHAR(100),
     PRIMARY KEY(hotel_chain_name, hotel_id, room_number, amenity),
-    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number)
+    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE
 );
 
 CREATE TABLE room_damage (
@@ -92,7 +92,7 @@ CREATE TABLE room_damage (
     room_number INTEGER,
     damage VARCHAR(100),
     PRIMARY KEY(hotel_chain_name, hotel_id, room_number, damage),
-    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number)
+    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE
 );
 
 CREATE TABLE employee (
@@ -105,7 +105,7 @@ CREATE TABLE employee (
     hotel_chain_name VARCHAR(100),
     PRIMARY KEY (id),
     FOREIGN KEY (address_id) REFERENCES address(id),
-    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name),
+    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
     UNIQUE(ssn),
     UNIQUE(sin),
     CONSTRAINT check_ssn CHECK (sin IS NULL OR sin BETWEEN 100000000 AND 999999999),
@@ -149,7 +149,7 @@ CREATE TABLE rental (
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id),
     FOREIGN KEY (employee_id) REFERENCES employee(id),
-    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number),
+    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE,
     CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL AND end_date IS NOT NULL AND end_date > start_date)
 );
 
@@ -163,7 +163,7 @@ CREATE TABLE booking (
     end_date DATE,
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id),
-    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number),
+    FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE,
     CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL AND end_date IS NOT NULL AND end_date > start_date)
 );
 
@@ -175,8 +175,8 @@ FROM (
 	) FROM address, hotel
 	WHERE address.id = hotel.address_id
 ) AS address_counts
-GROUP BY (city, country)
+GROUP BY (city, country);
 
 CREATE VIEW capacity_by_hotel AS
 SELECT hotel_chain_name, hotel_id, SUM(capacity) AS capacity
-FROM room GROUP BY (hotel_chain_name, hotel_id)
+FROM room GROUP BY (hotel_chain_name, hotel_id);

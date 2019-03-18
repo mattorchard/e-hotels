@@ -1,7 +1,6 @@
 const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
 const employeeService = require('../services/employee-service');
-const {Pool} = require('pg');
-const pool = new Pool();
+const pool = require("../pool");
 const lodash = require("lodash");
 const createError = require('http-errors');
 
@@ -68,6 +67,20 @@ const getEmployee = async (req, res, next) => {
 
 };
 
+const getEmployeesByHotelChain = async (req, res, next) => {
+  const {hotelChainName} = req.params;
+  if (!hotelChainName) {
+    return next(new createError.NotFound("Must supply hotel chain name"));
+  }
+  try {
+    const response = await pool.query("SELECT * FROM employee WHERE hotel_chain_name = $1", [hotelChainName]);
+    const employees = responseToRows(response);
+    return res.send(employees);
+  } catch (error) {
+    console.error("Unable to get employees by hotel chain", error);
+    return next(error);
+  }
+};
 
 const updateEmployee = async(req, res, next) => {
   const {employeeId} = req.params;
@@ -104,4 +117,4 @@ const deleteEmployee = async(req, res, next) => {
   }
 };
 
-module.exports = {createEmployee, getEmployees, getEmployee, deleteEmployee, updateEmployee};
+module.exports = {createEmployee, getEmployees, getEmployee, deleteEmployee, updateEmployee, getEmployeesByHotelChain};

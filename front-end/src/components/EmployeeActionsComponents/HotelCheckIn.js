@@ -24,9 +24,7 @@ export default class HotelCheckIn extends React.Component {
           <div>
             Manager: {manager.givenName} {manager.familyName}
           </div>
-          <form>
-            <Stars disabled number={category} name="radio-stars"/>
-          </form>
+          <Stars disabled number={category}/>
         </div>
         <button onClick={() => this.setState({checkingIn: true})}
                 disabled={!numBookings}
