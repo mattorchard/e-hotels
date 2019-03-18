@@ -63,7 +63,7 @@ export default class HotelCard extends React.Component {
                     type="button">
             Show Rooms
           </button>}
-        <button onClick={() => editHotel(this.props.hotel)}
+        <button onClick={() => editHotel(this.props.hotel, reloadHotels)}
                 className="btn"
                 type="button">
           Edit Hotel

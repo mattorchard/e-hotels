@@ -11,9 +11,8 @@ export default class HotelModalProvider extends React.Component {
   addHotel = (hotelChainName, onComplete) =>
     this.setState({addingHotel: true, hotelChainName, onComplete});
 
-  editHotel = hotel => {
-    console.log("Edit Hotel", hotel);
-  };
+  editHotel = (hotel, onComplete) =>
+    this.setState({editingHotel: true, hotel, onComplete});
 
   deleteHotel = (hotel, onComplete) =>
     this.setState({deletingHotel: true, hotel, onComplete});
@@ -70,6 +69,7 @@ export default class HotelModalProvider extends React.Component {
         onRequestClose={() => this.setState({addingHotel: false, hotelChainName: null})}/>
       <EditHotelModal
         isOpen={editingHotel}
+        hotel={hotel}
         onComplete={this.onComplete}
         onRequestClose={() => this.setState({editingHotel: false, hotel: null})}/>
       <DeleteHotelModal

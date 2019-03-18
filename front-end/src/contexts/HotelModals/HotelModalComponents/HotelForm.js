@@ -7,8 +7,18 @@ export default class HotelForm extends ReactForm {
   constructor(props) {
     super(props);
     if (props.hotel) {
-      const {} = props.hotel;
-      this.state = {};
+      const {category, manager, address, emailAddresses, phoneNumbers} = props.hotel;
+      const {streetNumber, streetName, city, country} = address;
+      this.state = {
+        category,
+        managerId: manager.id,
+        emailAddresses: emailAddresses || [],
+        phoneNumbers: phoneNumbers || [],
+        streetNumber,
+        streetName,
+        city,
+        country
+      };
     } else {
       this.state = {
         category: 3,
@@ -26,7 +36,13 @@ export default class HotelForm extends ReactForm {
   onSubmit = event => {
     event.preventDefault();
     const {managerId, category, emailAddresses, phoneNumbers, ...address} = this.state;
-    const hotel = {managerId, category, emailAddresses, phoneNumbers, address};
+    const hotel = {
+      managerId, category, emailAddresses, phoneNumbers,
+      address: {
+        ...address,
+        id: this.props.hotel && this.props.hotel.address.id
+      }
+    };
     this.props.onSubmit(hotel);
   };
 

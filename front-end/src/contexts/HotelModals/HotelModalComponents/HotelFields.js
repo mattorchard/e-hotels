@@ -22,6 +22,7 @@ const HotelFields = ({state, onChange, hotelChainName}) => <>
     Manager
     <EmployeeSelect name="managerId"
                     required
+                    selectedEmployee={state.managerId}
                     hotelChainName={hotelChainName}
                     onChange={onChange}/>
   </label>
