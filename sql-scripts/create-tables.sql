@@ -153,6 +153,19 @@ CREATE TABLE rental (
     CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL AND end_date IS NOT NULL AND end_date > start_date)
 );
 
+CREATE TABLE rental_archive (
+    id SERIAL,
+    rental_id INTEGER,
+    customer_id INTEGER,
+    employee_id INTEGER,
+    hotel_chain_name VARCHAR(100),
+    hotel_id INTEGER,
+    room_number INTEGER,
+    start_date DATE,
+    end_date DATE,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE booking (
     id SERIAL,
     customer_id INTEGER,
@@ -165,6 +178,18 @@ CREATE TABLE booking (
     FOREIGN KEY (customer_id) REFERENCES customer(id),
     FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE,
     CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL AND end_date IS NOT NULL AND end_date > start_date)
+);
+
+CREATE TABLE booking_archive (
+    id SERIAL,
+    booking_id INTEGER,
+    customer_id INTEGER,
+    hotel_chain_name VARCHAR(100),
+    hotel_id INTEGER,
+    room_number INTEGER,
+    start_date DATE,
+    end_date DATE,
+    PRIMARY KEY (id)
 );
 
 CREATE VIEW rooms_by_area AS
@@ -182,13 +207,14 @@ SELECT hotel_chain_name, hotel_id, SUM(capacity) AS capacity
 FROM room GROUP BY (hotel_chain_name, hotel_id);
 
 CREATE FUNCTION add_manager_role()
-	RETURNS trigger AS
+	RETURNS TRIGGER AS
 	$BODY$
 	BEGIN
 	INSERT INTO employee_role VALUES (NEW.manager_id, 'Hotel Manager') ON CONFLICT DO NOTHING;
 	RETURN NEW;
 	END
 	$BODY$ LANGUAGE plpgsql;
+
 CREATE TRIGGER check_manager_role_update
 	AFTER UPDATE OF manager_id ON hotel
 	FOR EACH ROW
