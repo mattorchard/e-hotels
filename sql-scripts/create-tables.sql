@@ -225,3 +225,31 @@ CREATE TRIGGER check_manager_role_create
 	AFTER INSERT ON hotel
 	FOR EACH ROW
 	EXECUTE PROCEDURE add_manager_role();
+
+CREATE FUNCTION add_archive_rental()
+    RETURNS TRIGGER AS
+    $BODY$
+    BEGIN
+    INSERT INTO rental_archive VALUES (DEFAULT, NEW.id, NEW.customer_id, NEW.employee_id, NEW.hotel_chain_name, NEW.hotel_id, NEW.room_number, NEW.start_date, NEW.end_date);
+    RETURN NEW;
+    END
+    $BODY$ LANGUAGE plpgsql;
+
+CREATE TRIGGER add_archive_for_rental
+    AFTER INSERT ON rental
+    FOR EACH ROW
+    EXECUTE PROCEDURE add_archive_rental();
+
+CREATE FUNCTION add_archive_booking()
+    RETURNS TRIGGER AS
+    $BODY$
+    BEGIN
+    INSERT INTO booking_archive VALUES (DEFAULT, NEW.id, NEW.customer_id , NEW.hotel_chain_name, NEW.hotel_id, NEW.room_number, NEW.start_date, NEW.end_date);
+    RETURN NEW;
+    END
+    $BODY$ LANGUAGE plpgsql;
+
+CREATE TRIGGER add_archive_for_booking
+    AFTER INSERT ON booking
+    FOR EACH ROW
+    EXECUTE PROCEDURE add_archive_booking();
