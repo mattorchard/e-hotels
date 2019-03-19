@@ -33,8 +33,8 @@ const nestAddress = ({streetNumber, streetName, city, country, addressId, mainOf
 const nestManager = ({givenName, familyName, managerId, sin, ssn, ...parent}) =>
   ({...parent, manager: {id: managerId, givenName, familyName, sin, ssn}});
 
-const nestCustomer = ({givenName, familyName, customerId, sin, ssn, ...parent}) =>
-  ({...parent, customer: {id: customerId, givenName, familyName, sin, ssn}});
+const nestCustomer = ({givenName, familyName, customerId, sin, ssn, registeredOn, ...parent}) =>
+  ({...parent, customer: {id: customerId, givenName, familyName, sin, ssn, registeredOn}});
 
 const inTransaction = async (pool, callback) => {
   const client = await pool.connect();

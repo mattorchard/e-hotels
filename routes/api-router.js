@@ -12,7 +12,9 @@ const {
   getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions, getAmountOfUpcomingBookings
 } = require('./booking-router');
 const {getRoomsAvailableForRent, createRental, checkIn} = require('./rental-router');
+const {getCalendar} = require('./calendar-router');
 
+router.get('/calendar', getCalendar);
 
 router.get("/hotels/capacity", getCapacityByHotel);
 
