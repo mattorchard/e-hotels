@@ -1,0 +1,49 @@
+.calendar-container {
+    height: 90vh;
+}
+.rbc-event.rbc-selected {
+    box-shadow: 0 0 .1em .15em dodgerblue;
+}
+
+
+.rbc-event.rbc-selected.rental-event,
+.rental-event {
+    background-color: slateblue;
+}
+
+.rbc-event.rbc-selected.booking-event,
+.booking-event {
+    background-color: tomato;
+}
+
+.legend {
+    margin: .5em 0 0 0;
+    padding: 1em;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    border: .1em solid lightgray;
+}
+.legend:before {
+    Content: "Legend";
+    background-color: white;
+    position: absolute;
+    top: -0.5em;
+    font-weight: bold;
+}
+
+.legend dt:after {
+    content: ":"
+}
+
+.legend dd {
+    margin-left: .25em;
+}
+.legend dd + dt {
+    margin-left: 1em
+}
+
+.legend-color {
+    width: 1em;
+    height: 1em;
+}

@@ -17,6 +17,9 @@ export default class HomePage extends React.Component {
         <li className="primary-nav-link">
           <Link to="/admin/customers" className="btn">Customers</Link>
         </li>
+        <li className="primary-nav-link">
+          <Link to="/calendar" className="btn">Calendar</Link>
+        </li>
       </ul>
     </main>;
   }
