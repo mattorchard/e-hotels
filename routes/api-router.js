@@ -7,7 +7,7 @@ const {getRooms, getRoom, getRoomsByArea, createRoom, deleteRoom, updateRoom} = 
 const {
   getEmployees, getEmployeesByHotelChain, getEmployee, deleteEmployee, createEmployee, updateEmployee
 } = require('./employee-router');
-const {getCustomers, getCustomer} = require('./customer-router');
+const {getCustomers, getCustomer, deleteCustomer, createCustomer, updateCustomer} = require('./customer-router');
 const {
   getBookings, getRoomsAvailableForBooking, createBooking, getSearchOptions, getAmountOfUpcomingBookings
 } = require('./booking-router');
@@ -48,7 +48,10 @@ router.get("/employees/:employeeId", getEmployee);
 router.put("/employees/:employeeId", updateEmployee);
 router.delete("/employees/:employeeId", deleteEmployee);
 
+router.post("/customers", createCustomer);
 router.get("/customers", getCustomers);
+router.put("/customers/:customerId", updateCustomer);
+router.delete("/customers/:customerId", deleteCustomer);
 router.get("/customers/:customerId", getCustomer);
 
 router.get("/bookings/search-options", getSearchOptions);
