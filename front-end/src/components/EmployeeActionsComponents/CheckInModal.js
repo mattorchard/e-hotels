@@ -3,6 +3,7 @@ import {toast} from "react-toastify";
 import ReactModal from "react-modal";
 import BookingsTable from "./BookingsTable";
 import AsyncButton from "../AsyncButton";
+import PaymentFields from "../PaymentFields";
 
 export default class CheckInModal extends React.Component {
 
@@ -72,12 +73,18 @@ export default class CheckInModal extends React.Component {
       appElement={document.getElementById('root')}
       className="modal-fit-content">
       <h3 className="check-in-modal__head">Check In</h3>
-      <BookingsTable
-        bookings={bookings}
-        loadingBookings={loadingBookings}
-        selectedBooking={selectedBooking}
-        onSelectBooking={booking => this.setState({selectedBooking: booking})}/>
-
+      <div className="horizontal-scroll">
+        <BookingsTable
+          bookings={bookings}
+          loadingBookings={loadingBookings}
+          selectedBooking={selectedBooking}
+          onSelectBooking={booking => this.setState({selectedBooking: booking})}/>
+      </div>
+      <form>
+        <fieldset className="simple-form form--small">
+          <PaymentFields/>
+        </fieldset>
+      </form>
       <div>
         <AsyncButton onClick={this.checkIn}
                 disabled={!Boolean(selectedBooking)}

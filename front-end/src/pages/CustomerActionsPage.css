@@ -28,8 +28,8 @@
     display: block;
 }
 
-.search-form__fields > label > input,
-.search-form__fields select {
+.search-form > .search-form__fields > label > input,
+.search-form > .search-form__fields select {
     display: block;
     width: 80%;
     margin: 0 auto;
