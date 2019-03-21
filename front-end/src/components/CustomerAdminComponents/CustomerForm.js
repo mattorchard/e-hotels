@@ -29,19 +29,14 @@ export default class CustomerForm extends ReactForm {
   onSubmit = async event => {
     event.preventDefault();
     const {givenName, familyName, ssn, sin, ...address} = this.state;
-    const addressId = this.props.initialCustomer && this.props.initialCustomer.address.id;
     const customer = {
       givenName,
       familyName,
-      ssn: ssn ? ssn : null,
-      sin: sin ? sin : null,
+      ssn: ssn || null,
+      sin: sin || null,
       address: {...address}
     };
-    try {
-      await this.props.onSubmit(customer);
-    } catch (error) {
-      toast.error(error.message);
-    }
+    await this.props.onSubmit(customer);
   };
 
   render() {
