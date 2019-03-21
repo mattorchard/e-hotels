@@ -5,6 +5,7 @@ import moment from "moment";
 import {formatDateShort} from "../../services/format-service";
 import {AsyncItems} from "../AsyncItems";
 import AsyncButton from "../AsyncButton";
+import PaymentFields from "../PaymentFields";
 
 export default class CreateBookingModal extends React.Component {
   state = {
@@ -34,7 +35,7 @@ export default class CreateBookingModal extends React.Component {
       toast.success(`Room ${roomNumber} booked successfully`);
       this.props.onRequestClose();
       this.props.onRequestReload();
-    } catch(error) {
+    } catch (error) {
       console.error(error);
       toast.error("Unable to book room");
     }
@@ -69,71 +70,81 @@ export default class CreateBookingModal extends React.Component {
       onRequestClose={onRequestClose}
       appElement={document.getElementById('root')}
       className="modal-fit-content">
-      <dl className="nested-dl">
-        <dt>Room Details</dt>
-        <dd>
-          <dl>
-            <dt>Hotel Chain</dt>
-            <dd>{hotelChainName}</dd>
+      <div className="booking-modal-body">
+        <dl className="booking-modal__details nested-dl">
+          <dt>Room Details</dt>
+          <dd>
+            <dl>
+              <dt>Hotel Chain</dt>
+              <dd>{hotelChainName}</dd>
 
-            <dt>Room Number</dt>
-            <dd>{roomNumber}</dd>
+              <dt>Room Number</dt>
+              <dd>{roomNumber}</dd>
 
-            <dt>Price per Night</dt>
-            <dd>${price}</dd>
+              <dt>Price per Night</dt>
+              <dd>${price}</dd>
 
-            <dt>Capacity</dt>
-            <dd>
-              {capacity}<span title="Extendable">{extendable && "+"}</span>
-            </dd>
+              <dt>Capacity</dt>
+              <dd>
+                {capacity}<span title="Extendable">{extendable && "+"}</span>
+              </dd>
 
-            {scenery && <>
-              <dt>Scenery</dt>
-              <dd>{scenery}</dd>
-            </>}
+              {scenery && <>
+                <dt>Scenery</dt>
+                <dd>{scenery}</dd>
+              </>}
 
-            <dt>Damages</dt>
-            <dd>
-              <ul className="no-bullet inline-list">
-                <AsyncItems
-                  loading={this.state.loadingRoomDetails}
-                  placeholderMessage="None">
-                  {damages.map(d => <li key={d}>{d}</li>)}
-                </AsyncItems>
-              </ul>
-            </dd>
+              <dt>Damages</dt>
+              <dd>
+                <ul className="no-bullet inline-list">
+                  <AsyncItems
+                    loading={this.state.loadingRoomDetails}
+                    placeholderMessage="None">
+                    {damages.map(d => <li key={d}>{d}</li>)}
+                  </AsyncItems>
+                </ul>
+              </dd>
 
-            <dt>Amenities</dt>
-            <dd>
-              <ul className="no-bullet inline-list">
-                <AsyncItems
-                  loading={this.state.loadingRoomDetails}
-                  placeholderMessage="None">
-                  {amenities.map(a => <li key={a}>{a}</li>)}
-                </AsyncItems>
-              </ul>
-            </dd>
-          </dl>
-        </dd>
+              <dt>Amenities</dt>
+              <dd>
+                <ul className="no-bullet inline-list">
+                  <AsyncItems
+                    loading={this.state.loadingRoomDetails}
+                    placeholderMessage="None">
+                    {amenities.map(a => <li key={a}>{a}</li>)}
+                  </AsyncItems>
+                </ul>
+              </dd>
+            </dl>
+          </dd>
 
-        <dt>Booking Details</dt>
-        <dd>
-          <dl>
-            <dt>Dates</dt>
-            <dd>{formatDateShort(startDate)} to {formatDateShort(endDate)}</dd>
 
-            <dt>Duration</dt>
-            <dd>{duration} days</dd>
+          <dt>Booking Details</dt>
+          <dd>
+            <dl>
+              <dt>Dates</dt>
+              <dd>{formatDateShort(startDate)} to {formatDateShort(endDate)}</dd>
 
-            <dt>Price Total</dt>
-            <dd>${price} &times; {duration} = ${price * duration}</dd>
-          </dl>
-        </dd>
-      </dl>
-      <div>
+              <dt>Duration</dt>
+              <dd>{duration} days</dd>
+
+              <dt>Price Total</dt>
+              <dd>${price} &times; {duration} = ${price * duration}</dd>
+            </dl>
+          </dd>
+        </dl>
+
+        <form className="booking-modal__payment-info">
+          <h3>Payment Details</h3>
+          <fieldset className="simple-form form--small">
+            <PaymentFields/>
+          </fieldset>
+        </form>
+      </div>
+      <div className="booking-modal__actions">
         <AsyncButton onClick={this.bookRoom}
-                className="btn btn--inline"
-                type="button">
+                     className="btn btn--inline"
+                     type="button">
           Book
         </AsyncButton>
         <button onClick={onRequestClose}
