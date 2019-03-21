@@ -32,6 +32,49 @@ CREATE TABLE hotel_chain_email_address (
     CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.__%')
 );
 
+CREATE TABLE employee (
+    id SERIAL,
+    ssn INTEGER,
+    sin INTEGER,
+    given_name VARCHAR(100),
+    family_name VARCHAR(100),
+    address_id INTEGER,
+    hotel_chain_name VARCHAR(100),
+    PRIMARY KEY (id),
+    FOREIGN KEY (address_id) REFERENCES address(id),
+    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
+    UNIQUE(ssn),
+    UNIQUE(sin),
+    CONSTRAINT check_ssn CHECK (sin IS NULL OR sin BETWEEN 100000000 AND 999999999),
+    CONSTRAINT check_sin CHECK (ssn IS NULL OR ssn BETWEEN 100000000 AND 999999999),
+    CONSTRAINT has_sin_or_ssn CHECK (ssn IS NOT NULL OR sin IS NOT NULL)
+);
+
+CREATE TABLE employee_role (
+    employee_id INTEGER,
+    role VARCHAR(100),
+    PRIMARY KEY (employee_id, role),
+    FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE
+);
+
+CREATE TABLE customer (
+    id SERIAL,
+    ssn INTEGER,
+    sin INTEGER,
+    given_name VARCHAR(100),
+    family_name VARCHAR(100),
+    address_id INTEGER,
+    registered_on DATE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (address_id) REFERENCES address(id),
+    UNIQUE(ssn),
+    UNIQUE(sin),
+    CONSTRAINT check_ssn CHECK (sin IS NULL OR sin BETWEEN 100000000 AND 999999999),
+    CONSTRAINT check_sin CHECK (ssn IS NULL OR ssn BETWEEN 100000000 AND 999999999),
+    CONSTRAINT has_sin_or_ssn CHECK (ssn IS NOT NULL OR sin IS NOT NULL)
+);
+
+
 CREATE TABLE hotel (
     id SERIAL,
     hotel_chain_name VARCHAR(100),
@@ -93,48 +136,6 @@ CREATE TABLE room_damage (
     damage VARCHAR(100),
     PRIMARY KEY(hotel_chain_name, hotel_id, room_number, damage),
     FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE
-);
-
-CREATE TABLE employee (
-    id SERIAL,
-    ssn INTEGER,
-    sin INTEGER,
-    given_name VARCHAR(100),
-    family_name VARCHAR(100),
-    address_id INTEGER,
-    hotel_chain_name VARCHAR(100),
-    PRIMARY KEY (id),
-    FOREIGN KEY (address_id) REFERENCES address(id),
-    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
-    UNIQUE(ssn),
-    UNIQUE(sin),
-    CONSTRAINT check_ssn CHECK (sin IS NULL OR sin BETWEEN 100000000 AND 999999999),
-    CONSTRAINT check_sin CHECK (ssn IS NULL OR ssn BETWEEN 100000000 AND 999999999),
-    CONSTRAINT has_sin_or_ssn CHECK (ssn IS NOT NULL OR sin IS NOT NULL)
-);
-
-CREATE TABLE employee_role (
-    employee_id INTEGER,
-    role VARCHAR(100),
-    PRIMARY KEY (employee_id, role),
-    FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE
-);
-
-CREATE TABLE customer (
-    id SERIAL,
-    ssn INTEGER,
-    sin INTEGER,
-    given_name VARCHAR(100),
-    family_name VARCHAR(100),
-    address_id INTEGER,
-    registered_on DATE,
-    PRIMARY KEY (id),
-    FOREIGN KEY (address_id) REFERENCES address(id),
-    UNIQUE(ssn),
-    UNIQUE(sin),
-    CONSTRAINT check_ssn CHECK (sin IS NULL OR sin BETWEEN 100000000 AND 999999999),
-    CONSTRAINT check_sin CHECK (ssn IS NULL OR ssn BETWEEN 100000000 AND 999999999),
-    CONSTRAINT has_sin_or_ssn CHECK (ssn IS NOT NULL OR sin IS NOT NULL)
 );
 
 CREATE TABLE rental (
