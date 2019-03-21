@@ -10,11 +10,13 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Header from "./components/Header";
 import './App.css';
 import './Forms.css';
 import AccountProvider from "./contexts/AccountProvider";
 import CustomerActionsPage from "./pages/CustomerActionsPage";
+import CalendarPage from "./pages/CalendarPage";
 
 
 class App extends React.Component {
@@ -29,6 +31,7 @@ class App extends React.Component {
           <Route path="/admin/employees" component={EmployeeAdminPage}/>
           <Route path="/employee/:employeeId" component={EmployeeActionsPage}/>
           <Route path="/customer/:customerId" component={CustomerActionsPage}/>
+          <Route path="/calendar" component={CalendarPage}/>
 
           <Route component={NotFoundPage}/>
         </Switch>

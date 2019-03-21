@@ -3,9 +3,6 @@ const {roomInUse} = require('../services/booking-service');
 const pool = require("../pool");
 const createError = require('http-errors');
 
-// Check in (booking to rental)
-// Add rental
-
 const createRental = async(req, res, next) => {
   const {hotelChainName, hotelId, roomNumber} = req.params;
   const {employeeId, customerId, startDate: startDateRaw, endDate: endDateRaw} = req.body;

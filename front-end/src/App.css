@@ -369,3 +369,28 @@ th.hidden-column {
     display: flex;
     justify-content: flex-end;
 }
+
+.x-icon {
+    font-size: 1.25em;
+    opacity: 0;
+    transition: opacity .2s ease;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
+    background-color: darkslategrey;
+    color: white;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    text-align: center;
+    padding: 0 .1em .2em;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.x-icon:focus {
+    outline: none;
+    box-shadow: 0 0 0 .2em dodgerblue;
+}

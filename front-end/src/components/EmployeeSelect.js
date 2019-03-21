@@ -4,7 +4,6 @@ import {toast} from "react-toastify";
 
 export default class EmployeeSelect extends React.Component {
   state = {
-    selectedEmployee: null,
     loadingEmployees: true,
     employees: []
   };
@@ -12,7 +11,7 @@ export default class EmployeeSelect extends React.Component {
   async componentDidMount() {
     try {
       const {hotelChainName} = this.props;
-      this.setState({selectedEmployee: null, loadingEmployees: true});
+      this.setState({loadingEmployees: true});
       const response = await fetch(`/api/hotel-chains/${hotelChainName}/employees`);
       if (!response.ok) {
         throw new Error(`Unable to fetch employees ${response.status}`);

@@ -6,6 +6,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "react": "^16.8.2",
+    "react-big-calendar": "^0.20.3",
     "react-dates": "^20.0.0",
     "react-dom": "^16.8.2",
     "react-modal": "^3.8.1",

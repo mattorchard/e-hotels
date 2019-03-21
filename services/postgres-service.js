@@ -27,14 +27,14 @@ const responseToRows = response => {
   }
 };
 
-const nestAddress = ({streetNumber, streetName, city, country, addressId, ...parent}) =>
-  ({...parent, address: {id: addressId, streetNumber, streetName, city, country}});
+const nestAddress = ({streetNumber, streetName, city, country, addressId, mainOfficeAddressId, ...parent}) =>
+  ({...parent, address: {id: addressId || mainOfficeAddressId, streetNumber, streetName, city, country}});
 
 const nestManager = ({givenName, familyName, managerId, sin, ssn, ...parent}) =>
   ({...parent, manager: {id: managerId, givenName, familyName, sin, ssn}});
 
-const nestCustomer = ({givenName, familyName, customerId, sin, ssn, ...parent}) =>
-  ({...parent, customer: {id: customerId, givenName, familyName, sin, ssn}});
+const nestCustomer = ({givenName, familyName, customerId, sin, ssn, registeredOn, ...parent}) =>
+  ({...parent, customer: {id: customerId, givenName, familyName, sin, ssn, registeredOn}});
 
 const inTransaction = async (pool, callback) => {
   const client = await pool.connect();
@@ -45,6 +45,7 @@ const inTransaction = async (pool, callback) => {
     return result;
   } catch (error) {
     await client.query("ROLLBACK");
+    console.error(error);
     throw error;
   } finally {
     client.release();
