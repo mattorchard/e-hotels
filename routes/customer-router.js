@@ -1,7 +1,7 @@
 const addressService = require("../services/address-service");
 const pool = require("../pool");
 const {responseToRows, nestAddress, inTransaction} = require('../services/postgres-service');
-
+const createError = require('http-errors');
 
 const getCustomers = async (req, res, next) => {
   try {
@@ -48,7 +48,27 @@ const createCustomer = async (req, res, next) => {
     return next(error);
   }
 };
-// Edit customer
+
+const updateCustomer = async (req, res, next) =>{
+  const {customerId} = req.params;
+  const {ssn, sin, givenName, familyName, address} = req.body;
+  if(!customerId) {
+    return next(createError.UnprocessableEntity("Must supply ID to update customer"));
+  }
+  try {
+    await inTransaction(pool, async client =>{
+      await addressService.updateAddress(client, address);
+      await client.query(
+        `UPDATE customer
+         SET ssn = $1, sin = $2, given_name = $3, family_name = $4
+         WHERE id=$5 `,
+        [ssn, sin, givenName, familyName, customerId]);
+    });
+    return res.send({message: "Updated Customer"});
+  }catch (error) {
+    return next(error);
+  }
+};
 const deleteCustomer = async(req, res, next) =>{
   const {customerId} = req.params;
   if (!customerId) {
@@ -71,4 +91,4 @@ const deleteCustomer = async(req, res, next) =>{
     return next(error);
   }
 };
-module.exports = {getCustomers, getCustomer, deleteCustomer, createCustomer};
+module.exports = {getCustomers, getCustomer, deleteCustomer, createCustomer, updateCustomer};
