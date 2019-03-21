@@ -7,8 +7,12 @@ const createError = require('http-errors');
 const getHotelChains = async (req, res, next) => {
   try {
     const hotelChainPromise = pool.query(
-      `SELECT * FROM address, hotel_chain
-      WHERE main_office_address_id = id`);
+      `SELECT *, hotel_chain.* from hotel_chain
+      JOIN address
+        ON address.id = main_office_address_id
+      JOIN (	
+        SELECT hotel_chain_name, COUNT(id) as num_hotels FROM hotel GROUP BY hotel_chain_name
+      ) as n ON n.hotel_chain_name = hotel_chain.name`);
     const phonePromise = pool.query("SELECT * FROM hotel_chain_phone_number");
     const emailPromise = pool.query("SELECT * FROM hotel_chain_email_address");
     const responses = await Promise.all([hotelChainPromise, phonePromise, emailPromise]);
