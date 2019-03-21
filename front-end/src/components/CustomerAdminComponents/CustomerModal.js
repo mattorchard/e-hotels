@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import {toast} from "react-toastify";
 import ConfirmationModal from "../ConfirmationModal";
 import CustomerForm from "./CustomerForm";
+import Link from "react-router-dom/es/Link";
 
 export default class CustomerModal extends React.Component {
   state = {
@@ -46,8 +47,9 @@ export default class CustomerModal extends React.Component {
 
   render() {
     const {customer, onRequestClose} = this.props;
-    console.log("props for cm", customer);
+    const {id, givenName, familyName} = customer || {};
     return <ReactModal
+      contentLabel = {`Selected Customer: ${givenName} ${familyName}`}
       appElement={document.getElementById('root')}
       className="modal-fit-content"
       isOpen={Boolean(customer)}
@@ -56,6 +58,10 @@ export default class CustomerModal extends React.Component {
       {customer && <>
         <div className="modal-actions">
           <div className={`wrapper ${this.state.editingEmployee && "hidden"}`}>
+            <Link to={`/customer/${id}`}
+                  className="btn btn--inline fill">
+              Login&nbsp;as
+            </Link>
             <button onClick={() => this.setState({confirmingDeleteCustomer: true})}
                     type="button"
                     className="btn btn--inline">
