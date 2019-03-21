@@ -8,12 +8,6 @@
     flex-wrap: wrap;
     margin-bottom: 1em;
     box-shadow: 0 0.5em 1em rgba(0,128,0, .2);
-    position: relative;
-}
-
-.hotel-chain-section__head:hover .x-icon,
-.hotel-chain-section__head:focus-within .x-icon {
-    opacity: 1;
 }
 
 .hotel-chain-section__head__actions {
