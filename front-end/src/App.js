@@ -14,7 +14,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Header from "./components/Header";
 import './App.css';
 import './Forms.css';
-import AccountProvider from "./contexts/AccountProvider";
 import CustomerActionsPage from "./pages/CustomerActionsPage";
 import CalendarPage from "./pages/CalendarPage";
 
@@ -22,7 +21,7 @@ import CalendarPage from "./pages/CalendarPage";
 class App extends React.Component {
   render() {
     return <BrowserRouter>
-      <AccountProvider>
+      <>
         <Header/>
         <Switch>
           <Route path="/" component={HomePage} exact={true}/>
@@ -36,7 +35,7 @@ class App extends React.Component {
           <Route component={NotFoundPage}/>
         </Switch>
         <ToastContainer/>
-      </AccountProvider>
+      </>
     </BrowserRouter>;
   }
 }

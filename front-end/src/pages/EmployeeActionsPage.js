@@ -2,12 +2,11 @@ import React from "react";
 import "./EmployeeActionsPage.css";
 import CheckIn from "../components/EmployeeActionsComponents/CheckIn";
 import {toast} from "react-toastify";
-import AccountContext from "../contexts/AccountContext";
 
 export default class EmployeeActionsPage extends React.Component {
-  static contextType = AccountContext;
 
   state = {
+    employee: null,
     loadingEmployee: true
   };
 
@@ -17,8 +16,7 @@ export default class EmployeeActionsPage extends React.Component {
       throw new Error("Unable to fetch employee");
     }
     const employee = await response.json();
-    this.context.setAccount({accountType: "employee", ...employee});
-    this.setState({loadingEmployee: false});
+    this.setState({employee, loadingEmployee: false});
   };
 
   async componentDidMount() {
@@ -37,7 +35,7 @@ export default class EmployeeActionsPage extends React.Component {
         <h2 className="spinner">Logging in...</h2>
       </main>
     } else {
-      const {hotelChainName, givenName, familyName, id: employeeId} = this.context.account;
+      const {hotelChainName, givenName, familyName, id: employeeId} = this.state.employee;
       return <main className="main-content main-content--clear">
         <h2>Logged in as: {givenName} {familyName}</h2>
         <CheckIn employeeId={employeeId} hotelChainName={hotelChainName}/>
