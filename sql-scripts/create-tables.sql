@@ -149,7 +149,7 @@ CREATE TABLE rental (
     end_date DATE,
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE,
-    FOREIGN KEY (employee_id) REFERENCES employee(id),
+    FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE SET NULL,
     FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE,
     CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL AND end_date IS NOT NULL AND end_date > start_date)
 );
