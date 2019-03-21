@@ -30,7 +30,12 @@ export default class EmployeeModal extends React.Component {
     try {
       const response = await fetch(`/api/employees/${this.props.employee.id}`, {method: "DELETE"});
       if (!response.ok) {
-        throw new Error(`Failed to delete employee ${response.status}`);
+        if (response.status === 409) {
+          toast.warn("Cannot delete an active hotel manager");
+          return;
+        } else {
+          throw new Error(`Failed to delete employee ${response.status}`);
+        }
       }
       toast.success("Deleted employee");
       this.props.onSave();

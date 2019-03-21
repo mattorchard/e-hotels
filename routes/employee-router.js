@@ -112,8 +112,13 @@ const deleteEmployee = async(req, res, next) => {
 
     return res.send({message: `Deleted employee ${employeeId}`});
   } catch (error) {
-    console.error(`Unable to delete employee [${employeeId}]`, error);
-    return next(error);
+    if (error.constraint === "hotel_manager_id_fkey") {
+      console.warn("Tried to delete hotel manager");
+      return res.status(409).send({message: "Cannot delete a current hotel manager"});
+    } else {
+      console.error(`Unable to delete employee [${employeeId}]`, error);
+      return next(error);
+    }
   }
 };
 

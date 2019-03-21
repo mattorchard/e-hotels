@@ -32,6 +32,49 @@ CREATE TABLE hotel_chain_email_address (
     CONSTRAINT valid_email CHECK (email_address LIKE '%___@___%.__%')
 );
 
+CREATE TABLE employee (
+    id SERIAL,
+    ssn INTEGER,
+    sin INTEGER,
+    given_name VARCHAR(100),
+    family_name VARCHAR(100),
+    address_id INTEGER,
+    hotel_chain_name VARCHAR(100),
+    PRIMARY KEY (id),
+    FOREIGN KEY (address_id) REFERENCES address(id),
+    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
+    UNIQUE(ssn),
+    UNIQUE(sin),
+    CONSTRAINT check_ssn CHECK (sin IS NULL OR sin BETWEEN 100000000 AND 999999999),
+    CONSTRAINT check_sin CHECK (ssn IS NULL OR ssn BETWEEN 100000000 AND 999999999),
+    CONSTRAINT has_sin_or_ssn CHECK (ssn IS NOT NULL OR sin IS NOT NULL)
+);
+
+CREATE TABLE employee_role (
+    employee_id INTEGER,
+    role VARCHAR(100),
+    PRIMARY KEY (employee_id, role),
+    FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE
+);
+
+CREATE TABLE customer (
+    id SERIAL,
+    ssn INTEGER,
+    sin INTEGER,
+    given_name VARCHAR(100),
+    family_name VARCHAR(100),
+    address_id INTEGER,
+    registered_on DATE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (address_id) REFERENCES address(id),
+    UNIQUE(ssn),
+    UNIQUE(sin),
+    CONSTRAINT check_ssn CHECK (sin IS NULL OR sin BETWEEN 100000000 AND 999999999),
+    CONSTRAINT check_sin CHECK (ssn IS NULL OR ssn BETWEEN 100000000 AND 999999999),
+    CONSTRAINT has_sin_or_ssn CHECK (ssn IS NOT NULL OR sin IS NOT NULL)
+);
+
+
 CREATE TABLE hotel (
     id SERIAL,
     hotel_chain_name VARCHAR(100),
@@ -41,8 +84,8 @@ CREATE TABLE hotel (
     UNIQUE (id),
     PRIMARY KEY (id, hotel_chain_name),
     FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
+    FOREIGN KEY (manager_id) REFERENCES employee(id),
     CONSTRAINT check_category_validity CHECK (category BETWEEN 1 AND 5)
-    -- todo: constraint for manager role
 );
 
 CREATE TABLE hotel_phone_number (
@@ -95,48 +138,6 @@ CREATE TABLE room_damage (
     FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE
 );
 
-CREATE TABLE employee (
-    id SERIAL,
-    ssn INTEGER,
-    sin INTEGER,
-    given_name VARCHAR(100),
-    family_name VARCHAR(100),
-    address_id INTEGER,
-    hotel_chain_name VARCHAR(100),
-    PRIMARY KEY (id),
-    FOREIGN KEY (address_id) REFERENCES address(id),
-    FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
-    UNIQUE(ssn),
-    UNIQUE(sin),
-    CONSTRAINT check_ssn CHECK (sin IS NULL OR sin BETWEEN 100000000 AND 999999999),
-    CONSTRAINT check_sin CHECK (ssn IS NULL OR ssn BETWEEN 100000000 AND 999999999),
-    CONSTRAINT has_sin_or_ssn CHECK (ssn IS NOT NULL OR sin IS NOT NULL)
-);
-
-CREATE TABLE employee_role (
-    employee_id INTEGER,
-    role VARCHAR(100),
-    PRIMARY KEY (employee_id, role),
-    FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE CASCADE
-);
-
-CREATE TABLE customer (
-    id SERIAL,
-    ssn INTEGER,
-    sin INTEGER,
-    given_name VARCHAR(100),
-    family_name VARCHAR(100),
-    address_id INTEGER,
-    registered_on DATE,
-    PRIMARY KEY (id),
-    FOREIGN KEY (address_id) REFERENCES address(id),
-    UNIQUE(ssn),
-    UNIQUE(sin),
-    CONSTRAINT check_ssn CHECK (sin IS NULL OR sin BETWEEN 100000000 AND 999999999),
-    CONSTRAINT check_sin CHECK (ssn IS NULL OR ssn BETWEEN 100000000 AND 999999999),
-    CONSTRAINT has_sin_or_ssn CHECK (ssn IS NOT NULL OR sin IS NOT NULL)
-);
-
 CREATE TABLE rental (
     id SERIAL,
     customer_id INTEGER,
@@ -148,7 +149,7 @@ CREATE TABLE rental (
     end_date DATE,
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE,
-    FOREIGN KEY (employee_id) REFERENCES employee(id),
+    FOREIGN KEY (employee_id) REFERENCES employee(id) ON DELETE SET NULL,
     FOREIGN KEY (hotel_chain_name, hotel_id, room_number) REFERENCES room(hotel_chain_name, hotel_id, room_number) ON DELETE CASCADE,
     CONSTRAINT check_date_validity CHECK (start_date IS NOT NULL AND end_date IS NOT NULL AND end_date > start_date)
 );
