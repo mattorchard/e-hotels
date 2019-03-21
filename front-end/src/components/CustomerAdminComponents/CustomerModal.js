@@ -40,6 +40,7 @@ export default class CustomerModal extends React.Component {
       this.props.onRequestClose();
       this.props.onRequestReload();
     } catch (error) {
+      console.error("Unable to save customer", error);
       toast.error("Unable to save customer");
 
     }
