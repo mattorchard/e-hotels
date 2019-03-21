@@ -64,12 +64,12 @@ export default class CalendarPage extends React.Component {
               eventPropGetter={this.eventClassNameGetter}
               views={{month: true, week: true}}/>
           </div>
-          <dd className="legend">
+          <dl className="legend">
             <dt>Bookings</dt>
             <dd className="legend-color booking-event" title="Bookings appear orange">&nbsp;</dd>
             <dt>Rentals</dt>
             <dd className="legend-color rental-event" title="Rentals appear purple">&nbsp;</dd>
-          </dd>
+          </dl>
         </div>}
     </main>
   }

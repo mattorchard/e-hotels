@@ -96,7 +96,7 @@ const checkIn = async(req, res, next) => {
 
     return res.send({message: "Checked in"});
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return next(error);
   }
 };

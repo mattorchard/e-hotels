@@ -3,7 +3,6 @@ import {Link, withRouter} from "react-router-dom";
 
 
 const HeaderActions = ({path}) => {
-  console.log(path);
   if (path.startsWith("/employee")) {
     return <Link to="/admin/employees" className="btn">Logout</Link>
   } else if (path.startsWith("/customer")) {
