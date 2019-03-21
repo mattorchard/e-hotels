@@ -25,7 +25,7 @@ export default class HotelChainSection extends React.Component {
   };
 
   render() {
-    const {name, address, phoneNumbers, emailAddresses} = this.props;
+    const {name, address, phoneNumbers, emailAddresses, numHotels} = this.props;
     const {showingHotels} = this.state;
     const {addHotel, deleteHotelChain} = this.context;
     return <section>
@@ -34,18 +34,23 @@ export default class HotelChainSection extends React.Component {
           <h2 className="hotel-chain-section__title">{name}</h2>
           <Address {...address} />
         </div>
+
         <ContactInfo phoneNumbers={phoneNumbers} emailAddresses={emailAddresses}/>
-        {showingHotels
-          ? <button className="btn btn--inverse" onClick={() => addHotel(name, this.loadHotels)}>
-            Add Hotel
+
+        <div className="hotel-chain-section__head__actions">
+          {showingHotels
+            ? <button className="btn btn--inverse" onClick={() => addHotel(name, this.loadHotels)}>
+              Add Hotel
+            </button>
+            : <button className="btn btn--inverse" onClick={this.loadHotels}>
+              Show {numHotels || 0} Hotels
+            </button>
+          }
+
+          <button className="btn btn--inverse" title="Delete Hotel Chain" onClick={() => deleteHotelChain(name)}>
+            Delete Chain
           </button>
-          : <button className="btn btn--inverse" onClick={this.loadHotels}>
-            Show Hotels
-          </button>
-        }
-        <button className="x-icon" title="Delete Hotel Chain" onClick={() => deleteHotelChain(name)}>
-          &times;
-        </button>
+        </div>
       </div>
       {showingHotels && <ul className="rails">
         <AsyncItems loading={this.state.loadingHotels}>
