@@ -13,7 +13,7 @@ export default class HotelCheckIn extends React.Component {
   };
 
   render() {
-    const {hotel, hotelChainName, employeeId, numberOfUpcomingBookings: numBookings} = this.props;
+    const {hotel, hotelChainName, employeeId, numberOfUpcomingBookings: numBookings, onRequestReload} = this.props;
     const {category, address, manager} = hotel;
     const {creatingRenting, checkingIn} = this.state;
 
@@ -55,7 +55,8 @@ export default class HotelCheckIn extends React.Component {
         hotelId={hotel.id}
         hotelChainName={hotelChainName}
         employeeId={employeeId}
-        onRequestClose={() => this.setState({checkingIn: false})}/>
+        onRequestClose={() => this.setState({checkingIn: false})}
+        onRequestReload={onRequestReload}/>
 
     </section>
   }
