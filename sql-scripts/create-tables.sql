@@ -84,8 +84,8 @@ CREATE TABLE hotel (
     UNIQUE (id),
     PRIMARY KEY (id, hotel_chain_name),
     FOREIGN KEY (hotel_chain_name) REFERENCES hotel_chain(name) ON DELETE CASCADE,
+    FOREIGN KEY (manager_id) REFERENCES employee(id),
     CONSTRAINT check_category_validity CHECK (category BETWEEN 1 AND 5)
-    -- todo: constraint for manager role
 );
 
 CREATE TABLE hotel_phone_number (
