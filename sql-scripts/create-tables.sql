@@ -10,7 +10,6 @@ CREATE TABLE address (
 
 CREATE TABLE hotel_chain (
     name VARCHAR(100),
-    num_hotels INTEGER,
     main_office_address_id INTEGER,
     PRIMARY KEY (name),
     FOREIGN KEY (main_office_address_id) REFERENCES address(id)
