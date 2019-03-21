@@ -34,11 +34,11 @@ const insertSampleData = async (pool, numHotelChains=5, numCustomers=5) => {
     return idFromResponse(response);
   };
 
-  const insertHotelChain = async (chainName, numHotels = 5) => {
+  const insertHotelChain = async (chainName) => {
     const addressId = await insertAddress();
     await pool.query(
-      "INSERT INTO hotel_chain VALUES ($1, $2, $3) RETURNING name",
-      [chainName, numHotels, addressId]);
+      "INSERT INTO hotel_chain VALUES ($1, $2) RETURNING name",
+      [chainName, addressId]);
     for(let i = 0; i < 2; i++) {
       await pool.query(
         "INSERT INTO hotel_chain_phone_number VALUES ($1, $2)",
@@ -123,7 +123,7 @@ const insertSampleData = async (pool, numHotelChains=5, numCustomers=5) => {
 
   const insertEntireHotelChain = async (chainName, numExtraEmployees=10, numHotels=8, numRooms=5) => {
     // Hotel chain for the whole mess
-    const hotelChainName = await insertHotelChain(chainName, numHotels);
+    const hotelChainName = await insertHotelChain(chainName);
 
     // Non-manager empoloyees
     const employeeIds = await Promise.all(

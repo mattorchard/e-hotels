@@ -33,6 +33,8 @@ export default class CustomerActionsPage extends React.Component {
   render() {
     if (this.state.loadingCustomer) {
       return <p className="spinner">Logging in...</p>;
+    } else if (!this.state.customer) {
+      return <p>Unable to load customer</p>
     }
 
     const {id: customerId, givenName, familyName} = this.state.customer;
