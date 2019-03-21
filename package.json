@@ -8,7 +8,8 @@
     "debug-back-end": "nodemon ./bin/www",
     "debug-front-end": "cd front-end && npm run start",
     "debug": "concurrently \"npm run debug-back-end\" \"npm run debug-front-end\"",
-    "start": "npm run build-front-end && node ./bin/www"
+    "start-all": "npm run build-front-end && node ./bin/www",
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
