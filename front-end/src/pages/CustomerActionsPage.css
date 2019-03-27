@@ -28,8 +28,8 @@
     display: block;
 }
 
-.search-form__fields > label > input,
-.search-form__fields select {
+.search-form > .search-form__fields > label > input,
+.search-form > .search-form__fields select {
     display: block;
     width: 80%;
     margin: 0 auto;
@@ -37,4 +37,23 @@
 
 .hotel-search-result__head {
     border-bottom: green solid .2em;
+}
+
+.booking-modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (min-width: 800px) {
+    .booking-modal-body {
+        flex-direction: row;
+    }
+    .booking-modal__payment-info {
+        max-width: 50%;
+    }
+}
+
+.booking-modal__actions {
+    display: flex;
+    justify-content: center;
 }

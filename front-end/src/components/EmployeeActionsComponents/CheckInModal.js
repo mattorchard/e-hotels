@@ -3,13 +3,15 @@ import {toast} from "react-toastify";
 import ReactModal from "react-modal";
 import BookingsTable from "./BookingsTable";
 import AsyncButton from "../AsyncButton";
+import PaymentFields from "../PaymentFields";
 
 export default class CheckInModal extends React.Component {
 
   state = {
     loadingBookings: false,
     bookings: [],
-    selectedBooking: null
+    selectedBooking: null,
+    hasPerformedCheckIn: false
   };
 
   loadBookings = async () => {
@@ -44,6 +46,7 @@ export default class CheckInModal extends React.Component {
         throw new Error(`Unable to check in ${response.status}`);
       }
       toast.success(`${customer.givenName} ${customer.familyName} has been checked in sucessfully`);
+      this.setState({hasPerformedCheckIn: true});
       // Fire off loading (but do not await as to let the button spinner disappear)
       // noinspection JSIgnoredPromiseFromCall
       this.loadBookings();
@@ -53,22 +56,35 @@ export default class CheckInModal extends React.Component {
     }
   };
 
+  handleCloseRequest = () => {
+    this.props.onRequestClose();
+    if (this.state.hasPerformedCheckIn) {
+      this.props.onRequestReload();
+    }
+  };
+
   render() {
-    const {isOpen, onRequestClose} = this.props;
+    const {isOpen} = this.props;
     const {selectedBooking, loadingBookings, bookings} = this.state;
     return <ReactModal
       isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      onRequestClose={this.handleCloseRequest}
       onAfterOpen={this.loadBookings}
       appElement={document.getElementById('root')}
       className="modal-fit-content">
       <h3 className="check-in-modal__head">Check In</h3>
-      <BookingsTable
-        bookings={bookings}
-        loadingBookings={loadingBookings}
-        selectedBooking={selectedBooking}
-        onSelectBooking={booking => this.setState({selectedBooking: booking})}/>
-
+      <div className="horizontal-scroll">
+        <BookingsTable
+          bookings={bookings}
+          loadingBookings={loadingBookings}
+          selectedBooking={selectedBooking}
+          onSelectBooking={booking => this.setState({selectedBooking: booking})}/>
+      </div>
+      <form>
+        <fieldset className="simple-form form--small">
+          <PaymentFields/>
+        </fieldset>
+      </form>
       <div>
         <AsyncButton onClick={this.checkIn}
                 disabled={!Boolean(selectedBooking)}
@@ -77,7 +93,7 @@ export default class CheckInModal extends React.Component {
           Check In
         </AsyncButton>
 
-        <button onClick={onRequestClose}
+        <button onClick={this.handleCloseRequest}
                 type="button"
                 className="btn btn--inline">
           Cancel

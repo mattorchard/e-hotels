@@ -1,5 +1,5 @@
 .calendar-container {
-    height: 90vh;
+    height: 180vh;
 }
 .rbc-event.rbc-selected {
     box-shadow: 0 0 .1em .15em dodgerblue;

@@ -36,12 +36,6 @@ export default class CustomerSelect extends React.Component {
     const {onChange, value} = this.props;
     const {customers, loadingCustomers} = this.state;
     return <>
-      <input type="number"
-             value={value}
-             required
-             onChange={() => {}}
-             aria-label="Select a customer"
-             className="hidden-input"/>
       <div className="horizontal-scroll">
         <table className="input-table">
           <thead className="customer-select__head">
@@ -66,6 +60,12 @@ export default class CustomerSelect extends React.Component {
           </tbody>
         </table>
       </div>
+      <input type="number"
+             value={value}
+             required
+             onChange={() => {}}
+             aria-label="Select a customer"
+             className="hidden-input"/>
     </>
   }
 }

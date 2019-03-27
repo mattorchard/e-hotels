@@ -7,7 +7,7 @@ export default class BookingsTable extends React.Component {
 
   render() {
     const {bookings, loadingBookings, selectedBooking, onSelectBooking} = this.props;
-    return <table className="table-spaced">
+    return <table className="table-spaced bookings-table">
       <thead className="table-head">
       <tr>
         <td>Room</td>

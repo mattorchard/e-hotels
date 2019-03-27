@@ -7,12 +7,6 @@ export default class RoomSelect extends React.Component {
   render() {
     const {rooms, value, onChange, placeholder} = this.props;
     return <>
-      <input type="number"
-             value={value}
-             required
-             onChange={() => {}}
-             className="hidden-input"
-             aria-label="Select a room"/>
       <table className="input-table">
         <thead className="room-select__head">
         <tr>
@@ -46,6 +40,12 @@ export default class RoomSelect extends React.Component {
           </ClickableRow>)}
         </tbody>
       </table>
+      <input type="number"
+             value={value}
+             required
+             onChange={() => {}}
+             className="hidden-input"
+             aria-label="Select a room"/>
     </>
   }
 }

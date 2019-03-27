@@ -6,6 +6,7 @@ import moment from "moment";
 import CustomerSelect from "../CustomerSelect";
 import RoomSelect from "../RoomSelect";
 import {toast} from "react-toastify";
+import PaymentFields from "../PaymentFields";
 
 
 export default class RentalForm extends ReactForm {
@@ -108,6 +109,8 @@ export default class RentalForm extends ReactForm {
             value={customerId}
             onChange={({id}) => this.setState({customerId: id})}/>
         </label>
+
+        <PaymentFields/>
 
         <div>
           <button type="submit" className="btn btn--inline" onSubmit={this.onSubmit}>
