@@ -52,7 +52,7 @@ const bootstrap = async () => {
   }
   console.log("Starting database bootstrap");
   try {
-    const clearAndReplaceDatabase = Boolean(process.env.REPLACE_DATA);
+    const clearAndReplaceDatabase = "true" == process.env.REPLACE_DATA;
     if (clearAndReplaceDatabase || !(await hasSampleData())) {
       await executeScript("./sql-scripts/drop-tables.sql", "drop all tables");
       await executeScript("./sql-scripts/create-tables.sql", "create tables");
