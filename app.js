@@ -33,5 +33,9 @@ database.bootstrap()
     res.status(err.status || 500);
     res.send(err);
   });
+
+  console.log("****************************************");
+  console.log("Application bootstrapping has completed!");
+  console.log("****************************************");
 });
 module.exports = app;

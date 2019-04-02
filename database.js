@@ -31,7 +31,25 @@ const hasSampleData = async () => {
 };
 
 
+const hasAllRequiredArguments = () => {
+  if (process.env.DATABASE_URL) {return true;}
+  return [
+    "PGHOST", "PGPORT", "PGDATABASE", "PGDATABASE", "PGUSER", "PGPASSWORD"
+  ].every(property => process.env[property]);
+};
+
 const bootstrap = async () => {
+  if (!hasAllRequiredArguments()) {
+    console.error(`
+    Please specify the following variables as environment variables or by setting them in the .env file
+    PGHOST=<DB host name>
+    PGPORT=<DB Port (typically 5432)>
+    PGDATABASE=<DB name>
+    PGUSER=<DB username>
+    PGPASSWORD=<DB password>
+    `);
+    process.exit(-1);
+  }
   console.log("Starting database bootstrap");
   try {
     const clearAndReplaceDatabase = Boolean(process.env.REPLACE_DATA);
@@ -46,7 +64,7 @@ const bootstrap = async () => {
     console.error(`Error in database bootstrap ${error}`);
     process.exit(-1);
   }
-  console.log("Completed database bootstrap")
+  console.log("Completed database bootstrap");
 };
 
 module.exports = {bootstrap};
