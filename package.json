@@ -8,17 +8,18 @@
     "debug-back-end": "nodemon ./bin/www",
     "debug-front-end": "cd front-end && npm run start",
     "debug": "concurrently \"npm run debug-back-end\" \"npm run debug-front-end\"",
-    "start-all": "npm run build-front-end && node ./bin/www",
+    "start-all": "npm install && npm run build-front-end && node ./bin/www",
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "camelcase": "^5.0.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^7.0.0",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
-    "pg": "^7.8.0",
-    "camelcase": "^5.0.0",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "pg": "^7.8.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.10",
