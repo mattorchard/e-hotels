@@ -36,8 +36,9 @@ const getHotelChains = async (req, res, next) => {
 };
 // Add hotel chain
 // Edit hotel chain
+const DISABLE_DELETE_HOTEL_CHAINS = process.env.DISABLE_DELETE_HOTEL_CHAINS == "true";
 const deleteHotelChain = async (req, res, next) => {
-  if (process.env.DISABLE_DELETE_HOTEL_CHAINS) {
+  if (DISABLE_DELETE_HOTEL_CHAINS) {
     return next(createError.Forbidden("Deleting hotel chains has been disabled for this deployment"));
   }
   const {hotelChainName} = req.params;
