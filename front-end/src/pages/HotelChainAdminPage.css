@@ -42,6 +42,10 @@
     margin: 0;
 }
 
+.hotel-card__fields {
+    margin: 0;
+}
+
 .hotel-card__actions {
     display: flex;
     justify-content: center;

@@ -34,7 +34,7 @@ export default class HotelCard extends React.Component {
 
   render() {
     const {reloadHotels} = this.props;
-    const {address, emailAddresses, phoneNumbers, category, manager} = this.props.hotel;
+    const {address, emailAddresses, phoneNumbers, category, manager, capacity} = this.props.hotel;
     const {showingRooms, loadingRooms, rooms} = this.state;
     const {editHotel, deleteHotel, addRoom, openRoom} = this.context;
 
@@ -44,10 +44,20 @@ export default class HotelCard extends React.Component {
           <h3 className="hotel-card__title">
             <Address {...address} twoLine/>
           </h3>
-          Manager: {manager.givenName} {manager.familyName}
         </div>
-
-        <ContactInfo phoneNumbers={phoneNumbers} emailAddresses={emailAddresses}/>
+        <dl className="hotel-card__fields">
+          <dt>Manager:</dt>
+          <dd>
+            {manager.givenName} {manager.familyName}
+          </dd>
+          <dt>Capacity:</dt>
+          <dd>
+            {capacity}
+          </dd>
+        </dl>
+        <div>
+          <ContactInfo phoneNumbers={phoneNumbers} emailAddresses={emailAddresses}/>
+        </div>
         <Stars number={category} disabled/>
       </div>
 
