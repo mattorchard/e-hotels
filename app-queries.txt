@@ -1,0 +1,288 @@
+
+./routes/booking-router.js
+	.query(
+	      `INSERT INTO booking VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id`,
+	      [customerId, hotelChainName, hotelId, roomNumber, startDate, endDate])
+	.query("SELECT name FROM hotel_chain")
+	.query("SELECT DISTINCT city, country FROM hotel, address WHERE address.id = address_id")
+
+./routes/calendar-router.js
+	.query(
+	      `SELECT
+	        customer.given_name, customer.family_name, customer.registered_on,
+	        hotel.address_id, address.*,
+	        booking.*
+	      FROM booking
+	      JOIN customer
+	        ON customer_id = customer.id
+	      JOIN hotel
+	        ON hotel.hotel_chain_name = booking.hotel_chain_name
+	        AND hotel.id = booking.hotel_id
+	      JOIN address
+	        ON hotel.address_id = address.id`)
+	.query(
+	      `SELECT
+	        customer.given_name, customer.family_name, customer.registered_on,
+	        hotel.address_id,
+	        address.*,
+	        rental.*
+	      FROM rental
+	      JOIN customer
+	        ON customer_id = customer.id
+	      JOIN hotel
+	        ON hotel.hotel_chain_name = rental.hotel_chain_name
+	        AND hotel.id = rental.hotel_id
+	      JOIN address
+	        ON hotel.address_id = address.id`
+	    )
+
+./routes/customer-router.js
+	.query("SELECT * FROM address, customer WHERE address.id = address_id")
+	.query(
+	      `SELECT * FROM address, customer WHERE address.id = address_id AND customer.id = $1`,
+	      [customerId])
+	.query(
+	        "INSERT INTO customer VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id",
+	        [ssn, sin, givenName, familyName, addressId, registeredOn])
+	.query(
+	        `UPDATE customer
+	         SET ssn = $1, sin = $2, given_name = $3, family_name = $4
+	         WHERE id=$5 `,
+	        [ssn, sin, givenName, familyName, customerId])
+	.query(
+	      "SELECT address_id FROM customer WHERE id = $1", [customerId])
+	.query(`DELETE FROM customer WHERE id=$1`, [customerId])
+	.query(`DELETE FROM address WHERE id=$1`, [addressId])
+
+./routes/employee-router.js
+	.query(`
+	    SELECT employee.*, address.street_number, address.street_name, address.city, address.country
+	    FROM employee, address
+	    WHERE employee.address_id = address.id`)
+	.query(`SELECT * FROM employee_role`)
+	.query(
+	      `SELECT address.*, employee_role.role as roles, employee.*
+	      FROM employee, address, employee_role
+	      WHERE employee.id = $1
+	      and employee.address_id = address.id
+	      and employee_id = $1`, [employeeId])
+	.query("SELECT * FROM employee WHERE hotel_chain_name = $1", [hotelChainName])
+	.query("SELECT address_id FROM employee WHERE id = $1", [employeeId])
+	.query(`DELETE FROM employee WHERE id = $1`, [employeeId])
+	.query(`DELETE FROM address WHERE id = $1`, [addressId])
+
+./routes/hotel-chain-router.js
+	.query("SELECT * FROM hotel_chain_phone_number")
+	.query("SELECT * FROM hotel_chain_email_address")
+	.query(`(
+	          SELECT main_office_address_id as address_id
+	          FROM hotel_chain
+	          WHERE name = $1
+	        ) UNION (
+	          SELECT address_id
+	          FROM hotel
+	          WHERE hotel_chain_name = $1
+	      )`, [hotelChainName])
+	.query(`DELETE FROM hotel_chain WHERE name = $1`, [hotelChainName])
+
+./routes/hotel-router.js
+	.query(
+	      `SELECT *, hotel.* FROM
+	      hotel
+	      JOIN employee on employee.id = manager_id
+	      JOIN address on address.id = hotel.address_id
+	      LEFT JOIN capacity_by_hotel
+	        ON hotel.id = capacity_by_hotel.hotel_id
+	        AND hotel.hotel_chain_name = capacity_by_hotel.hotel_chain_name
+	      WHERE hotel.hotel_chain_name = $1`,
+	      [hotelChainName])
+	.query(
+	      `SELECT * FROM hotel_phone_number
+	      WHERE hotel_chain_name = $1`,
+	      [hotelChainName])
+	.query(
+	      `SELECT * FROM hotel_email_address
+	      WHERE hotel_chain_name = $1`,
+	      [hotelChainName])
+	.query("SELECT * FROM capacity_by_hotel")
+	.query(
+	        `INSERT INTO hotel VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id`,
+	        [hotelChainName, category, addressId, managerId])
+	.query(
+	        `SELECT address_id FROM hotel WHERE hotel_chain_name = $1 AND id = $2`,
+	        [hotelChainName, hotelId])
+	.query(
+	        `DELETE FROM hotel WHERE hotel_chain_name = $1 AND id = $2`,
+	        [hotelChainName, hotelId])
+	.query(
+	        `DELETE FROM address WHERE id = $1`, [addressId])
+
+./routes/rental-router.js
+	.query(
+	      `INSERT INTO rental VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+	      [customerId, employeeId, hotelChainName, hotelId, roomNumber, startDate, endDate])
+	.query("SELECT * FROM booking WHERE id = $1", [bookingId])
+	.query(
+	        `INSERT INTO rental VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7)`,
+	        [customerId, employeeId, hotelChainName, hotelId, roomNumber, startDate, endDate])
+	.query(`DELETE FROM booking WHERE id = $1`, [bookingId])
+
+./routes/room-router.js
+	.query(
+	      `SELECT * 
+	      FROM room
+	      WHERE hotel_chain_name = $1
+	      AND room.hotel_id = $2
+	      ORDER BY room_number`,
+	      [hotelChainName, hotelId])
+	.query(
+	      `SELECT * 
+	      FROM room_damage
+	      WHERE hotel_chain_name = $1
+	      AND hotel_id = $2
+	      ORDER BY room_number`,
+	      [hotelChainName, hotelId])
+	.query(
+	      `SELECT * 
+	      FROM room_amenity
+	      WHERE hotel_chain_name = $1
+	      AND hotel_id = $2
+	      ORDER BY room_number`,
+	      [hotelChainName, hotelId])
+	.query("SELECT * FROM ROOMS_BY_AREA")
+	.query(
+	      `DELETE FROM room
+	      WHERE hotel_chain_name = $1
+	      AND hotel_id = $2
+	      AND room_number = $3`,
+	      [hotelChainName, hotelId, roomNumber]
+	    )
+	.query(
+	        `UPDATE room
+	        SET price = $4, capacity = $5, scenery = $6, extendable = $7
+	        WHERE hotel_chain_name = $1
+	        AND hotel_id = $2
+	        AND room_number = $3`,
+	        [hotelChainName, hotelId, roomNumber, price, capacity, scenery, extendable]
+	      )
+
+./services/address-service.js
+	.query("INSERT INTO address VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id",
+	    [streetNumber, streetName, city, country])
+	.query(
+	    `UPDATE address
+	     SET street_number = $1, street_name = $2, city = $3, country = $4
+	     WHERE id = $5`,
+	    [streetNumber, streetName, city, country, id])
+
+./services/booking-service.js
+
+./services/employee-service.js
+	.query(
+	    `INSERT INTO employee_role VALUES ${arguments.join(", ")} ON CONFLICT DO NOTHING`,
+	    [employeeId, ...roles])
+	.query(
+	      "INSERT INTO employee VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id",
+	      [ssn, sin, givenName, familyName, addressId, hotelChainName])
+	.query(
+	      `UPDATE employee
+	       SET ssn = $1, sin = $2, given_name = $3, family_name = $4, hotel_chain_name = $5
+	       WHERE id = $6`,
+	      [ssn, sin, givenName, familyName, hotelChainName, employeeId])
+
+./services/hotel-service.js
+	.query(
+	    `INSERT INTO hotel_phone_number
+	    VALUES ${arguments.join(", ")}
+	    ON CONFLICT DO NOTHING`,
+	    [hotelChainName, id, ...phoneNumbers])
+	.query(
+	    `INSERT INTO hotel_email_address
+	    VALUES ${arguments.join(", ")}
+	    ON CONFLICT DO NOTHING`,
+	    [hotelChainName, id, ...emailAddresses])
+	.query(
+	      `DELETE FROM hotel_phone_number
+	      WHERE hotel_chain_name = $1 AND hotel_id = $2`,
+	        [hotelChainName, id])
+	.query(
+	      `DELETE FROM hotel_phone_number
+	      WHERE hotel_chain_name = $1 AND hotel_id = $2
+	      AND phone_number NOT IN (${arguments})`,
+	      [hotelChainName, id, ...phoneNumbers])
+	.query(
+	      `DELETE FROM hotel_email_address
+	      WHERE hotel_chain_name = $1 AND hotel_id = $2`,
+	      [hotelChainName, id])
+	.query(
+	      `DELETE FROM hotel_email_address
+	      WHERE hotel_chain_name = $1 AND hotel_id = $2
+	      AND email_address NOT IN (${arguments})`,
+	      [hotelChainName, id, ...emailAddresses])
+	.query(
+	      `UPDATE hotel SET
+	      manager_id = $3, category = $4
+	      WHERE hotel_chain_name = $1 AND id = $2`,
+	      [hotelChainName, id, managerId, category])
+
+./services/room-service.js
+	.query(`INSERT INTO room_amenity VALUES ${arguments.join(", ")} ON CONFLICT DO NOTHING`,
+	    [hotelChainName, hotelId, roomNumber, ...amenities])
+	.query(`INSERT INTO room_damage VALUES ${arguments.join(", ")} ON CONFLICT DO NOTHING`,
+	    [hotelChainName, hotelId, roomNumber, ...damages])
+	.query(
+	      `DELETE FROM room_amenity
+	      WHERE hotel_chain_name = $1 AND hotel_id = $2 AND room_number = $3`,
+	      [hotelChainName, hotelId, roomNumber])
+	.query(
+	      `DELETE FROM room_damage
+	      WHERE hotel_chain_name = $1 AND hotel_id = $2 AND room_number = $3`,
+	      [hotelChainName, hotelId, roomNumber])
+	.query(
+	      `INSERT INTO room VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+	      [hotelChainName, hotelId, roomNumber, price, capacity, scenery, extendable])
+	.query(
+	    `SELECT * FROM room
+	      WHERE hotel_chain_name = $1
+	      AND hotel_id = $2
+	      AND room_number = $3`,
+	    [hotelChainName, hotelId, roomNumber]
+	  )
+
+./sql-scripts/insert-sample-data.js
+	.query("INSERT INTO address VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id",
+	      [streetNumber, streetName, city, country])
+	.query(
+	      "INSERT INTO hotel_chain VALUES ($1, $2) RETURNING name",
+	      [chainName, addressId])
+	.query(
+	        "INSERT INTO hotel_chain_phone_number VALUES ($1, $2)",
+	        [chainName, randomInt(1000000000, 9999999999)])
+	.query(
+	        "INSERT INTO hotel_chain_email_address VALUES ($1, $2)",
+	        [chainName, randomEmail(`${chainName}-${i}`)])
+	.query(
+	      "INSERT INTO employee VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id",
+	      [ssn, sin, givenName, familyName, addressId, hotelChainName])
+	.query("INSERT INTO employee_role VALUES ($1, $2)", [employeeId, role])
+	.query(
+	      "INSERT INTO hotel VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id",
+	      [hotelChainName, category, addressId, managerId])
+	.query(
+	        "INSERT INTO hotel_phone_number VALUES ($1, $2, $3)",
+	        [hotelChainName, id, randomInt(1000000000, 9999999999)])
+	.query(
+	        "INSERT INTO hotel_email_address VALUES ($1, $2, $3)",
+	        [hotelChainName, id, randomEmail(`${hotelChainName}-${id}-${i}`)])
+	.query(
+	      "INSERT INTO room VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING room_number",
+	      [hotelChainName, hotelId, roomNumber, price, capacity, scenery, extendable])
+	.query(
+	        "INSERT INTO room_damage VALUES ($1, $2, $3, $4)",
+	        [hotelChainName, hotelId, roomNumber, damage])
+	.query(
+	        "INSERT INTO room_amenity VALUES ($1, $2, $3, $4)",
+	        [hotelChainName, hotelId, roomNumber, amenity])
+	.query(
+	      "INSERT INTO customer VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id",
+	      [ssn, sin, givenName, familyName, addressId, formatDate()])
