@@ -54,7 +54,7 @@ export default class CustomerModal extends React.Component {
       appElement={document.getElementById('root')}
       className="modal-fit-content"
       isOpen={Boolean(customer)}
-      onAfterOpen={() => this.setState({editingCustomer: false})}
+      onAfterOpen={() => this.setState({editingCustomer: false, confirmingDeleteCustomer: false})}
       onRequestClose={onRequestClose}>
       {customer && <>
         <div className="modal-actions">
