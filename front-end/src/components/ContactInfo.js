@@ -16,14 +16,14 @@ export default class ContactInfo extends React.Component {
     return <>
       <ul className={listClassName}>
         <ExpandingList collapsible>
-          {phoneNumbers.map(number =>
-            <li className={itemClassName} key={number}>{formatPhoneNumber(number)}</li>)}
+          {emailAddresses.map(email =>
+            <li className={itemClassName} key={email}>{email}</li>)}
         </ExpandingList>
       </ul>
       <ul className={listClassName}>
         <ExpandingList collapsible>
-          {emailAddresses.map(email =>
-            <li className={itemClassName} key={email}>{email}</li>)}
+          {phoneNumbers.map(number =>
+            <li className={itemClassName} key={number}>{formatPhoneNumber(number)}</li>)}
         </ExpandingList>
       </ul>
     </>
