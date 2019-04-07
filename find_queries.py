@@ -21,10 +21,10 @@ if __name__ == '__main__':
 	for file_name in file_names:
 		with open(file_name) as file:
 			file_content = file.read()
-			groups = re.findall("(\.query\([^()]*?([^()]*?\([^()]*?\)[^()]*?)*?[^()]*?\))", file_content, re.M)
+			groups = re.findall("(\.query\((\s|\n)*?((`[\s\S]*?`)|(\".*\")|('.*')),?)", file_content, re.M)
 			print "\n", file_name
 			for match in groups:
-				item, garbage = match
+				item = match[0]
 				for line in item.split("\n"):
 					print "\t", line
 			
